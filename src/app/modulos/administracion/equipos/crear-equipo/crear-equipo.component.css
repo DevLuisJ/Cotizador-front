@@ -1,0 +1,50 @@
+.form-register{
+  width: 900px;
+  background: rgb(52, 70, 105) ;
+  color: white;
+  padding: 30px;
+ margin: auto;
+  border-radius: 4px;
+  font-family: 'verdana';
+  box-shadow: 7px 13px 37px #000;
+  
+}
+.form-register input, label{
+  color: azure;
+  margin-block-end: auto;
+  width: 250px;
+  font-size: 16px;
+}
+
+.fondo {
+  background-image: url("/assets/Imagenes/Fabrica.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.mensaje-espera {
+  background-color: #f2f2f2;
+  padding: 10px;
+  text-align: center;
+}
+.Grupo-datosBasicos{
+  border: solid 1px white;
+  padding: 10px;
+}
+.Grupo-Dimensiones{
+  border: solid 1px white;
+}
+
+.pre-carga{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+}
+
+

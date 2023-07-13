@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">  
+  <link rel="stylesheet" type="text/css" href="/assets/css/styleForms.css">
+  <title>Login</title>
+</head>
+<body>
+  <form  [formGroup]= "fgValidador" (ngSubmit)="registrarUsuario()" class="form-register">
+  
+    <h4>Ingresa tus datos</h4>
+  
+    <input formControlName="cedula" class="controls" type="text" name="cedula" id="cedula" placeholder="Digite su cedula">
+    <input formControlName="nombre" class="controls" type="text" name="nombre" id="nombre" placeholder="Digite su nombre">
+    <input formControlName="apellidos" class="controls" type="text" name="apellidos" id="apellidos" placeholder="Digite sus apellidos">
+    <input formControlName="cargo" class="controls" list="datalistOptions" type="text" name="cargo" id="cargo" placeholder="Digite sus cargo">
+    <datalist id="datalistOptions">
+        <option value="Asesor Comercial">
+        <option value="Gerente">
+        <option value="Asistente Administrativo">
+        
+      </datalist>
+    <input formControlName="email" class="controls" type="email" name="email" id="email" placeholder="Digite su email">
+   
+    <button [disabled]="!fgValidador.valid" class="btn btn-primary" type="submit"> CREAR USUARIO</button>
+    
+  </form>
+</body>
+
+</html>

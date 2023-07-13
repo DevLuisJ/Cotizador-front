@@ -1,0 +1,25 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">  
+  <link rel="stylesheet" type="text/css" href="/assets/css/styleForms.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <title>Login</title>
+</head>
+<body>
+  <form  [formGroup]= "fgValidador" (ngSubmit)="identificarUsuario()" class="form-register">
+    <h4>Ingresa tus datos</h4>
+    <input formControlName="usuario" class="controls" type="text" name="usuario" id="usuario" placeholder="Digite su correo">
+    <input formControlName="clave" class="controls" type="password" name="clave" id="clave" placeholder="Digite la contraseña">
+    <button [disabled]="!fgValidador.valid" class="btn btn-primary" type="submit"> Enviar</button>
+  </form>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+
+</html>

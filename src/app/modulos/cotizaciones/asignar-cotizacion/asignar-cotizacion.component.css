@@ -1,0 +1,101 @@
+
+  .contenedor-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .elementos-derecha{
+    margin-left: 30px;
+  }
+  .elementos-izquierda{
+    margin-right: 10px;
+  }
+  
+.subtitulos-tabla{
+    text-align: center;
+}
+table { 
+  
+    width: 500px;
+    background: white;
+    color: black;
+    padding: 30px;
+    margin: auto;
+    margin-top: 40px;
+    border-radius: 4px;
+    font-family: 'verdana';
+    box-shadow: 7px 13px 37px #000;
+  }
+ 
+  th {
+    background-color: gray;
+    color: white;
+    position: static;
+  }  
+ 
+th, td, tr{
+    border: 1px solid;
+    height: 1px;
+    text-align: center;
+    padding: 15px;
+  }
+
+tr:hover {background-color: #04AA6D;}
+  
+a {
+    height: 30px;  
+} 
+.selected {
+  background-color: #04AA6D; /* Cambia el color de fondo según segun el equipo seleccionado */
+}   
+.enclosure{
+  width: 500px;
+  background: #04AA6D;
+
+  padding: 20px;
+  margin: auto;
+  margin-top: 20px;
+  border-radius: 4px;
+  font-family: 'verdana';
+  box-shadow: 7px 13px 37px #000; 
+}
+.enclosure,p{
+  color: aliceblue;
+}
+.enclosure, label{
+  color: black;
+  font-size:120%;
+}
+.form-register, input {
+  width: 500px;
+  background: gray;
+  color: white;
+  padding: 30px;
+  margin: auto;
+  margin-top: 40px;
+  border-radius: 4px;
+  font-family: 'verdana';
+  box-shadow: 7px 13px 37px #000; 
+}
+
+body {
+  background-image: url("/assets/Imagenes/Fabrica.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
+
+.mensaje-espera {
+  background-color: #f2f2f2;
+  padding: 10px;
+  text-align: center;
+}
+form{
+  width: 350px;
+  background: rgb(128, 126, 126) ;
+  color: white;
+  padding: 20px;
+  margin: auto;
+  margin-top: 20px;
+  border-radius: 4px;
+  font-family: 'verdana';  
+}
