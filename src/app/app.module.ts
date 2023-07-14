@@ -31,6 +31,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatMenuModule,
     MatIconModule,
     ReactiveFormsModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
