@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AdministracionRoutingModule } from './administracion-routing.module';
 import { CrearUsuarioComponent } from './usuarios/crear-usuario/crear-usuario.component';
 import { BuscarUsuarioComponent } from './usuarios/buscar-usuario/buscar-usuario.component';
@@ -12,6 +11,11 @@ import { EditarEquipoComponent } from './equipos/editar-equipo/editar-equipo.com
 import { EliminarEquipoComponent } from './equipos/eliminar-equipo/eliminar-equipo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+
+
 
 @NgModule({
   declarations: [
@@ -29,7 +33,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AdministracionRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    
+    
   ]
 })
 export class AdministracionModule { }

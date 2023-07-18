@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./identificacion.component.css']
 })
 export class IdentificacionComponent implements OnInit {
+  isLoading: boolean = false;//variable para mensaje de carga
 
   fgValidador: FormGroup = this.fb.group({
     'usuario': ['', [Validators.email, Validators.required]],
@@ -27,16 +28,19 @@ export class IdentificacionComponent implements OnInit {
       }
   
   identificarUsuario(){
+        this.isLoading = true;
         let usuario = this.fgValidador.controls["usuario"].value;
         let clave = this.fgValidador.controls["clave"].value;
         let claveCifrada = cryptojs.MD5(clave).toString();
         this.servicioSeguridad.identificar(usuario, claveCifrada).subscribe((datos:any) => {
           // OK
+          this.isLoading = false;
           this.servicioSeguridad.AlmacenarSesion(datos);
           this.router.navigate(["./"])
           alert("Datos Correctos")
         }, (error: any) => {
           // KO
+          this.isLoading = false;
           alert("Datos Invalidos")
           
         })
