@@ -9,7 +9,7 @@ import { CrearEquipoComponent } from './equipos/crear-equipo/crear-equipo.compon
 import { BuscarEquipoComponent } from './equipos/buscar-equipo/buscar-equipo.component';
 import { EditarEquipoComponent } from './equipos/editar-equipo/editar-equipo.component';
 import { EliminarEquipoComponent } from './equipos/eliminar-equipo/eliminar-equipo.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';

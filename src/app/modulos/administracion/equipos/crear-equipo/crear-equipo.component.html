@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Creacion de Equipo</title>
   <link rel="stylesheet" type="text/css" href="./crear-equipo.component.css">
-  <link rel="stylesheet" href="/materialize/css/materialize.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   
 </head>
 <body>
@@ -31,76 +31,74 @@
     <legend>Datos basicos</legend>
      <div class="Grupo-datosBasicos">
         <div class="row">
-          <div class="col">
-            <label for="Referencia">Referencia</label> <br>
-            <input formControlName="Referencia" class="controls" type="text" name="Referencia" id="Referencia">           
+          <div class="col-4">
+            <input formControlName="Referencia" class="controls" type="text" name="Referencia" id="Referencia"> 
+            <label for="Referencia">Referencia</label>                      
           </div>
-          <div class="col"> 
-            <label for="Descripcion" >Descripcion</label> <br>        
-            <input formControlName="Descripcion" style="width: 520px;" class="controls" type="text" name="Descripcion" id="Descripcion" >            
+          <div class="col-8"> 
+            <input formControlName="Descripcion"  class="controls" type="text" name="Descripcion" id="Descripcion" >
+            <label for="Descripcion" >Descripcion</label>    
+                        
           </div>        
         </div>
-
         <div class="row">
           <div class="col">
-            <label for="Marca">Marca</label><br>
-            <input formControlName="Marca"  class="controls" type="text" name="Marca" id="Marca" >            
+            <input formControlName="Marca"  class="controls" type="text" name="Marca" id="Marca" >  
+            <label for="Marca">Marca</label>                      
           </div>
           <div class="col">
-            <label for="PaisEquipo" >Pais de origen</label><br>
-            <input formControlName="PaisEquipo"  class="controls" type="text" name="PaisEquipo" id="PaisEquipo" >            
+            <input formControlName="PaisEquipo"  class="controls" type="text" name="PaisEquipo" id="PaisEquipo" >
+            <label for="PaisEquipo" >Pais de origen</label>                        
           </div>
           <div class="col">
-            <label for="Proveedor">Proveedor</label><br>
-            <input formControlName="Proveedor" class="Proveedor" type="text" name="Proveedor" id="Proveedor" >            
+            <input formControlName="Proveedor" class="controls" type="text" name="Proveedor" id="Proveedor" >   
+            <label for="Proveedor">Proveedor</label>                     
           </div>
         </div>
-
-        <div class="row" >            
-            <div class="col">
-              
-              <label style="text-align:left" for="PosArancelaria">Posicion Arancelaria:</label>
-              <select class="custom-select" formControlName='PosArancelaria' id="PosArancelaria" name="PosArancelaria" >                            
+        <div class="row" >   
+          <div class="col">            
+            <select formControlName="Arancel" class="form-select">
                 <option value="0">0</option>
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="15">15</option>
                 <option value="20">20</option>
-                <option value="courrier">courrier</option>                
-              </select>              
-            </div>         
-          
-              <div class="col">
-                <label for="esApilable" style="text-align: left;">Es apilable?</label><br>
-                <select formControlName="esApilable" class="controls" list="datalistApilable" id="esApilable" name="esApilable" type="text">
-                  <option value="SI">SI</option>
-                  <option value="NO">NO</option>                     
-                </select>                  
-              </div>        
-            </div>
+                <option value="Courrier">Courrier</option> 
+            </select>
+             <label for="Arancel">Arancel</label> 
+          </div>         
+            <div class="col">
+              <input formControlName="PosArancelaria" class="controls" type="text" name="PosArancelaria" id="PosArancelaria" >
+              <label for="PosArancelaria">Posicion Arancelaria</label>              
+            </div>     
+            <div class="col">               
+               <select formControlName="esApilable" class="form-select">
+                 <option value="SI">SI</option>
+                 <option value="NO">NO</option>                     
+               </select>
+               <label for="esApilable">Es apilable?</label>                   
+            </div>            
+          </div>
 
-      </div><br>
+      </div>
       <legend>Dimensiones y peso</legend>
     <div class="Grupo-datosBasicos">
       <div class="row">
         <div class="col">
-          <label for="Anchura">Ancho</label><br>
-          <input formControlName="Anchura" class="controls" type="text" name="Anchura" id="Anchura" >
-          
+          <input formControlName="Anchura" class="controls" type="number" name="Anchura" id="Anchura" >
+          <label for="Anchura">Ancho</label>                 
         </div>
         <div class="col">
-          <label for="Altura">Altura</label><br>
-          <input formControlName="Altura" class="controls" type="text" name="Altura" id="Altura" >
-          
+          <input formControlName="Altura" class="controls" type="number" name="Altura" id="Altura" >
+          <label for="Altura">Altura</label>          
         </div>
         <div class="col">
-          <label for="Profundidad">Profundidad</label><br>
-          <input formControlName="Profundidad" class="controls" type="text" name="Profundidad" id="Profundidad" >
-          
+          <input formControlName="Profundidad" class="controls" type="number" name="Profundidad" id="Profundidad" >
+          <label for="Profundidad">Profundidad</label>          
         </div>
-        <div class="col"style="text-align: center" ><br>
-           <label for="PesoReal" style="text-align: left;">Peso Real</label><br>
-           <input formControlName="PesoReal" class="controls" type="text" name="PesoReal" id="PesoReal" >
+        <div class="col-4">
+          <input formControlName="PesoReal" class="controls" type="number" name="PesoReal" id="PesoReal" >
+           <label for="PesoReal" style="text-align: left;">Peso Real</label>           
         </div>
       </div>
     </div> 
@@ -108,8 +106,6 @@
 <br>
     <button [disabled]="!fgValidador.valid" class="btn btn-primary" type="submit"> CREAR EQUIPO</button>    
   </form> 
-</div>  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+</div> 
 </body>
 </html>

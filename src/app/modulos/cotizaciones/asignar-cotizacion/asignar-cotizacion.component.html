@@ -4,66 +4,130 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="./asignar-cotizacion.component.css">
- 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    
+    
     <title>Cotizar</title>
 </head>
 <body>
-    <div *ngIf="isLoading" class="mensaje-espera">
-        <h3>Cargando...</h3>
-    </div> 
-    <form (ngSubmit)="buscarEquipoPorReferencia()">
-        <input type="text" style="color: aliceblue;" name="equipoBuscado" placeholder="Buscar equipo por Referencia" [(ngModel)]="equipoBuscado">
-        <button class="btn waves-effect waves-light" type="submit" name="action">Buscar
-            <i class="material-icons right">send</i>
-        </button>
-    </form>
-
-            <div *ngIf="selectedItem" class="enclosure">
-            <label><i><b>Datos del equipo seleccionado</b></i></label>
-            <br>
-            <p>Referencia: {{ selectedItem.Referencia }}</p>
-            <p>Descripción: {{ selectedItem.Descripcion }}</p>                    
+    <div class="pre-carga"  *ngIf="isLoading">
+        <div class="preloader-wrapper big active">
+          <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
         </div>
-        <form [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()"class="form-register" >
-            
-                    <input formControlName="Cantidad" class="controls" type="number" name="Cantidad" id="Cantidad" >
-                    <label for="Cantidad">Cantidad</label>
+       </div>
+       <h2 style="text-align: center;">Cotizacion de Equipo</h2>
+       <div class="row" >
+            <div class="col-3"><br>
+                <form (ngSubmit)="buscarEquipoPorReferencia()">
+                    <input type="text" style="color: aliceblue;" name="equipoBuscado" placeholder="Digite la referencia del equipo" [(ngModel)]="equipoBuscado">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Buscar
+                        <i class="material-icons right">send</i>
+                    </button>
+                </form>
+            </div>
+            <div class="col-9">
+                <div *ngIf="equipoEncontrado" class="enclosure">
+                    <label><i><b>Datos del equipo a cotizar</b></i></label>
                     <br>
-                    <br>
-                    <input formControlName="Fecha" class="controls" type="date" name="Fecha" id="Fecha" >
-                    <label for="Fecha">Fecha</label>
-                    <br>
-                    <br>
-                    <input formControlName="IdSiigo" class="controls" type="text" name="IdSiigo" id="IdSiigo" >
-                    <label for="IdSiigo">Consecutivo Siigo No.</label>
-                    <br>
-                    <br>     
+                    <label style="margin-right: 10px;">Referencia:   </label>
+                    <output>{{ equipoEncontrado.Referencia }}</output><br>
+                    <label>Descripcion: </label>
+                    <output>{{ equipoEncontrado.Descripcion }}</output>                                      
+                </div>
+            </div>
+        
+        </div>
+        <form *ngIf="equipoEncontrado" [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()"class="form-register" >
+            <div class="row">
+                <div class="col">
                     <input formControlName="Cliente" class="controls" type="text" name="Cliente" id="Cliente" >
                     <label for="Cliente">Cliente</label>
-                    <br>
-                    <br>
-                    <input formControlName="PrecioCompra" class="controls" type="number" name="PrecioCompra" id="PrecioCompra" >
-                    <label for="PrecioCompra">Precio de compra</label>
-                    <br>
-                    <br>
-                    <input formControlName="Moneda" class="controls" list="datalistOptions" type="text" name="Moneda" id="Moneda" >
-                    <datalist id="datalistOptions">
-                    <option value="USD">
-                    <option value="EUR">
-                    <option value="SEK">                  
-                    </datalist>
-                    <label for="Moneda">Moneda</label>
-                    
-                    <br>
-                    <br>
-    
+                </div>
+                        <div class="col">
+                            <input formControlName="IdSiigo" class="controls" type="text" name="IdSiigo" id="IdSiigo" placeholder="Digite el consecutivo de Siigo" >
+                            <label for="IdSiigo">Siigo No.</label>
+                        </div> 
+                <div class="col" >
+                    <input formControlName="Fecha" class="controls" type="date" name="Fecha" id="Fecha" >
+                    <label for="Fecha">Fecha</label>
+
+                </div>
+            </div>
+                    <div class="row">
+                        <div class="col">
+                          <input formControlName="Cantidad" class="controls" type="number" name="Cantidad" id="Cantidad" >
+                    <label for="Cantidad">Cantidad</label>                              
+                        </div>
+                            
+                        <div class="col">
+                            <input formControlName="PrecioCompra" class="controls" type="number" name="PrecioCompra" id="PrecioCompra" step="any">
+                            <label for="PrecioCompra">Precio de compra</label>
+                        </div> 
+                        <div class="col">
+                            <select formControlName="Moneda" class="form-select">
+                                <option value="USD">USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="SEK">SEK</option>
+                              </select>
+                            <label for="Moneda">Moneda</label>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        
+                        <div class="col">   
+                            <input formControlName="FleteOrigenDestino" class="controls" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any">
+                            <label for="FleteOrigenDestino">Flete</label>                            
+                        </div>
+                        <div class="col">   
+                            <input formControlName="CargoCombustible" class="controls" name="CargoCombustible" id="CargoCombustible" type="number" step="any"/>%
+                            <label for="CargoCombustible">Cargos de Combustible</label>                            
+                        </div>
+                        <div class="col">   
+                            <input formControlName="AlistamientoProveedor" class="controls" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any"/>
+                            <label for="AlistamientoProveedor">Alistamiento Proveedor</label>                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input formControlName="TasaCambio" class="controls" name="TasaCambio" id="TasaCambio" type="number" step="any"/>
+                            <label for="TasaCambio">Tasa de cambio</label> 
+                        </div>
+                        <div class="col">
+                            <input formControlName="FleteLocal" class="controls" name="FleteLocal" id="FleteLocal" type="number" step="any"/>
+                            <label for="FleteLocal">Flete Local</label> 
+                        </div>
+                        <div class="col">
+                            <input formControlName="AccesoriosLocales" class="controls" name="AccesoriosLocales" id="AccesoriosLocales" type="number" step="any"/>
+                            <label for="AccesoriosLocales">Accesorios Locales</label> 
+                        </div>
+
+                    </div> 
+                    <div class="row">
+                        <div class="col-4">
+                            <select formControlName="FormaPago" class="form-select" type="number" step="any">                                
+                                <option value="tres">3%</option>
+                                <option value="seis">6%</option>
+                                <option value="nueve">9%</option>
+                                <option value="doce">12%</option>
+                            </select>
+                            <label for="FormaPago">Forma de pago</label>         
+                        </div>
+                    </div>   
             
         
                 <button [disabled]="!fgValidador.valid" class="btn btn-primary" type="submit">Agregar</button>          
         </form>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
+        
 </body>
 
 </html>

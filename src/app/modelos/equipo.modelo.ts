@@ -14,4 +14,5 @@ export class ModeloEquipo{
     Proveedor?: string;
     PaisProveedor?: string;
     esApilable?:string;
+    Arancel?: number;
 }

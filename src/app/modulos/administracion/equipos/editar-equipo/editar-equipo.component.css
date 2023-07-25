@@ -1,27 +1,25 @@
 .form-register{
   width: 900px;
-  background: rgb(52, 105, 54) ;
+  background: rgb(64, 105, 52) ;
   color: white;
   padding: 30px;
-  margin: auto;
-  margin-top: 40px;
+ margin: auto;
   border-radius: 4px;
   font-family: 'verdana';
   box-shadow: 7px 13px 37px #000;
-  margin-bottom: 40PX;
+  
 }
-.form-register input, label{
-  color: azure;
-  margin-block-end: auto;
-  width: 250px;
-  font-size: 16px;
+.form-register,input{
+  color: aliceblue;
+}
+.Grupo-datosBasicos{
+  border: solid 1px white;
+  padding: 10px;
+}
+.Grupo-Dimensiones{
+  border: solid 1px white;
 }
 
-body {
-  background-image: url("/assets/Imagenes/Fabrica.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
 .pre-carga{
   position: fixed;
   top: 0;
@@ -34,10 +32,8 @@ body {
   align-items: center;
   justify-content: center;  
 }
-.Grupo-datosBasicos{
-  border: solid 1px white;
-  padding: 10px;
+.form-select{
+  background: rgb(64, 105, 52) ;
+  color: aliceblue;
 }
-.Grupo-Dimensiones{
-  border: solid 1px white;
-}
+

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModeloEquipo } from 'src/app/modelos/equipo.modelo';
 import { EquipoService } from 'src/app/servicios/equipo.service';
-import M from 'materialize-css';
+
 
 @Component({
   selector: 'app-crear-equipo',
@@ -24,7 +24,8 @@ export class CrearEquipoComponent implements OnInit{
     'PesoReal': ['',[Validators.required]],
     'PosArancelaria': ['',[Validators.required]],
     'Proveedor': ['',[Validators.required]],
-    'esApilable': ['',[Validators.required]]
+    'esApilable': ['',[Validators.required]],
+    'Arancel': ['',[Validators.required]]
   })
   
   constructor(private fb: FormBuilder,
@@ -40,15 +41,16 @@ export class CrearEquipoComponent implements OnInit{
     let Descripcion = this.fgValidador.controls["Descripcion"].value;
     let Marca = this.fgValidador.controls["Marca"].value;
     let PaisEquipo = this.fgValidador.controls["PaisEquipo"].value;
-    let Altura = parseInt( this.fgValidador.controls["Altura"].value);
-    let Anchura = parseInt( this.fgValidador.controls["Anchura"].value);
-    let Profundidad = parseInt(this.fgValidador.controls["Profundidad"].value);
+    let Altura = parseFloat( this.fgValidador.controls["Altura"].value);
+    let Anchura = parseFloat( this.fgValidador.controls["Anchura"].value);
+    let Profundidad = parseFloat(this.fgValidador.controls["Profundidad"].value);
     let PesoVolumetrico = Math.ceil((Altura*Anchura*Profundidad)/5000);
-    let PesoReal = parseInt(this.fgValidador.controls["PesoReal"].value);
+    let PesoReal = parseFloat(this.fgValidador.controls["PesoReal"].value);
     let PesoFacturado = Math.max(PesoVolumetrico,PesoReal);
     let PosArancelaria = this.fgValidador.controls["PosArancelaria"].value;
     let Proveedor = this.fgValidador.controls["Proveedor"].value;
     let esApilable= this.fgValidador.controls["esApilable"].value
+    let Arancel= parseFloat( this.fgValidador.controls["Arancel"].value);
     
     let e = new ModeloEquipo();
     e.Referencia= Referencia;
@@ -64,6 +66,7 @@ export class CrearEquipoComponent implements OnInit{
     e.PosArancelaria= PosArancelaria;
     e.Proveedor= Proveedor;
     e.esApilable= esApilable;
+    e.Arancel= Arancel;
     
     this.isLoading = true;
 
@@ -80,8 +83,6 @@ export class CrearEquipoComponent implements OnInit{
     })
   }
   
-  ngAfterViewInit(): void {
-    M.FormSelect.init(document.querySelectorAll('select'));
-  }
+  
   
 }
