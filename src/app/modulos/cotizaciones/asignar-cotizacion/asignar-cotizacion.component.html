@@ -44,10 +44,10 @@
                     <label>Descripcion: </label>
                     <output>{{ equipoEncontrado.Descripcion }}</output>                                      
                 </div>
-            </div>
-        
+            </div>        
         </div>
-        <form *ngIf="equipoEncontrado" [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()"class="form-register" >
+        <form *ngIf="equipoEncontrado && !puestaMarchaFormulario" [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()"class="form-register" >
+            
             <div class="row">
                 <div class="col">
                     <input formControlName="Cliente" class="controls" type="text" name="Cliente" id="Cliente" >
@@ -86,7 +86,7 @@
                         
                         <div class="col">   
                             <input formControlName="FleteOrigenDestino" class="controls" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any">
-                            <label for="FleteOrigenDestino">Flete</label>                            
+                            <label for="FleteOrigenDestino">Flete Origen-Destino</label>                            
                         </div>
                         <div class="col">   
                             <input formControlName="CargoCombustible" class="controls" name="CargoCombustible" id="CargoCombustible" type="number" step="any"/>%
@@ -115,17 +115,194 @@
                     <div class="row">
                         <div class="col-4">
                             <select formControlName="FormaPago" class="form-select" type="number" step="any">                                
-                                <option value="tres">3%</option>
-                                <option value="seis">6%</option>
-                                <option value="nueve">9%</option>
-                                <option value="doce">12%</option>
+                                <option value=3>3%</option>
+                                <option value=6>6%</option>
+                                <option value=9>9%</option>
+                                <option value=12>12%</option>
                             </select>
                             <label for="FormaPago">Forma de pago</label>         
+                       </div>
+                        
+                        <div class="col-4">
+                            <input formControlName="PuestaMarcha" class="controls" name="PuestaMarcha" id="PuestaMarcha" type="number" step="any"/>
+                              <label for="PuestaMarcha">Puesta en Marcha</label>
+                            <!--button id="BtnPuestaMarcha" (click)="toggleSegundoFormulario()" type="button" class="btn btn-info">Puesta en Marcha</button-->
                         </div>
-                    </div>   
-            
+                           
+                    </div>  
+                    <div class="row">
+                        <div class="col">
+                            <input formControlName="Observaciones" class="controls" name="Observaciones" id="Observaciones" type="text" />
+                            <label for="Observaciones">Observaciones</label>    
+                        </div>
+
+                    </div>  
         
-                <button [disabled]="!fgValidador.valid" class="btn btn-primary" type="submit">Agregar</button>          
+                <button [disabled]="!fgValidador.valid" class="btn btn-primary" type="submit">Agregar</button>  
+                
+                
+        </form>
+        <form *ngIf="puestaMarchaFormulario" [formGroup]="puestaMarchaFormGroup" (ngSubmit)="PuestaEnMarcha()" class="formPuestaMarcha">
+            <h3>Precio Total Instrumentos</h3>
+            <div class="row">
+                <div class="col-2">
+                    <br><p >Item 1</p>
+                </div>
+                <div class="col-6">                    
+                    <label for="label">Descripcion</label>
+                    <input formControlName="label" id="Item1" type="text" >
+                </div>
+                <div class="col-3">
+                    <label for="value">Valor</label>
+                    <input formControlName="value" id="Item1" type="number" step="any" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <br><p >Item 2</p>
+                </div>
+                <div class="col-6">                    
+                    <label for="label">Descripcion</label>
+                    <input formControlName="label" id="Item2" type="text" >
+                </div>
+                <div class="col-3">
+                    <label for="value">Valor</label>
+                    <input formControlName="value" id="Item2" type="number" step="any" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <br><p >Item 3</p>
+                </div>
+                <div class="col-6">                    
+                    <label for="label">Descripcion</label>
+                    <input formControlName="label" id="Item1" type="text" >
+                </div>
+                <div class="col-3">
+                    <label for="value">Valor</label>
+                    <input formControlName="value" id="Item1" type="number" step="any" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <br><p >Item 4</p>
+                </div>
+                <div class="col-6">                    
+                    <label for="label">Descripcion</label>
+                    <input formControlName="label" id="Item1" type="text" >
+                </div>
+                <div class="col-3">
+                    <label for="value">Valor</label>
+                    <input formControlName="value" id="Item1" type="number" step="any" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <br><p >Item 5</p>
+                </div>
+                <div class="col-6">                    
+                    <label for="label">Descripcion</label>
+                    <input formControlName="label" id="Item1" type="text" >
+                </div>
+                <div class="col-3">
+                    <label for="value">Valor</label>
+                    <input formControlName="value" id="Item1" type="number" step="any" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <br><p >Item 6</p>
+                </div>
+                <div class="col-6">                    
+                    <label for="label">Descripcion</label>
+                    <input formControlName="label" id="Item1" type="text" >
+                </div>
+                <div class="col-3">
+                    <label for="value">Valor</label>
+                    <input formControlName="value" id="Item1" type="number" step="any" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <br><p >Item 7</p>
+                </div>
+                <div class="col-6">                    
+                    <label for="label">Descripcion</label>
+                    <input formControlName="label" id="Item1" type="text" >
+                </div>
+                <div class="col-3">
+                    <label for="value">Valor</label>
+                    <input formControlName="value" id="Item1" type="number" step="any" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <br><p >Item 8</p>
+                </div>
+                <div class="col-6">                    
+                    <label for="label">Descripcion</label>
+                    <input formControlName="label" id="Item1" type="text" >
+                </div>
+                <div class="col-3">
+                    <label for="value">Valor</label>
+                    <input formControlName="value" id="Item1" type="number" step="any" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <br><p >Item 9</p>
+                </div>
+                <div class="col-6">                    
+                    <label for="label">Descripcion</label>
+                    <input formControlName="label" id="Item1" type="text" >
+                </div>
+                <div class="col-3">
+                    <label for="value">Valor</label>
+                    <input formControlName="value" id="Item1" type="number" step="any" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <br><p >Item 10</p>
+                </div>
+                <div class="col-6">                    
+                    <label for="label">Descripcion</label>
+                    <input formControlName="label" id="Item1" type="text" >
+                </div>
+                <div class="col-3">
+                    <label for="value">Valor</label>
+                    <input formControlName="value" id="Item1" type="number" step="any" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <br><p >Item 11</p>
+                </div>
+                <div class="col-6">                    
+                    <label for="label">Descripcion</label>
+                    <input formControlName="label" id="Item1" type="text" >
+                </div>
+                <div class="col-3">
+                    <label for="value">Valor</label>
+                    <input formControlName="value" id="Item1" type="number" step="any" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <br><p >Item 12</p>
+                </div>
+                <div class="col-6">                    
+                    <label for="label">Descripcion</label>
+                    <input formControlName="label" id="Item1" type="text" >
+                </div>
+                <div class="col-3">
+                    <label for="value">Valor</label>
+                    <input formControlName="value" id="Item1" type="number" step="any" >
+                </div>
+            </div>
+            
+            
+            <button type="submit" class="btn btn-success">Success</button>
         </form>
         
 </body>

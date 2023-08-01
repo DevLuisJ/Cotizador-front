@@ -68,6 +68,16 @@ form{
 }
 .form-select{
   background-color:#198754 ;
-}                 
+}
+.formPuestaMarcha{
+  width: 800px;
+  background:rgb(52, 70, 105);
+  color: white;
+  padding: 20px; 
+  margin-top: 20px;
+  border-radius: 4px;
+  font-family: 'verdana';  
+  margin: auto;
+}                
 
 

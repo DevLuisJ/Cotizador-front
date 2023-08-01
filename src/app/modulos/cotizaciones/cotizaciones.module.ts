@@ -7,12 +7,14 @@ import { AsignarCotizacionComponent } from './asignar-cotizacion/asignar-cotizac
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdministracionRoutingModule } from '../administracion/administracion-routing.module';
 import { BuscarEquipoComponent } from '../administracion/equipos/buscar-equipo/buscar-equipo.component';
+import { BuscarCotizacionComponent } from './buscar-cotizacion/buscar-cotizacion.component';
 
 
 
 @NgModule({
   declarations: [
     AsignarCotizacionComponent,
+    BuscarCotizacionComponent,
     ],
   imports: [
     CommonModule,
