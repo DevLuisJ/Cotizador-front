@@ -225,7 +225,7 @@ GuardarCotizacion(){
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento)); 
   this.Precio5=  Math.ceil((this.TotalCIF/this.Descuento5)+((this.TotalImpuestos-this.iva)+this.TotalGastosNacionalizacion+
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento)); 
-  this.Precio6=  Math.ceil((this.TotalCIF/this.Descuento4)+((this.TotalImpuestos-this.iva)+this.TotalGastosNacionalizacion+
+  this.Precio6=  Math.ceil((this.TotalCIF/this.Descuento6)+((this.TotalImpuestos-this.iva)+this.TotalGastosNacionalizacion+
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento)); 
   this.PrecioCant1=this.Precio1/Cantidad;
   this.PrecioCant2=this.Precio2/Cantidad;
