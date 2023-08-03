@@ -1,5 +1,6 @@
 .table table-success table-striped,th{
     text-align: center;
+    
 }
 .pre-carga{
     position: fixed;
@@ -14,4 +15,5 @@
     justify-content: center;
    
   }
+  
   

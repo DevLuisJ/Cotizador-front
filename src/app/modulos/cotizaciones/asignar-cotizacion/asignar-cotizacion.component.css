@@ -1,7 +1,7 @@
    
 .enclosure{
   width: 700px;
-  background: #198754;
+  background: rgb(21, 172, 119);
   padding: 20px;
   margin: auto;
   margin-top: 20px;
@@ -21,35 +21,29 @@
   
 }
 .form-register {
-  width: 1000px;
-  background: #198754;
-  padding: 40px;
+  width: 1050px;
+  height: 550px;
+  background:  rgb(21, 172, 119);
+  padding: 20px;
   margin: auto;
   margin-top: 40px;
   margin-bottom: 20px;
   border-radius: 4px;
   box-shadow: 7px 13px 37px #000; 
 }
-.form-register, input{
-  
-  font-family: 'verdana';
-  background: #198754;
-}
+
 .form-register, label{
   color: aliceblue;
 }
-
-
-.mensaje-espera {
-  background-color: #f2f2f2;
-  padding: 10px;
-  text-align: center;
+.form-register input{
+  width: 100%;
+  height: 60%;
 }
-form{
-  width: 300px;
-  background: rgb(128, 126, 126) ;
-  color: white;
-  padding: 20px; 
+
+.form-buscar{
+  width: 250px;
+  background-color: rgb(21, 172, 119); 
+  padding: 10px; 
   margin-top: 20px;
   border-radius: 4px;
   font-family: 'verdana';  
@@ -66,9 +60,7 @@ form{
   align-items: center;
   justify-content: center;  
 }
-.form-select{
-  background-color:#198754 ;
-}
+
 .formPuestaMarcha{
   width: 800px;
   background:rgb(52, 70, 105);
