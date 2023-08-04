@@ -92,9 +92,9 @@
 
 
 <legend style="text-align: center;">Listado de Equipos</legend> 
-
-    <table class="table table-success table-striped table-sm table-responsive">
-        <thead class="thead-light sticky-top">   
+<div class="table-responsive">
+    <table class="table table-success table-bordered">
+        <thead class="sticky-top align-middle" style="text-align: center;">   
                 <tr>       
                     <th>Referencia</th>
                     <th>Descripcion</th>
@@ -115,7 +115,7 @@
                 </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let e of listadoRegistros">
+            <tr *ngFor="let e of listadoRegistros" class="align-middle">
                 <td>{{e.Referencia}}</td>
                 <td>{{e.Descripcion}}</td>
                 <td>{{e.Marca}}</td>
@@ -131,15 +131,16 @@
                 <td>{{e.Proveedor}}</td>
                 <td style="text-align: center;">{{e.esApilable}}</td>
                 <td>
-                    <a routerLink="/administracion/editar-equipo/{{e.id}}" class="btn green">Editar</a>
+                    <a routerLink="/administracion/editar-equipo/{{e.id}}" class="btn btn-success">Editar</a>
                 </td>
                 <td>
-                    <a routerLink="/administracion/eliminar-equipo/{{e.id}}" class="btn red">Eliminar</a>
+                    <a routerLink="/administracion/eliminar-equipo/{{e.id}}" class="btn btn-danger">Eliminar</a>
                     
                 </td>
             </tr>
     
         </tbody>
     </table> 
+</div>
 </body>
 </html>

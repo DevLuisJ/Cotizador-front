@@ -10,22 +10,7 @@
   --dark: #343a40;
 }
 
-.table-info th {
-    background-color:green;
-    color: white;
-    position: static;
-    border: 1px solid #000;
-  }  
- 
-.table-info, td, tr{
-    border: 1px solid;
-    height: 1px;
-    text-align: left;
-    padding: 15px;
-  }
 
-.table-info tr:hover {background-color: gray; color: aliceblue;}
-  
 .pre-carga{
   position: fixed;
   top: 0;
