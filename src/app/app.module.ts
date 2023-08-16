@@ -15,7 +15,7 @@ import { ReactiveFormsModule, FormsModule, FormGroup } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { FormatoNumeroDirective } from './formato-numero.directive';
+
 
 
 @NgModule({
@@ -25,7 +25,7 @@ import { FormatoNumeroDirective } from './formato-numero.directive';
     FootherComponent,
     InicioComponent,
     ErrorComponent,
-    FormatoNumeroDirective,
+    
   ],
   imports: [
     BrowserModule,
