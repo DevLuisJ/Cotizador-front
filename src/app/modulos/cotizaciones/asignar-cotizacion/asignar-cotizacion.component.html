@@ -10,66 +10,48 @@
 </head>
 <body>
     <div class="pre-carga"  *ngIf="isLoading">
-        <div class="preloader-wrapper big active">
-          <div class="spinner-layer spinner-blue-only">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
         </div>
-       </div>
-       <h2 style="text-align: center;">Cotizacion de Equipo</h2>
-       <div class="row" >
-            <div class="col-1"></div>
-            <div class="col-3"><br>
-                <form class="form-buscar" (ngSubmit)="buscarEquipoPorReferencia()">
-                    <input class= "my-2" type="text" name="equipoBuscado" placeholder="Digite la referencia" [(ngModel)]="equipoBuscado"><br>
+    </div>
+    <h2 style="text-align: center;">Cotizacion de Equipo</h2>
+       
+            
+                <form class="form-buscar" (ngSubmit)="buscarEquipoPorReferencia()">                  
+                    <input class= "my-2 form-control" type="text" name="equipoBuscado" placeholder="Digite la referencia" [(ngModel)]="equipoBuscado">
+                    <label class="form-label" for="equipoBuscado"> Referencia</label><br>
+                    
+                   <div *ngIf="equipoEncontrado">                        
+                        <output style="border: solid 1px white; padding: 10px;">{{ equipoEncontrado.Descripcion }}</output><br>
+                         <label class="form-label">Descripcion</label>                                    
+                    </div>
                     <button class="btn btn-primary my-3" type="submit" name="action">Buscar</button>
-        
-                </form> 
-
-            </div>
-            <div class="col-5">
-                <div *ngIf="equipoEncontrado" class="enclosure">
-                    <label><i><b>Datos del equipo a cotizar</b></i></label>
-                    <br>
-                    <label style="margin-right: 10px;">Referencia:   </label>
-                    <output>{{ equipoEncontrado.Referencia }}</output><br>
-                    <label>Descripcion: </label>
-                    <output>{{ equipoEncontrado.Descripcion }}</output>                                      
-                </div>
-            </div>        
-        </div>
-        <form class="form-register"*ngIf="equipoEncontrado && !puestaMarchaFormulario" [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()" >
+                      <form class="form-register"*ngIf="equipoEncontrado && !puestaMarchaFormulario" [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()" >
             
             <div class="row">
-                <div class="col mb-3">
-                    <input formControlName="Cliente" class="controls" type="text" name="Cliente" id="Cliente" >
+                <div class="col-8">
+                    <input formControlName="Cliente" class="form-control" type="text" name="Cliente" id="Cliente" >
                     <label for="Cliente">Cliente</label>
                 </div>
-                <div class="col mb-3">
-                    <input formControlName="IdSiigo" class="controls" type="text" name="IdSiigo" id="IdSiigo" placeholder="Digite el consecutivo de Siigo" >
+                <div class="col-4">
+                    <input formControlName="IdSiigo" class="form-control" type="text" name="IdSiigo" id="IdSiigo" placeholder="Digite el consecutivo de Siigo" >
                     <label for="IdSiigo">Siigo No.</label>
                 </div> 
-                <div class="col mb-3" >
-                    <input formControlName="Fecha" class="controls" type="date" name="Fecha" id="Fecha" >
+                <!--div class="col mb-3" >
+                    <input formControlName="Fecha" class="form-control" type="date" name="Fecha" id="Fecha" >
                     <label for="Fecha">Fecha</label>
 
-                </div>
+                </div-->
             </div>
                     <div class="row">
                         <div class="col mb-3">
-                          <input formControlName="Cantidad" class="controls" type="number" name="Cantidad" id="Cantidad" >
+                          <input formControlName="Cantidad" class="form-control" type="number" name="Cantidad" id="Cantidad" >
                     <label for="Cantidad">Cantidad</label>                              
                         </div>
                             
                         <div class="col mb-3">
-                            <input formControlName="PrecioCompra" class="controls" type="number" name="PrecioCompra" id="PrecioCompra" step="any">
-                            <label for="PrecioCompra">Precio de compra</label>
+                            <input formControlName="PrecioCompra" class="form-control"type="number">                                                            
+                            <label for="PrecioCompra" class="form-label">Precio de compra</label>
                         </div> 
                         <div class="col mb-3">
                             <select formControlName="Moneda" class="form-select">
@@ -83,29 +65,29 @@
                     <div class="row">
                         
                         <div class="col mb-3">   
-                            <input formControlName="FleteOrigenDestino" class="controls" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any">
+                            <input formControlName="FleteOrigenDestino" class="form-control" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any">
                             <label for="FleteOrigenDestino">Flete Origen-Destino</label>                            
                         </div>
                         <div class="col mb-3">   
-                            <input formControlName="CargoCombustible" class="controls" name="CargoCombustible" id="CargoCombustible" type="number" step="any"/>%
+                            <input formControlName="CargoCombustible" class="form-control" name="CargoCombustible" id="CargoCombustible" type="number" step="any"/>%
                             <label for="CargoCombustible">Cargos de Combustible</label>                            
                         </div>
                         <div class="col mb-3">   
-                            <input formControlName="AlistamientoProveedor" class="controls" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any"/>
+                            <input formControlName="AlistamientoProveedor" class="form-control" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any"/>
                             <label for="AlistamientoProveedor">Alistamiento Proveedor</label>                            
                         </div>
                     </div>
                     <div class="row">
                         <div class="col mb-3">
-                            <input formControlName="TasaCambio" class="controls" name="TasaCambio" id="TasaCambio" type="number" step="any"/>
+                            <input formControlName="TasaCambio" class="form-control" name="TasaCambio" id="TasaCambio" type="number" step="any"/>
                             <label for="TasaCambio">Tasa de cambio</label> 
                         </div>
                         <div class="col mb-3">
-                            <input formControlName="FleteLocal" class="controls" name="FleteLocal" id="FleteLocal" type="number" step="any"/>
+                            <input formControlName="FleteLocal" class="form-control" name="FleteLocal" id="FleteLocal" type="number" step="any"/>
                             <label for="FleteLocal">Flete Local</label> 
                         </div>
                         <div class="col mb-3">
-                            <input formControlName="AccesoriosLocales" class="controls" name="AccesoriosLocales" id="AccesoriosLocales" type="number" step="any"/>
+                            <input formControlName="AccesoriosLocales" class="form-control" name="AccesoriosLocales" id="AccesoriosLocales" type="number" step="any"/>
                             <label for="AccesoriosLocales">Accesorios Locales</label> 
                         </div>
 
@@ -122,7 +104,7 @@
                        </div>
                         
                         <div class="col-4 mb-3">
-                            <input formControlName="PuestaMarcha" class="controls" name="PuestaMarcha" id="PuestaMarcha" type="number" step="any"/>
+                            <input formControlName="PuestaMarcha" class="form-control" name="PuestaMarcha" id="PuestaMarcha" type="number" step="any"/>
                               <label for="PuestaMarcha">Puesta en Marcha</label>
                             <!--button id="BtnPuestaMarcha" (click)="toggleSegundoFormulario()" type="button" class="btn btn-info">Puesta en Marcha</button-->
                         </div>
@@ -130,7 +112,7 @@
                     </div>  
                     <div class="row">
                         <div class="col mb-3">
-                            <input formControlName="Observaciones" class="controls" name="Observaciones" id="Observaciones" type="text" />
+                            <input formControlName="Observaciones" class="form-control" name="Observaciones" id="Observaciones" type="text" />
                             <label for="Observaciones">Observaciones</label>    
                         </div>
 
@@ -139,7 +121,15 @@
                 <button [disabled]="!fgValidador.valid" class="btn btn-primary mb-3" type="submit">Agregar</button>  
                 
                 
-        </form>
+        </form>  
+    </form> 
+
+            
+          
+                
+                  
+       
+
         <form *ngIf="puestaMarchaFormulario" [formGroup]="puestaMarchaFormGroup" (ngSubmit)="PuestaEnMarcha()" class="formPuestaMarcha">
             <h3>Precio Total Instrumentos</h3>
             <div class="row">

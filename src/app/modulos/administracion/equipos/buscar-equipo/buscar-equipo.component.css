@@ -24,13 +24,16 @@
   justify-content: center;
  
 }
+.oculta {
+  display: none;
+}
 
 form{
-  width: 200px;
-  background-color: #007bff; /* Color de fondo para el formulario */
+  width: auto;
+  background-color: #17a2b8 ; /* Color de fondo para el formulario */
   color: white;
   padding: 20px;
- 
+  margin: auto;
   
   border-radius: 4px;
   font-family: 'verdana';  

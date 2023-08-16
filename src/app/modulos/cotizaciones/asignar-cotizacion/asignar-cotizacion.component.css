@@ -34,6 +34,7 @@
 
 .form-register, label{
   color: aliceblue;
+  background:  rgb(21, 172, 119);
 }
 .form-register input{
   width: 100%;
@@ -41,9 +42,10 @@
 }
 
 .form-buscar{
-  width: 250px;
+  width: 1050px;
+  margin: auto;
   background-color: rgb(21, 172, 119); 
-  padding: 10px; 
+  padding: 20px; 
   margin-top: 20px;
   border-radius: 4px;
   font-family: 'verdana';  

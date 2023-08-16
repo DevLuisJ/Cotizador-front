@@ -12,6 +12,8 @@ export class BuscarEquipoComponent implements OnInit{
   isLoading: boolean = false;
   equipoBuscado: string = "";
   equipoEncontrado: ModeloEquipo | undefined;
+  mostrarEquipo: boolean=false;//bandera para mostrar/ocultar el equipo encontrado
+  listaEquipos:boolean=false; //bandera para mostrar/ocultar listado de equipos
 
   constructor(private equipoServicio: EquipoService){}
   ngOnInit(): void {
@@ -37,12 +39,29 @@ export class BuscarEquipoComponent implements OnInit{
     if (this.equipoEncontrado) {
       console.log("Objeto encontrado:");
       console.log(this.equipoEncontrado);
-    } else {
+      this.mostrarEquipo=!this.mostrarEquipo;
+      this.listaEquipos=this.listaEquipos;
+     } else {
       console.log("Objeto no encontrado");
       
       alert("Equipo no encontrado");
     }
+    
   }
+  limpiarFormulario() {
+    // Obtén el elemento del DOM por su ID
+    const referenciaInput = document.getElementById('Referencia') as HTMLInputElement;
+  
+    if (referenciaInput) {
+      // Restablece el valor del campo de entrada
+      referenciaInput.value = '';
+     this.mostrarEquipo=false;
+      this.listaEquipos=false;
+      this.equipoBuscado="";
+      
+    }
+  }
+  
 }
   
 

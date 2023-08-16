@@ -7,7 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import { ModeloEquipo } from 'src/app/modelos/equipo.modelo';
 import { EquipoService } from 'src/app/servicios/equipo.service';
 import { SeguridadService } from 'src/app/servicios/seguridad.service';
-import { ModeloDatos } from 'src/app/modelos/datos.modelo';
+//import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-asignar-cotizacion',
@@ -25,7 +26,7 @@ export class AsignarCotizacionComponent implements OnInit{
   equipoBuscado: string = "";
   equipoEncontrado: ModeloEquipo | undefined;
   puestaMarchaFormulario = false; // Variable para controlar la visualización del segundo formulario
-  
+  inputTextValue: string = '';
 
   //liquidacion de importacion v6.0
   CargoCombustible: number = 0;
@@ -88,11 +89,12 @@ export class AsignarCotizacionComponent implements OnInit{
   Descuento4:number=0.7;
   Descuento5:number=0.75;
   Descuento6:number=0.8;
+  
 
 fgValidador: FormGroup = this.fb.group({ 
   
   'Cliente': ['',[Validators.required]],
-  'Fecha': ['',[Validators.required]],
+  'Fecha': [new Date(),[Validators.required]],
   'IdSiigo': ['',[Validators.required]],
   'Cantidad': ['',[Validators.required]],
   'Moneda': ['',[Validators.required]],
@@ -114,7 +116,8 @@ constructor(
   private router: Router,
   private http: HttpClient,
   private equipoServicio: EquipoService,
-  private seguridadServicio: SeguridadService  
+  private seguridadServicio: SeguridadService,
+  //private datePipe: DatePipe  
   ){  
     this.puestaMarchaFormGroup = this.fb.group({
       label: [''],
@@ -135,13 +138,22 @@ GuardarCotizacion(){
     
     let Cliente = this.fgValidador.controls["Cliente"].value; 
     let Fecha = this.fgValidador.controls["Fecha"].value;
+    // Convertir a objeto de fecha
+      //const fechaHoraObjeto = new Date(Fecha);
+    // Formato deseado para la fecha y hora
+      //const formatoDeseado = 'yyyy-MM-dd HH:mm';
+    // Formatear la fecha y hora
+    //if (fechaHoraObjeto && formatoDeseado) {
+      //let Fecha = this.datePipe.transform(fechaHoraObjeto, formatoDeseado);
+    //}
+      
     let IdSiigo = this.fgValidador.controls["IdSiigo"].value;
     let idEquipo = this.equipoEncontrado?.Referencia;
     let IdUsuario = this.seguridadServicio.datosUsuarioEnSesion.value.datos?.nombre + ' ' +
        this.seguridadServicio.datosUsuarioEnSesion.value.datos?.apellidos;;
     let Cantidad = parseFloat( this.fgValidador.controls["Cantidad"].value);
     let Moneda = this.fgValidador.controls["Moneda"].value;
-    let PrecioCompra = parseFloat( this.fgValidador.controls["PrecioCompra"].value);
+    let PrecioCompra = parseFloat(this.fgValidador.controls["PrecioCompra"].value);
     switch (Moneda) {
         case "EUR":
           this.vlrDolares = parseFloat(this.fgValidador.controls["PrecioCompra"].value)*1.14;
@@ -160,13 +172,18 @@ GuardarCotizacion(){
     let Imprevistos = (this.fgValidador.controls["FleteOrigenDestino"].value)/0.9; //imprevistos del flete
     let OtrosGastosFit: number = 0;    
     if (this.equipoEncontrado && (this.equipoEncontrado?.Altura! >= 120 || this.equipoEncontrado?.Anchura! >= 120 || 
-      this.equipoEncontrado?.Profundidad! >= 120 || this.equipoEncontrado?.PesoReal! >= 70)) {
-      OtrosGastosFit = 25;
-    } else{
-      OtrosGastosFit = 0;
-    }  
+      this.equipoEncontrado?.Profundidad! >= 120)) {
+      OtrosGastosFit = 55;      
+    } 
+    if (this.equipoEncontrado && ( this.equipoEncontrado?.PesoFacturado! >= 70)) {
+      OtrosGastosFit = OtrosGastosFit + 55;      
+    } 
+    if (this.equipoEncontrado &&(this.equipoEncontrado?.esApilable! == "NO")){
+      this.TotalFleteInt=250//Se adiciona al flete internacional 250 usd cargo x dimensiones
+    }
+
     this.CargoCombustible= parseFloat( this.fgValidador.controls["CargoCombustible"].value);
-    this.TotalFleteInt= (Imprevistos*this.CargoCombustible/100)+Imprevistos+OtrosGastosFit;
+    this.TotalFleteInt= this.TotalFleteInt+(Imprevistos*this.CargoCombustible/100)+Imprevistos+OtrosGastosFit;// preguntar imprevistos x 2
     this.Seguro= this.vlrDolares*1/100;
     let AlistamientoProveedor = parseFloat( this.fgValidador.controls["AlistamientoProveedor"].value);
     this.VlrTotalMcia= AlistamientoProveedor + this.Seguro + this.TotalFleteInt + this.vlrDolares;
@@ -214,6 +231,7 @@ GuardarCotizacion(){
     let PuestaMarcha= parseFloat( this.fgValidador.controls["PuestaMarcha"].value);   
     this.Financiamiento= ((this.TotalCIF+this.TotalImpuestos+this.TotalGastosNacionalizacion+PuestaMarcha+
       FleteLocal+AccesoriosLocales+this.ComisionBancaria)*FormaPago/100)/Cantidad;
+    
   let Observaciones=  this.fgValidador.controls["Observaciones"].value 
   this.Precio1=  Math.ceil((this.TotalCIF/this.Descuento1)+((this.TotalImpuestos-this.iva)+this.TotalGastosNacionalizacion+
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento));
@@ -344,6 +362,12 @@ PuestaEnMarcha(){
     console.log("El valor de ListaPuestaMarcha es:", this.ListaPuestaMarcha);
   }
 }
+/*formatearNumero(event: any) {
+  const input = event.target;
+  const valor = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Eliminar caracteres no numéricos excepto punto y guión
+  input.value = valor.toLocaleString('en-US');
+}*/
+
 }   
 
  

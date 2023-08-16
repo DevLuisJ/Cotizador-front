@@ -12,47 +12,38 @@
 <body>
   <div class="fondo">
   <div class="pre-carga"  *ngIf="isLoading">
-  <div class="preloader-wrapper big active">
-    <div class="spinner-layer spinner-blue-only">
-      <div class="circle-clipper left">
-        <div class="circle"></div>
-      </div><div class="gap-patch">
-        <div class="circle"></div>
-      </div><div class="circle-clipper right">
-        <div class="circle"></div>
-      </div>
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
     </div>
-  </div>
  </div>
   
   <form [formGroup]= "fgValidador" (ngSubmit)="GuardarEquipo()" class="form-register" *ngIf="!isLoading">
     
-    <h4 style="text-align: center;">Creacion de Equipo</h4><br>
+    <h4 style="text-align: center;">Creacion de Equipo</h4>
     <legend>Datos basicos</legend>
      <div class="Grupo-datosBasicos">
         <div class="row">
-          <div class="col-4">
-            <input formControlName="Referencia" class="controls" type="text" name="Referencia" id="Referencia"> 
-            <label for="Referencia">Referencia</label>                      
+          <div class="col-4">              
+            <input formControlName="Referencia" class="form-control" type="text"> 
+            <label for="Referencia" class="form-label">Referencia</label>                    
           </div>
           <div class="col-8"> 
-            <input formControlName="Descripcion"  class="controls" type="text" name="Descripcion" id="Descripcion" >
-            <label for="Descripcion" >Descripcion</label>    
-                        
+            <input formControlName="Descripcion"  class="form-control" type="text" id="Descripcion">
+            <label for="Descripcion" class="form-label">Descripcion</label>                         
           </div>        
         </div>
         <div class="row">
           <div class="col">
-            <input formControlName="Marca"  class="controls" type="text" name="Marca" id="Marca" >  
-            <label for="Marca">Marca</label>                      
+            <input formControlName="Marca"  class="form-control" type="text" id="Marca" >  
+            <label for="Marca" class="form-label">Marca</label>                      
           </div>
           <div class="col">
-            <input formControlName="PaisEquipo"  class="controls" type="text" name="PaisEquipo" id="PaisEquipo" >
-            <label for="PaisEquipo" >Pais de origen</label>                        
+            <input formControlName="PaisEquipo"  class="form-control" type="text" name="PaisEquipo" id="PaisEquipo" >
+            <label for="PaisEquipo" class="form-label">Pais de origen</label>                        
           </div>
           <div class="col">
-            <input formControlName="Proveedor" class="controls" type="text" name="Proveedor" id="Proveedor" >   
-            <label for="Proveedor">Proveedor</label>                     
+            <input formControlName="Proveedor" class="form-control" type="text" name="Proveedor" id="Proveedor" >   
+            <label for="Proveedor" class="form-label">Proveedor</label>                     
           </div>
         </div>
         <div class="row" >   
@@ -68,8 +59,8 @@
              <label for="Arancel">Arancel</label> 
           </div>         
             <div class="col">
-              <input formControlName="PosArancelaria" class="controls" type="text" name="PosArancelaria" id="PosArancelaria" >
-              <label for="PosArancelaria">Posicion Arancelaria</label>              
+              <input formControlName="PosArancelaria" class="form-control" type="text" name="PosArancelaria" id="PosArancelaria" >
+              <label for="PosArancelaria" class="form-label">Posicion Arancelaria</label>              
             </div>     
             <div class="col">               
                <select formControlName="esApilable" class="form-select">
@@ -82,23 +73,23 @@
 
       </div>
       <legend>Dimensiones y peso</legend>
-    <div class="Grupo-datosBasicos">
+    <div class="Grupo-Dimensiones">
       <div class="row">
         <div class="col">
-          <input formControlName="Anchura" class="controls" type="number" name="Anchura" id="Anchura" >
-          <label for="Anchura">Ancho</label>                 
+          <input formControlName="Anchura" class="form-control" type="number" name="Anchura" id="Anchura" >
+          <label for="Anchura" class="form-label">Ancho</label>                 
         </div>
         <div class="col">
-          <input formControlName="Altura" class="controls" type="number" name="Altura" id="Altura" >
-          <label for="Altura">Altura</label>          
+          <input formControlName="Altura" class="form-control" type="number" name="Altura" id="Altura" >
+          <label for="Altura"  class="form-label">Altura</label>          
         </div>
         <div class="col">
-          <input formControlName="Profundidad" class="controls" type="number" name="Profundidad" id="Profundidad" >
-          <label for="Profundidad">Profundidad</label>          
+          <input formControlName="Profundidad" class="form-control" type="number" name="Profundidad" id="Profundidad" >
+          <label for="Profundidad" class="form-label">Profundidad</label>          
         </div>
-        <div class="col-4">
-          <input formControlName="PesoReal" class="controls" type="number" name="PesoReal" id="PesoReal" >
-           <label for="PesoReal" style="text-align: left;">Peso Real</label>           
+        <div class="col">
+          <input formControlName="PesoReal" class="form-control" type="number" name="PesoReal" id="PesoReal" >
+           <label for="PesoReal" style="text-align: left;" class="form-label">Peso Real</label>           
         </div>
       </div>
     </div> 

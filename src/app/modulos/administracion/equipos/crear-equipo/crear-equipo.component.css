@@ -3,7 +3,7 @@
   background: rgb(52, 70, 105) ;
   color: white;
   padding: 30px;
- margin: auto;
+  margin: auto;
   border-radius: 4px;
   font-family: 'verdana';
   box-shadow: 7px 13px 37px #000;
@@ -11,13 +11,15 @@
 }
 .form-register,input{
   color: aliceblue;
+  background: rgb(52, 70, 105) ;
 }
 .Grupo-datosBasicos{
   border: solid 1px white;
-  padding: 10px;
+  padding: 20px;
 }
 .Grupo-Dimensiones{
   border: solid 1px white;
+  padding: 20px;
 }
 
 .pre-carga{
@@ -33,6 +35,6 @@
   justify-content: center;  
 }
 .form-select{
-  background-color: rgb(52, 70, 105) ;
+  background: rgb(52, 70, 105);
   color: aliceblue;
 }

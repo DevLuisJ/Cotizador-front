@@ -14,12 +14,9 @@
   color: aliceblue;
   background: rgb(64, 105, 52) ;
 }
-.Grupo-datosBasicos{
+.recuadro{
   border: solid 1px white;
-  padding: 10px;
-}
-.Grupo-Dimensiones{
-  border: solid 1px white;
+  padding: 20px;
 }
 
 .pre-carga{
