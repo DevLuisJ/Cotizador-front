@@ -1,7 +1,7 @@
 export class ModeloCotizacion{
     id? : String; 
     IdSiigo? : String;
-    Fecha? : String;
+    Fecha? : Date;
     Cliente? : String;
     IdUsuario? : String;    
     idEquipo? : String;

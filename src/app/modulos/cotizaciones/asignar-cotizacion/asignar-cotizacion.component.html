@@ -14,21 +14,22 @@
             <span class="visually-hidden">Cargando...</span>
         </div>
     </div>
-    <h2 style="text-align: center;">Cotizacion de Equipo</h2>
-       
-            
+    
+       <div class="container">
+      <h2 class="text-center mt-5">Cotizacion de Equipo</h2>      
                 <form class="form-buscar" (ngSubmit)="buscarEquipoPorReferencia()">                  
-                    <input class= "my-2 form-control" type="text" name="equipoBuscado" placeholder="Digite la referencia" [(ngModel)]="equipoBuscado">
-                    <label class="form-label" for="equipoBuscado"> Referencia</label><br>
-                    
-                   <div *ngIf="equipoEncontrado">                        
+                    <div class="mb-3">
+                        <input class= "my-2 form-control" type="text" name="equipoBuscado" placeholder="Digite la referencia" [(ngModel)]="equipoBuscado">
+                        <label class="form-label" for="equipoBuscado"> Referencia</label><br>
+                    </div>
+                   <div *ngIf="equipoEncontrado && mostrarFormulario">                        
                         <output style="border: solid 1px white; padding: 10px;">{{ equipoEncontrado.Descripcion }}</output><br>
                          <label class="form-label">Descripcion</label>                                    
                     </div>
                     <button class="btn btn-primary my-3" type="submit" name="action">Buscar</button>
-                      <form class="form-register"*ngIf="equipoEncontrado && !puestaMarchaFormulario" [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()" >
+                      <form class="form-register"*ngIf="equipoEncontrado && mostrarFormulario" [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()" >
             
-            <div class="row">
+            <div class="row row-cols-lg-auto g-3 align-items-center">
                 <div class="col-8">
                     <input formControlName="Cliente" class="form-control" type="text" name="Cliente" id="Cliente" >
                     <label for="Cliente">Cliente</label>
@@ -37,11 +38,7 @@
                     <input formControlName="IdSiigo" class="form-control" type="text" name="IdSiigo" id="IdSiigo" placeholder="Digite el consecutivo de Siigo" >
                     <label for="IdSiigo">Siigo No.</label>
                 </div> 
-                <!--div class="col mb-3" >
-                    <input formControlName="Fecha" class="form-control" type="date" name="Fecha" id="Fecha" >
-                    <label for="Fecha">Fecha</label>
-
-                </div-->
+                
             </div>
                     <div class="row">
                         <div class="col mb-3">
@@ -117,14 +114,51 @@
                         </div>
 
                     </div>  
-        
+        <div class="row">
+            <!--div class="col">
+                <button [disabled]="!fgValidador.valid" class="btn btn-primary mb-3" type="submit" 
+                    data-bs-toggle="modal" data-bs-target="#resultadoModal">Agregar</button-->  
+           
+            <div class="col">
                 <button [disabled]="!fgValidador.valid" class="btn btn-primary mb-3" type="submit">Agregar</button>  
-                
+            </div>
+            <div class="col">
+                <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#resultadoModal">Mostrar Resultados</button>
+            </div>
+            
+            <!--div class="col">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#resultadoModal">Mostrar Resultados</button>
+
+            </div-->
+        </div>       
                 
         </form>  
     </form> 
-
-            
+</div>
+      
+<!-- Ventana Modal >
+<div class="modal fade" id="resultadoModal" tabindex="-1" aria-labelledby="resultadoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="resultadoModalLabel">Detalle de la Cotizacion</h5>          
+          
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Cotizacion No. {{fgValidador.controls['IdSiigo'].value}}</p>
+        <p>Fecha: {{fgValidador.controls['Fecha'].value | date}}</p>
+          <p>Cliente: {{fgValidador.controls['Cliente'].value}}</p><br>
+          <p>Precio -45%: {{ Precio1 }}</p>
+          <p>Precio -40%: {{ Precio2 }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div-->
+  
           
                 
                   
@@ -292,7 +326,26 @@
             
             <button type="submit" class="btn btn-success">Success</button>
         </form>
-        
+    
+<div class="modal fade" id="resultadoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Cotizaciones por IdSiigo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+            
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 </body>
 
 </html>

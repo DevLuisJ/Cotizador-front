@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { CotizacionesRoutingModule } from './cotizaciones-routing.module';
@@ -23,6 +23,9 @@ import { BuscarCotizacionComponent } from './buscar-cotizacion/buscar-cotizacion
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
-  ]
+  ],
+  providers: [
+    DatePipe, 
+  ],
 })
 export class CotizacionesModule { }

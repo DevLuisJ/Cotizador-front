@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModeloCotizacion } from 'src/app/modelos/cotizacion.modelo';
 import { CotizacionService } from 'src/app/servicios/cotizacion.service';
-//import { DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
+import { SeguridadService } from 'src/app/servicios/seguridad.service';
 
 
 @Component({
@@ -12,12 +13,15 @@ import { CotizacionService } from 'src/app/servicios/cotizacion.service';
 export class BuscarCotizacionComponent implements OnInit{
   ListadoCotizacion: ModeloCotizacion[]=[];
   isLoading: boolean = false;
+  filtroUsuario: string = "";
   cotizacionBuscada: string= "";
   cotizacionEncontrada: ModeloCotizacion | undefined;
 
+
   constructor(
     private cotizacionServicio: CotizacionService,
-    //private datePipe: DatePipe
+    private seguridadServicio: SeguridadService,
+    private datePipe: DatePipe
     ){
       
   }
@@ -28,6 +32,9 @@ export class BuscarCotizacionComponent implements OnInit{
   }
 ObtenerListadoCotizacion(){
   this.isLoading=true;
+  this.filtroUsuario=this.seguridadServicio.datosUsuarioEnSesion.value.datos?.nombre + ' ' +
+    this.seguridadServicio.datosUsuarioEnSesion.value.datos?.apellidos;
+    
   this.cotizacionServicio.ObtenerRegistros().subscribe({
     next:(datos: ModeloCotizacion[])=>{
       this.ListadoCotizacion=datos;
@@ -40,4 +47,5 @@ ObtenerListadoCotizacion(){
     }
   })
 }
+
 }

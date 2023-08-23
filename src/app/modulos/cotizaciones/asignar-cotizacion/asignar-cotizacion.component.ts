@@ -8,6 +8,8 @@ import { ModeloEquipo } from 'src/app/modelos/equipo.modelo';
 import { EquipoService } from 'src/app/servicios/equipo.service';
 import { SeguridadService } from 'src/app/servicios/seguridad.service';
 //import { DatePipe } from '@angular/common';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 
 
 @Component({
@@ -19,14 +21,19 @@ export class AsignarCotizacionComponent implements OnInit{
 
   puestaMarchaFormGroup: FormGroup;
   
-  listadoRegistros: ModeloEquipo[] = []; 
+  listadoRegistros: ModeloEquipo[] = [];
+  ListadoCotizacion: ModeloCotizacion[]=[]; 
   selectedItem: any = {};
   vlrDolares: number =0.00;//variable para pasar a dolares el precio de compra
   isLoading: boolean = false;// varialble para el mensaje de carga
   equipoBuscado: string = "";
   equipoEncontrado: ModeloEquipo | undefined;
   puestaMarchaFormulario = false; // Variable para controlar la visualización del segundo formulario
-  inputTextValue: string = '';
+  inputTextValue: string = '';  
+  mostrarFormulario: boolean = true;
+  cotizacionBuscada: string= "";
+  cotizacionesFiltradas: ModeloCotizacion[] = [];
+
 
   //liquidacion de importacion v6.0
   CargoCombustible: number = 0;
@@ -127,7 +134,8 @@ constructor(
 
 
   ngOnInit( ): void {
-    this.ObtenerListadoEquipos();     
+    this.ObtenerListadoEquipos(); 
+    this.ObtenerListadoCotizacion();    
   }
 // Función para alternar la visualización del segundo formulario
 toggleSegundoFormulario() {
@@ -138,15 +146,6 @@ GuardarCotizacion(){
     
     let Cliente = this.fgValidador.controls["Cliente"].value; 
     let Fecha = this.fgValidador.controls["Fecha"].value;
-    // Convertir a objeto de fecha
-      //const fechaHoraObjeto = new Date(Fecha);
-    // Formato deseado para la fecha y hora
-      //const formatoDeseado = 'yyyy-MM-dd HH:mm';
-    // Formatear la fecha y hora
-    //if (fechaHoraObjeto && formatoDeseado) {
-      //let Fecha = this.datePipe.transform(fechaHoraObjeto, formatoDeseado);
-    //}
-      
     let IdSiigo = this.fgValidador.controls["IdSiigo"].value;
     let idEquipo = this.equipoEncontrado?.Referencia;
     let IdUsuario = this.seguridadServicio.datosUsuarioEnSesion.value.datos?.nombre + ' ' +
@@ -314,32 +313,36 @@ GuardarCotizacion(){
   c.PrecioCant6=this.PrecioCant6;
   
   this.isLoading = true;
-  this.servicioCotizacion.CrearCotizacion(c).subscribe((datos:ModeloCotizacion) =>{
+  this.servicioCotizacion.CrearCotizacion(c).subscribe((datos:ModeloCotizacion) =>{    
+    this.mostrarFormulario = false;
     this.fgValidador.reset();
-    this.router.navigate(["/cotizaciones/asignar-cotizacion"]);  
+    //this.router.navigate(["/cotizaciones/buscar-cotizacion"]);  
     this.isLoading = false;  
     alert("Cotizacion almacenada correctamente");
 },(error: any) => {  
   alert("Error almacenando la cotizacion");
   this.isLoading = false;
-})
-    
+})    
   }
 
-buscarEquipoPorReferencia() {
-  this.isLoading = true;
-  console.log("Equipo buscado:" + this.equipoBuscado);
-  this.equipoEncontrado = this.listadoRegistros.find(objeto => objeto.Referencia === this.equipoBuscado);
-  if (this.equipoEncontrado) {
-    this.isLoading = false;
-    console.log("Objeto encontrado:");
-    console.log(this.equipoEncontrado);
-  } else {
-    this.isLoading = false;
-    console.log("Objeto no encontrado");    
-    alert("Equipo no encontrado");
+  buscarEquipoPorReferencia() {
+    this.mostrarFormulario = true;
+    this.isLoading = true;
+    console.log("Equipo buscado:" + this.equipoBuscado);
+    this.equipoEncontrado = this.listadoRegistros.find(objeto => objeto.Referencia === this.equipoBuscado);
+    if (this.equipoEncontrado) {      
+      this.isLoading = false;
+      console.log("Objeto encontrado:");
+      console.log(this.equipoEncontrado);
+    } else {      
+      this.isLoading = false;
+      console.log("Objeto no encontrado");    
+      alert("Equipo no encontrado");
+    }
   }
-}
+
+  
+  
 ObtenerListadoEquipos(){
   this.isLoading = true;
   this.equipoServicio.ObtenerRegistros().subscribe({
@@ -353,6 +356,53 @@ ObtenerListadoEquipos(){
     }
   });
 }
+ObtenerListadoCotizacion(){
+  this.isLoading=true;
+  this.servicioCotizacion.ObtenerRegistros().subscribe({
+    next:(datos: ModeloCotizacion[])=>{
+      this.ListadoCotizacion=datos;      
+      this.isLoading=false;
+    },
+    error:(e)=>{
+      console.log(e);
+      this.isLoading=false
+    }
+  })
+}
+
+buscarCotizacionPorIdSiigo() {
+  try {
+    const idSiigo = this.fgValidador.controls["IdSiigo"].value;
+    this.isLoading = true;
+
+    const datos = this.servicioCotizacion.ObtenerRegistrosPorIdSiigo(idSiigo).toPromise();
+    if (datos !== undefined) {
+      if (Array.isArray(datos)) {
+        this.ListadoCotizacion = datos;
+        console.log("lista de cotizacion por id"+ this.ListadoCotizacion)
+      } 
+    } else {
+      this.ListadoCotizacion = [];
+      console.log("lista de cotizacion por id"+ this.ListadoCotizacion)
+    }
+  } catch (e) {
+    console.log(e);
+  } finally {
+    this.isLoading = false;
+  }
+}
+
+
+
+
+
+// Función para filtrar cotizaciones por IdSiigo
+filtrarCotizacionesPorIdSiigo(idSiigo: string) {
+  this.cotizacionesFiltradas = this.ListadoCotizacion.filter(cotizacion => cotizacion.IdSiigo === idSiigo);
+}
+
+
+
 PuestaEnMarcha(){
   if(this.puestaMarchaFormGroup.valid){
     //const nuevoDato = this.puestaMarchaFormGroup.value;

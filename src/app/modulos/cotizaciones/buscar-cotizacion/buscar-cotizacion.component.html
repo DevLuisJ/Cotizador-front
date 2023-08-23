@@ -21,6 +21,8 @@
      <div class="table-responsive">
     <table class="table table-success table-bordered ">
         <thead class="thead-light sticky-top table-light">
+            <!--input type="text" class="form-control" placeholder="Filtrar por Id Siigo" [(ngModel)]="filtroIdUsiario"-->
+
             <tr>
                 <th>Id Siigo</th>
                 <th>Fecha</th>
@@ -44,24 +46,26 @@
         </thead>
         <tbody>
             <tr *ngFor=" let c of ListadoCotizacion">
-                <td> {{c.IdSiigo}} </td>
-                <td> {{c.Fecha}} </td>
-                <td> {{c.Cliente}} </td>
-                <td> {{c.IdUsuario}} </td>
-                <td> {{c.idEquipo}} </td>
-                <td style="text-align: center;"> {{c.Cantidad}} </td>
-                <td> {{c.Precio1 | number}} </td>
-                <td> {{c.Precio2 | number}} </td>
-                <td> {{c.Precio3 | number}} </td>
-                <td> {{c.Precio4 | number}} </td>
-                <td> {{c.Precio5 | number}} </td>
-                <td> {{c.Precio6 | number}} </td>
-                <td> {{c.PrecioCant1 | number}} </td>
-                <td> {{c.PrecioCant2 | number}} </td>
-                <td> {{c.PrecioCant3 | number}} </td>
-                <td> {{c.PrecioCant4 | number}} </td>
-                <td> {{c.PrecioCant5 | number}} </td>
-                <td> {{c.PrecioCant6 | number}} </td>                
+                <ng-container *ngIf="c.IdUsuario?.includes(filtroUsuario)">
+                    <td> {{c.IdSiigo}} </td>
+                    <td> {{c.Fecha | date: 'yyyy/MM/dd - HH:mm'}} </td>
+                    <td> {{c.Cliente}} </td>
+                    <td> {{c.IdUsuario}} </td>
+                    <td> {{c.idEquipo}} </td>
+                    <td style="text-align: center;"> {{c.Cantidad}} </td>
+                    <td> {{c.Precio1 | number}} </td>
+                    <td> {{c.Precio2 | number}} </td>
+                    <td> {{c.Precio3 | number}} </td>
+                    <td> {{c.Precio4 | number}} </td>
+                    <td> {{c.Precio5 | number}} </td>
+                    <td> {{c.Precio6 | number}} </td>
+                    <td> {{c.PrecioCant1 | number}} </td>
+                    <td> {{c.PrecioCant2 | number}} </td>
+                    <td> {{c.PrecioCant3 | number}} </td>
+                    <td> {{c.PrecioCant4 | number}} </td>
+                    <td> {{c.PrecioCant5 | number}} </td>
+                    <td> {{c.PrecioCant6 | number}} </td>  
+                </ng-container>                  
             </tr>
         </tbody>
       </table>

@@ -29,7 +29,10 @@ export class CotizacionService {
     return this.http.get<ModeloCotizacion>(`${this.url}/Cotizaciones/${id}`);
     
   }
-
+  ObtenerRegistrosPorIdSiigo(idSiigo:String): Observable<ModeloCotizacion>{
+    return this.http.get<ModeloCotizacion>(`${this.url}/Cotizaciones/${idSiigo}`);
+    
+  }
   
 
   CrearCotizacion(cotizacion: ModeloCotizacion): Observable<ModeloCotizacion>{
