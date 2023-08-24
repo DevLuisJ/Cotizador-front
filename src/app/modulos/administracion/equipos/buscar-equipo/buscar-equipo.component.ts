@@ -14,6 +14,7 @@ export class BuscarEquipoComponent implements OnInit{
   equipoEncontrado: ModeloEquipo | undefined;
   mostrarEquipo: boolean=false;//bandera para mostrar/ocultar el equipo encontrado
   listaEquipos:boolean=false; //bandera para mostrar/ocultar listado de equipos
+  filtroEquipo: string = "";
 
   constructor(private equipoServicio: EquipoService){}
   ngOnInit(): void {

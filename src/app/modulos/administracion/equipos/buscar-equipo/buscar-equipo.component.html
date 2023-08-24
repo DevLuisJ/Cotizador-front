@@ -15,86 +15,29 @@
         </div>
     
             
-        <form (ngSubmit)="buscarEquipoPorReferencia()" *ngIf="!isLoading">
+        <form  *ngIf="!isLoading">
             <h5 style="text-align: center;">Equipos Disponibles</h5>   <br>                  
-        <div class="row">        
-              <input id="Referencia" class="form-control" type="text" style="width: 50%; margin: auto;" name="equipoBuscado" placeholder="Busqueda por Referencia" [(ngModel)]="equipoBuscado">       
-        </div><br>
-        <div class="row g-3" style="text-align: center;">
-            <div class="col">
-                <input class="btn btn-success" type="submit" [disabled]="equipoBuscado === ''" value="Buscar" >
-            </div>
-            <div class="col">
-                <input class="btn btn-success" routerLink="/administracion/crear-equipo" type="button" value="Nuevo"> 
-            </div>
-            <div class="col">
-                <input class="btn btn-secondary" type="button" (click)="listaEquipos=!listaEquipos; mostrarEquipo=mostrarEquipo;" value="Ver Listado"> 
-            </div>
-            <div class="col">
-                <input class="btn btn-secondary" type="button" (click)="limpiarFormulario()" value="Limpiar"> 
-            </div>
-        </div>          
-        </form>
-        
-        
-        <div class="table-responsive" *ngIf="!isLoading && mostrarEquipo">   
-            <legend>Equipo encontrado:</legend>          
-                <table class="table table-success table-bordered">
-                    <thead>               
-                        <tr style="text-align: center;">                    
-                            
-                            <th>Descripcion</th>
-                            <th>Marca</th>
-                            <th>Pais Origen</th>
-                            <th>Altura</th>
-                            <th>Anchura</th>
-                            <th>Profundidad</th>
-                            <th>Peso Volumetrico</th>
-                            <th>Peso Real</th>
-                            <th>Peso Facturado</th>
-                            <th>Arancel</th> 
-                            <th>Posicion Arancelaria</th>
-                            <th>Proveedor</th>
-                            <th>Apilable</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>                                       
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngIf="equipoEncontrado" class="align-middle">                
-                            
-                            <td>{{equipoEncontrado.Descripcion}}</td>
-                            <td>{{equipoEncontrado.Marca}}</td>
-                            <td>{{equipoEncontrado.PaisEquipo}}</td>
-                            <td style="text-align: center;">{{equipoEncontrado.Altura}}</td>
-                            <td style="text-align: center;">{{equipoEncontrado.Anchura}}</td>
-                            <td style="text-align: center;">{{equipoEncontrado.Profundidad}}</td>
-                            <td style="text-align: center;">{{equipoEncontrado.PesoVolumetrico}}</td>
-                            <td style="text-align: center;">{{equipoEncontrado.PesoReal}}</td>
-                            <td style="text-align: center;">{{equipoEncontrado.PesoFacturado}}</td>
-                            <td style="text-align: center;">{{equipoEncontrado.Arancel}}</td>
-                            <td>{{equipoEncontrado.PosArancelaria}}</td>
-                            <td>{{equipoEncontrado.Proveedor}}</td>
-                            <td style="text-align: center;">{{equipoEncontrado.esApilable}}</td>
-                            <td>
-                                <button type="button" routerLink="/administracion/editar-equipo/{{equipoEncontrado.id}}" class="btn btn-success">Editar</button>
-                            </td>
-                            <td>
-                                <button type="button" routerLink="/administracion/eliminar-equipo/{{equipoEncontrado.id}}" class="btn btn-danger">Eliminar</button>
-                                
-                            </td>
-                        </tr>
-                        
-                    </tbody>
-                </table>  
-            </div>
+                <div class="row">  
+                    <div class="col">      
+                        <input id="Referencia" class="form-control" type="text"  name="equipoBuscado" placeholder="Digite la Referencia (distingue letras MAYUSCULAS)" 
+                            [(ngModel)]="filtroEquipo">       
+                    </div>   
+                    
+                    <div class="col">
+                        <input class="btn btn-success" routerLink="/administracion/crear-equipo" type="button" value="Nuevo Equipo"> 
+                    </div>
+                    
+                </div>   
+                  
+        </form>       
                    
      
 
-<div class="table-responsive" *ngIf="listaEquipos">
+<div class="table-responsive">
     <legend style="text-align: center;">Listado de Equipos</legend> 
     <table class="table table-success table-bordered">
         <thead class="sticky-top align-middle" style="text-align: center;">   
+                 
                 <tr>       
                     <th>Referencia</th>
                     <th>Descripcion</th>
@@ -116,6 +59,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let e of listadoRegistros" class="align-middle">
+                <ng-container *ngIf="e.Referencia?.includes(filtroEquipo)">  
                 <td>{{e.Referencia}}</td>
                 <td>{{e.Descripcion}}</td>
                 <td>{{e.Marca}}</td>
@@ -137,8 +81,9 @@
                     <a routerLink="/administracion/eliminar-equipo/{{e.id}}" class="btn btn-danger">Eliminar</a>
                     
                 </td>
+            </ng-container>
             </tr>
-    
+            
         </tbody>
     </table> 
 </div>
