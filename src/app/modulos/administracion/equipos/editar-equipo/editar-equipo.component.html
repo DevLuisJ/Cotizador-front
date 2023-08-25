@@ -17,86 +17,86 @@
     </div>
  </div>
   
-  <form [formGroup]= "fgValidador" (ngSubmit)="EditarEquipo()" class="form-register" *ngIf="!isLoading">
+ <form [formGroup]= "fgValidador" (ngSubmit)="EditarEquipo()" class="form-register" *ngIf="!isLoading">
     
-    <h4 style="text-align: center;">Edicion de Equipo</h4>
-    <legend>Datos basicos</legend>
-     <div class="recuadro">
-        <div class="row">
-          <div class="col-4">              
-            <input formControlName="Referencia" class="form-control" type="text"> 
-            <label for="Referencia" class="form-label">Referencia</label>                    
-          </div>
-          <div class="col-8"> 
-            <input formControlName="Descripcion"  class="form-control" type="text" id="Descripcion">
-            <label for="Descripcion" class="form-label">Descripcion</label>                         
-          </div>        
+  <h4 style="text-align: center;">Edicion de Equipo</h4>
+  <legend>Datos basicos</legend>
+   <div class="Grupo-datosBasicos">
+      <div class="row">
+        <div class="col-4">
+          <label for="Referencia" class="form-label">Referencia</label>               
+          <input formControlName="Referencia" class="form-control" type="text">                                
         </div>
-        <div class="row">
-          <div class="col">
-            <input formControlName="Marca"  class="form-control" type="text" id="Marca" >  
-            <label for="Marca" class="form-label">Marca</label>                      
-          </div>
-          <div class="col">
-            <input formControlName="PaisEquipo"  class="form-control" type="text" name="PaisEquipo" id="PaisEquipo" >
-            <label for="PaisEquipo" class="form-label">Pais de origen</label>                        
-          </div>
-          <div class="col">
-            <input formControlName="Proveedor" class="form-control" type="text" name="Proveedor" id="Proveedor" >   
-            <label for="Proveedor" class="form-label">Proveedor</label>                     
-          </div>
-        </div>
-        <div class="row" >   
-          <div class="col">            
-            <select formControlName="Arancel" class="form-select">
-                <option value="0">0</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="Courrier">Courrier</option> 
-            </select>
-             <label for="Arancel">Arancel</label> 
-          </div>         
-            <div class="col">
-              <input formControlName="PosArancelaria" class="form-control" type="text" name="PosArancelaria" id="PosArancelaria" >
-              <label for="PosArancelaria" class="form-label">Posicion Arancelaria</label>              
-            </div>     
-            <div class="col">               
-               <select formControlName="esApilable" class="form-select">
-                 <option value="SI">SI</option>
-                 <option value="NO">NO</option>                     
-               </select>
-               <label for="esApilable">Es apilable?</label>                   
-            </div>            
-          </div>
-
-      </div>
-      <legend>Dimensiones y peso</legend>
-    <div class="recuadro">
+        <div class="col-8"> 
+          <label for="Descripcion" class="form-label">Descripcion</label>
+          <input formControlName="Descripcion"  class="form-control" type="text" id="Descripcion">                                     
+        </div>        
+      </div><br>
       <div class="row">
         <div class="col">
-          <input formControlName="Anchura" class="form-control" type="number" name="Anchura" id="Anchura" >
-          <label for="Anchura" class="form-label">Ancho</label>                 
+          <label for="Marca" class="form-label">Marca</label>  
+          <input formControlName="Marca"  class="form-control" type="text" id="Marca" >                                  
         </div>
         <div class="col">
-          <input formControlName="Altura" class="form-control" type="number" name="Altura" id="Altura" >
-          <label for="Altura"  class="form-label">Altura</label>          
+          <label for="PaisEquipo" class="form-label">Pais de origen</label>  
+          <input formControlName="PaisEquipo"  class="form-control" type="text" name="PaisEquipo" id="PaisEquipo" >                                  
         </div>
         <div class="col">
-          <input formControlName="Profundidad" class="form-control" type="number" name="Profundidad" id="Profundidad" >
-          <label for="Profundidad" class="form-label">Profundidad</label>          
+          <label for="Proveedor" class="form-label">Proveedor</label> 
+          <input formControlName="Proveedor" class="form-control" type="text" name="Proveedor" id="Proveedor" >                                 
         </div>
-        <div class="col">
-          <input formControlName="PesoReal" class="form-control" type="number" name="PesoReal" id="PesoReal" >
-           <label for="PesoReal" style="text-align: left;" class="form-label">Peso Real</label>           
+      </div><br>
+      <div class="row" >   
+        <div class="col"> 
+             <label for="Arancel">Arancel</label>         
+          <select formControlName="Arancel" class="form-select">
+              <option value="0">0</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+              <option value="Courrier">Courrier</option> 
+          </select>             
+        </div>         
+          <div class="col">
+            <label for="PosArancelaria" class="form-label">Posicion Arancelaria</label>
+            <input formControlName="PosArancelaria" class="form-control" type="text" name="PosArancelaria" id="PosArancelaria" >                            
+          </div>     
+          <div class="col">  
+              <label for="esApilable">Es apilable?</label>           
+             <select formControlName="esApilable" class="form-select">
+               <option value="SI">SI</option>
+               <option value="NO">NO</option>                     
+             </select>                                  
+          </div>            
         </div>
+
+    </div>
+    <legend>Dimensiones y peso</legend>
+  <div class="Grupo-Dimensiones">
+    <div class="row">
+      <div class="col">
+        <label for="Anchura" class="form-label">Ancho</label>
+        <input formControlName="Anchura" class="form-control" type="number" name="Anchura" id="Anchura" >                           
       </div>
-    </div> 
+      <div class="col">
+        <label for="Altura"  class="form-label">Altura</label>  
+        <input formControlName="Altura" class="form-control" type="number" name="Altura" id="Altura" >                  
+      </div>
+      <div class="col">
+        <label for="Profundidad" class="form-label">Profundidad</label>
+        <input formControlName="Profundidad" class="form-control" type="number" name="Profundidad" id="Profundidad" >                    
+      </div>
+      <div class="col">
+        <label for="PesoReal" style="text-align: left;" class="form-label">Peso Real</label>
+        <input formControlName="PesoReal" class="form-control" type="number" name="PesoReal" id="PesoReal" >                      
+      </div>
+    </div>
+  </div> 
 <br>
 <br>
-    <button [disabled]="!fgValidador.valid" class="btn btn-primary" type="submit"> EDITAR EQUIPO</button>    
-  </form> 
+  <button [disabled]="!fgValidador.valid" class="btn btn-primary" type="submit"> EDITAR EQUIPO</button>    
+</form> 
 </div> 
 </body>
 </html>

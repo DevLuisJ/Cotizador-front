@@ -12,9 +12,7 @@
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div>         
-        </div>
-    
-            
+        </div>            
         <form  *ngIf="!isLoading">
             <h5 style="text-align: center;">Equipos Disponibles</h5>   <br>                  
                 <div class="row">  
@@ -29,16 +27,13 @@
                     
                 </div>   
                   
-        </form>       
-                   
-     
-
-<div class="table-responsive">
+        </form>         
     <legend style="text-align: center;">Listado de Equipos</legend> 
-    <table class="table table-success table-bordered">
-        <thead class="sticky-top align-middle" style="text-align: center;">   
+   
+    <table class="table table-success table-bordered table-sm ">       
+        <thead class="sticky-top table-hover">   
                  
-                <tr>       
+                <tr class="table align-middle" style="background-color: #17a2b8; text-align: center;">                          
                     <th>Referencia</th>
                     <th>Descripcion</th>
                     <th>Marca</th>
@@ -54,9 +49,10 @@
                     <th>Proveedor</th>
                     <th>Apilable</th>
                     <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
+                    <th>Eliminar</th>                    
+                </tr>            
         </thead>
+    
         <tbody>
             <tr *ngFor="let e of listadoRegistros" class="align-middle">
                 <ng-container *ngIf="e.Referencia?.includes(filtroEquipo)">  
@@ -86,7 +82,7 @@
             
         </tbody>
     </table> 
-</div>
+
 
 </body>
 </html>

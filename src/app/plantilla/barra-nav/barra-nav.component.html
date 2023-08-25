@@ -1,39 +1,3 @@
-<!--mat-toolbar class="custom-toolbar" >
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <div class="nav-wrapper">    
-    <button mat-icon-button class="sidenav-trigger" aria-label="Toggle menu" [matMenuTriggerFor]="mobileMenu">
-      <img src="/assets/Imagenes/logo-ancoltec.png" width="90" height="60">
-      
-    </button>  
-   
-   <mat-icon>menu</mat-icon>
-        
-      <ul class="right hide-on-med-and-down"> 
-        
-        <a routerLink="/" class="brand-logo" *ngIf="seInicioSesion">INICIO</a>    
-        <li *ngIf="seInicioSesion"><a routerLink="/cotizaciones/buscar-cotizacion">Cotizaciones</a></li>
-        <li *ngIf="seInicioSesion"><a routerLink="/administracion/buscar-equipo">Equipos</a></li>
-        <li *ngIf="seInicioSesion"><a routerLink="/cotizaciones/asignar-cotizacion">Cotizar</a></li>
-        <li *ngIf="seInicioSesion"><a routerLink="/seguridad/cerrar-sesion">Cerrar sesion</a></li>
-        <li *ngIf="!seInicioSesion"><a routerLink="/seguridad/identificacion">Iniciar sesion</a></li>
-      </ul>
-  </div>
-  
-</mat-toolbar>
-
-<mat-menu #mobileMenu="matMenu">
-
-
-  <a routerLink="/" class="brand-logo" *ngIf="seInicioSesion" >INICIO</a>
-  <button mat-menu-item *ngIf="seInicioSesion" routerLink="/administracion/usuarios">Usuarios</button-->
-  <!--button mat-menu-item *ngIf="!seInicioSesion" routerLink="/administracion/crear-usuario">Registrarse</button>
-  <button mat-menu-item *ngIf="seInicioSesion" routerLink="/administracion/buscar-equipo">Equipos</button>
-  <button mat-menu-item *ngIf="seInicioSesion" routerLink="/cotizaciones/asignar-cotizacion">Cotizar</button>
-  <button mat-menu-item *ngIf="seInicioSesion" routerLink="/seguridad/cerrar-sesion">Cerrar sesión</button>
-  <button mat-menu-item *ngIf="!seInicioSesion" routerLink="/seguridad/identificacion">Iniciar sesión</button>
-</mat-menu-->
- 
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   
   <div class="container-fluid">

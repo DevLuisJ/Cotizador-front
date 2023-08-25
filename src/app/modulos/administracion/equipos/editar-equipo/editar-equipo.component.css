@@ -14,11 +14,6 @@
   color: aliceblue;
   background: rgb(64, 105, 52) ;
 }
-.recuadro{
-  border: solid 1px white;
-  padding: 20px;
-}
-
 .pre-carga{
   position: fixed;
   top: 0;
@@ -34,4 +29,12 @@
 .form-select{
   background: rgb(64, 105, 52) ;
   color: aliceblue;
+}
+.Grupo-datosBasicos{
+  border: solid 1px white;
+  padding: 20px;
+}
+.Grupo-Dimensiones{
+  border: solid 1px white;
+  padding: 20px;
 }

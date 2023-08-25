@@ -17,103 +17,108 @@
     
        <div class="container">
       <h2 class="text-center mt-5">Cotizacion de Equipo</h2>      
-                <form class="form-buscar" (ngSubmit)="buscarEquipoPorReferencia()">                  
+        <form class="form-buscar" (ngSubmit)="buscarEquipoPorReferencia()">                  
                     <div class="mb-3">
-                        <input class= "my-2 form-control" type="text" name="equipoBuscado" placeholder="Digite la referencia" [(ngModel)]="equipoBuscado">
-                        <label class="form-label" for="equipoBuscado"> Referencia</label><br>
+                        <label class="form-label" for="equipoBuscado"> Referencia</label>
+                        <input class= "my-2 form-control" type="text" name="equipoBuscado" placeholder="Digite la referencia" [(ngModel)]="equipoBuscado"><br>
+                        
                     </div>
-                   <div *ngIf="equipoEncontrado && mostrarFormulario">                        
-                        <output style="border: solid 1px white; padding: 10px;">{{ equipoEncontrado.Descripcion }}</output><br>
-                         <label class="form-label">Descripcion</label>                                    
+                   <div *ngIf="equipoEncontrado && mostrarFormulario"> 
+                        <label class="form-label">Descripcion</label> <br>                   
+                        <output style="border: solid 1px white; padding: 10px;">{{ equipoEncontrado.Descripcion }}</output>
+                                                            
                     </div>
                     <button class="btn btn-primary my-3" type="submit" name="action">Buscar</button>
-                      <form class="form-register"*ngIf="equipoEncontrado && mostrarFormulario" [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()" >
+            <form class="form-register"*ngIf="equipoEncontrado && mostrarFormulario" [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()" >
             
             <div class="row row-cols-lg-auto g-3 align-items-center">
                 <div class="col-8">
-                    <input formControlName="Cliente" class="form-control" type="text" name="Cliente" id="Cliente" >
                     <label for="Cliente">Cliente</label>
+                    <input formControlName="Cliente" class="form-control" type="text" name="Cliente" id="Cliente" >                    
                 </div>
                 <div class="col-4">
-                    <input formControlName="IdSiigo" class="form-control" type="text" name="IdSiigo" id="IdSiigo" placeholder="Digite el consecutivo de Siigo" >
                     <label for="IdSiigo">Siigo No.</label>
+                    <input formControlName="IdSiigo" class="form-control" type="text" name="IdSiigo" id="IdSiigo" placeholder="Digite el consecutivo de Siigo">                    
                 </div> 
                 
-            </div>
+            </div><br>
                     <div class="row">
-                        <div class="col mb-3">
-                          <input formControlName="Cantidad" class="form-control" type="number" name="Cantidad" id="Cantidad" >
-                    <label for="Cantidad">Cantidad</label>                              
+                        <div class="col ">
+                            <label for="Cantidad">Cantidad</label> <br>  
+                            <input formControlName="Cantidad" class="form-control" type="number" name="Cantidad" id="Cantidad" >                                              
                         </div>
                             
-                        <div class="col mb-3">
-                            <input formControlName="PrecioCompra" class="form-control"type="number">                                                            
-                            <label for="PrecioCompra" class="form-label">Precio de compra</label>
+                        <div class="col">
+                            <label for="PrecioCompra" >Precio de compra</label>
+                            <input formControlName="PrecioCompra" class="form-control"type="number" name="PrecioCompra" id="PrecioCompra">                           
                         </div> 
-                        <div class="col mb-3">
+                        <div class="col">
+                            <label for="Moneda">Moneda</label>
                             <select formControlName="Moneda" class="form-select">
                                 <option value="USD">USD</option>
                                 <option value="EUR">EUR</option>
                                 <option value="SEK">SEK</option>
-                              </select>
-                            <label for="Moneda">Moneda</label>
+                              </select>                            
                         </div> 
-                    </div>
+                    </div><br>
                     <div class="row">
                         
-                        <div class="col mb-3">   
-                            <input formControlName="FleteOrigenDestino" class="form-control" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any">
-                            <label for="FleteOrigenDestino">Flete Origen-Destino</label>                            
+                        <div class="col"> 
+                            <label for="FleteOrigenDestino">Flete Origen-Destino</label>     
+                            <input formControlName="FleteOrigenDestino" class="form-control" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any">                                                     
                         </div>
-                        <div class="col mb-3">   
-                            <input formControlName="CargoCombustible" class="form-control" name="CargoCombustible" id="CargoCombustible" type="number" step="any"/>%
-                            <label for="CargoCombustible">Cargos de Combustible</label>                            
+                        <div class="col">   
+                            <label for="CargoCombustible">Cargos de Combustible %</label>
+                            <input formControlName="CargoCombustible" class="form-control" name="CargoCombustible" id="CargoCombustible" type="number" step="any"/>                                                        
                         </div>
-                        <div class="col mb-3">   
-                            <input formControlName="AlistamientoProveedor" class="form-control" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any"/>
-                            <label for="AlistamientoProveedor">Alistamiento Proveedor</label>                            
+                        <div class="col">
+                            <label for="AlistamientoProveedor">Alistamiento Proveedor</label>   
+                            <input formControlName="AlistamientoProveedor" class="form-control" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any"/>                                                        
                         </div>
-                    </div>
+                    </div><br>
                     <div class="row">
-                        <div class="col mb-3">
-                            <input formControlName="TasaCambio" class="form-control" name="TasaCambio" id="TasaCambio" type="number" step="any"/>
+                        <div class="col">
                             <label for="TasaCambio">Tasa de cambio</label> 
+                            <input formControlName="TasaCambio" class="form-control" name="TasaCambio" id="TasaCambio" type="number" step="any"/>                            
                         </div>
-                        <div class="col mb-3">
-                            <input formControlName="FleteLocal" class="form-control" name="FleteLocal" id="FleteLocal" type="number" step="any"/>
-                            <label for="FleteLocal">Flete Local</label> 
+                        <div class="col">
+                            <label for="FleteLocal">Flete Local</label>
+                            <input formControlName="FleteLocal" class="form-control" name="FleteLocal" id="FleteLocal" type="number" step="any"/>                             
                         </div>
-                        <div class="col mb-3">
-                            <input formControlName="AccesoriosLocales" class="form-control" name="AccesoriosLocales" id="AccesoriosLocales" type="number" step="any"/>
+                        <div class="col">
                             <label for="AccesoriosLocales">Accesorios Locales</label> 
+                            <input formControlName="AccesoriosLocales" class="form-control" name="AccesoriosLocales" id="AccesoriosLocales" type="number" step="any"/>                            
                         </div>
 
-                    </div> 
+                    </div> <br>
                     <div class="row">
-                        <div class="col-4 mb-3">
+                        <div class="col">
+                            <label for="FormaPago">Forma de pago</label>  
                             <select formControlName="FormaPago" class="form-select" type="number" step="any">                                
                                 <option value=3>3%</option>
                                 <option value=6>6%</option>
                                 <option value=9>9%</option>
                                 <option value=12>12%</option>
                             </select>
-                            <label for="FormaPago">Forma de pago</label>         
+                                   
                        </div>
                         
-                        <div class="col-4 mb-3">
+                        <div class="col">
+                            <label for="PuestaMarcha">Puesta en Marcha</label>
                             <input formControlName="PuestaMarcha" class="form-control" name="PuestaMarcha" id="PuestaMarcha" type="number" step="any"/>
-                              <label for="PuestaMarcha">Puesta en Marcha</label>
+                              
                             <!--button id="BtnPuestaMarcha" (click)="toggleSegundoFormulario()" type="button" class="btn btn-info">Puesta en Marcha</button-->
                         </div>
                            
-                    </div>  
+                    </div>  <br>
                     <div class="row">
                         <div class="col mb-3">
+                            <label for="Observaciones">Observaciones</label>
                             <input formControlName="Observaciones" class="form-control" name="Observaciones" id="Observaciones" type="text" />
-                            <label for="Observaciones">Observaciones</label>    
+                                
                         </div>
 
-                    </div>  
+                    </div>  <br>
         <div class="row">
             <!--div class="col">
                 <button [disabled]="!fgValidador.valid" class="btn btn-primary mb-3" type="submit" 
@@ -130,8 +135,8 @@
                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#resultadoModal">Mostrar Resultados</button>
 
             </div-->
-        </div>       
-                
+        </div>
+                     
         </form>  
     </form> 
 </div>
@@ -254,7 +259,7 @@
                 </div>
                 <div class="col-3">
                     <label for="value">Valor</label>
-                    <input formControlName="value" id="Item1" type="number" step="any" >
+                    <input formControlName="value" id="Item1" type="number" step="any">
                 </div>
             </div>
             <div class="row">
