@@ -8,45 +8,37 @@
        
     <title>Cotizar</title>
 </head>
-<body>
-    <div class="pre-carga"  *ngIf="isLoading">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Cargando...</span>
-        </div>
-    </div>
-    
-       <div class="container">
-      <h2 class="text-center mt-5">Cotizacion de Equipo</h2>      
-        <form class="form-buscar" (ngSubmit)="buscarEquipoPorReferencia()">                  
-                    <div class="mb-3">
-                        <label class="form-label" for="equipoBuscado"> Referencia</label>
-                        <input class= "my-2 form-control" type="text" name="equipoBuscado" placeholder="Digite la referencia" [(ngModel)]="equipoBuscado"><br>
-                        
-                    </div>
-                   <div *ngIf="equipoEncontrado && mostrarFormulario"> 
-                        <label class="form-label">Descripcion</label> <br>                   
-                        <output style="border: solid 1px white; padding: 10px;">{{ equipoEncontrado.Descripcion }}</output>
-                                                            
-                    </div>
-                    <button class="btn btn-primary my-3" type="submit" name="action">Buscar</button>
-            <form class="form-register"*ngIf="equipoEncontrado && mostrarFormulario" [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()" >
-            
+<body>                    
+            <form class="form-register" [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()">
+                <label class="dolar-label" >Precio del dolar hoy:  </label>
+                <output> {{ TasaCambio | number }}</output>
+             <legend class="text-center" style="color: aliceblue;">Cotizacion de Equipo</legend>  
+             <div class="row" *ngIf="!mostrarDetalle">     
+                <div class="col-4">
+                    <label for="equipoBuscado"> Referencia</label>
+                    <input formControlName="equipoBuscado" class= "form-control" type="text" name="equipoBuscado"  (blur)="buscarEquipoPorReferencia()">                        
+                </div>
+                <div class="col" *ngIf="equipoEncontrado"> 
+                    <label class="form-label">Descripcion</label> <br>                   
+                    <output style="border: solid 1px white; padding: 10px;">{{ equipoEncontrado.Descripcion }}</output>                                                            
+                </div>
+                </div><br>
             <div class="row row-cols-lg-auto g-3 align-items-center">
                 <div class="col-8">
                     <label for="Cliente">Cliente</label>
                     <input formControlName="Cliente" class="form-control" type="text" name="Cliente" id="Cliente" >                    
                 </div>
-                <div class="col-4">
-                    <label for="IdSiigo">Siigo No.</label>
-                    <input formControlName="IdSiigo" class="form-control" type="text" name="IdSiigo" id="IdSiigo" placeholder="Digite el consecutivo de Siigo">                    
-                </div> 
-                
-            </div><br>
-                    <div class="row">
-                        <div class="col ">
+                <div class="col-2 " *ngIf="!mostrarDetalle">
                             <label for="Cantidad">Cantidad</label> <br>  
                             <input formControlName="Cantidad" class="form-control" type="number" name="Cantidad" id="Cantidad" >                                              
-                        </div>
+                </div>
+                <div class="col-2">
+                    <label for="IdSiigo">Siigo No.</label>
+                    <input formControlName="IdSiigo" class="form-control" type="text" name="IdSiigo" id="IdSiigo" >                    
+                </div> 
+                 
+            </div><br>
+                    <div class="row" *ngIf="!mostrarDetalle">                    
                             
                         <div class="col">
                             <label for="PrecioCompra" >Precio de compra</label>
@@ -60,26 +52,23 @@
                                 <option value="SEK">SEK</option>
                               </select>                            
                         </div> 
+                            <div class="col"> 
+                                <label for="FleteOrigenDestino">Flete Origen-Destino</label>     
+                                <input formControlName="FleteOrigenDestino" class="form-control" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any">                                                     
+                            </div>
+                            <div class="col">   
+                                <label for="CargoCombustible">Cargos de Combustible %</label>
+                                <input formControlName="CargoCombustible" class="form-control" name="CargoCombustible" id="CargoCombustible" type="number" step="any"/>                                                        
+                            </div>
+
+
                     </div><br>
-                    <div class="row">
+                    <div class="row" *ngIf="!mostrarDetalle">
                         
-                        <div class="col"> 
-                            <label for="FleteOrigenDestino">Flete Origen-Destino</label>     
-                            <input formControlName="FleteOrigenDestino" class="form-control" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any">                                                     
-                        </div>
-                        <div class="col">   
-                            <label for="CargoCombustible">Cargos de Combustible %</label>
-                            <input formControlName="CargoCombustible" class="form-control" name="CargoCombustible" id="CargoCombustible" type="number" step="any"/>                                                        
-                        </div>
+                        
                         <div class="col">
                             <label for="AlistamientoProveedor">Alistamiento Proveedor</label>   
                             <input formControlName="AlistamientoProveedor" class="form-control" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any"/>                                                        
-                        </div>
-                    </div><br>
-                    <div class="row">
-                        <div class="col">
-                            <label for="TasaCambio">Tasa de cambio</label> 
-                            <input formControlName="TasaCambio" class="form-control" name="TasaCambio" id="TasaCambio" type="number" step="any"/>                            
                         </div>
                         <div class="col">
                             <label for="FleteLocal">Flete Local</label>
@@ -89,9 +78,6 @@
                             <label for="AccesoriosLocales">Accesorios Locales</label> 
                             <input formControlName="AccesoriosLocales" class="form-control" name="AccesoriosLocales" id="AccesoriosLocales" type="number" step="any"/>                            
                         </div>
-
-                    </div> <br>
-                    <div class="row">
                         <div class="col">
                             <label for="FormaPago">Forma de pago</label>  
                             <select formControlName="FormaPago" class="form-select" type="number" step="any">                                
@@ -102,254 +88,77 @@
                             </select>
                                    
                        </div>
+                    </div><br>
+                   
+                    <div class="row" *ngIf="!mostrarDetalle">             
                         
-                        <div class="col">
+                        <div class="col-3">
                             <label for="PuestaMarcha">Puesta en Marcha</label>
-                            <input formControlName="PuestaMarcha" class="form-control" name="PuestaMarcha" id="PuestaMarcha" type="number" step="any"/>
-                              
-                            <!--button id="BtnPuestaMarcha" (click)="toggleSegundoFormulario()" type="button" class="btn btn-info">Puesta en Marcha</button-->
+                            <input formControlName="PuestaMarcha" class="form-control" name="PuestaMarcha" id="PuestaMarcha" type="number" step="any"/>                          
+                            
                         </div>
-                           
-                    </div>  <br>
-                    <div class="row">
-                        <div class="col mb-3">
+                         <div class="col mb-3">
                             <label for="Observaciones">Observaciones</label>
                             <input formControlName="Observaciones" class="form-control" name="Observaciones" id="Observaciones" type="text" />
                                 
-                        </div>
-
+                        </div>  
                     </div>  <br>
+                    <div class="Detalle" *ngIf="mostrarDetalle">
+                        <table class="table table-success table-bordered table-sm">
+                            <thead class=" sticky-top table-hover">            
+                    
+                                <tr class="table align-middle" style="background-color: #17a2b8;">                                   
+                                    <th>Fecha</th>                    
+                                    <th>Referencia</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio -45%</th>
+                                    <th>Precio -40%</th>
+                                    <th>Precio -35%</th>
+                                    <th>Precio -30%</th>
+                                    <th>Precio -25%</th>
+                                    <th>Precio -20%</th>
+                                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor=" let c of ListadoCotizacion">
+                                    <ng-container *ngIf="c.IdSiigo?.includes(IdSiigo)">                                                                  
+                                        <td> {{c.Fecha | date: 'yyyy/MM/dd'}} </td> 
+                                        <td> {{c.idEquipo}} </td>
+                                        <td style="text-align: center;"> {{c.Cantidad}} </td>
+                                        <td> {{c.Precio1 | number}} </td>
+                                        <td> {{c.Precio2 | number}} </td>
+                                        <td> {{c.Precio3 | number}} </td>
+                                        <td> {{c.Precio4 | number}} </td>
+                                        <td> {{c.Precio5 | number}} </td>
+                                        <td> {{c.Precio6 | number}} </td>
+                                        
+                                    </ng-container>                  
+                                </tr>
+                            </tbody>
+                          </table>
+                    </div>
         <div class="row">
-            <!--div class="col">
-                <button [disabled]="!fgValidador.valid" class="btn btn-primary mb-3" type="submit" 
-                    data-bs-toggle="modal" data-bs-target="#resultadoModal">Agregar</button-->  
-           
             <div class="col">
-                <button [disabled]="!fgValidador.valid" class="btn btn-primary mb-3" type="submit">Agregar</button>  
+                <button [disabled]="!fgValidador.valid || mostrarDetalle" class="btn btn-primary mb-3" type="submit" >Guardar</button>  
             </div>
             <div class="col">
-                <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#resultadoModal">Mostrar Resultados</button>
+                <button class="btn btn-primary mb-3" (click)="NuevaCotizacion()" >Nueva</button>  
             </div>
             
-            <!--div class="col">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#resultadoModal">Mostrar Resultados</button>
-
-            </div-->
         </div>
                      
         </form>  
-    </form> 
-</div>
-      
-<!-- Ventana Modal >
-<div class="modal fade" id="resultadoModal" tabindex="-1" aria-labelledby="resultadoModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="resultadoModalLabel">Detalle de la Cotizacion</h5>          
-          
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <p>Cotizacion No. {{fgValidador.controls['IdSiigo'].value}}</p>
-        <p>Fecha: {{fgValidador.controls['Fecha'].value | date}}</p>
-          <p>Cliente: {{fgValidador.controls['Cliente'].value}}</p><br>
-          <p>Precio -45%: {{ Precio1 }}</p>
-          <p>Precio -40%: {{ Precio2 }}</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div-->
-  
-          
-                
-                  
-       
-
-        <form *ngIf="puestaMarchaFormulario" [formGroup]="puestaMarchaFormGroup" (ngSubmit)="PuestaEnMarcha()" class="formPuestaMarcha">
-            <h3>Precio Total Instrumentos</h3>
-            <div class="row">
-                <div class="col-2">
-                    <br><p >Item 1</p>
-                </div>
-                <div class="col-6">                    
-                    <label for="label">Descripcion</label>
-                    <input formControlName="label" id="Item1" type="text" >
-                </div>
-                <div class="col-3">
-                    <label for="value">Valor</label>
-                    <input formControlName="value" id="Item1" type="number" step="any" >
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <br><p >Item 2</p>
-                </div>
-                <div class="col-6">                    
-                    <label for="label">Descripcion</label>
-                    <input formControlName="label" id="Item2" type="text" >
-                </div>
-                <div class="col-3">
-                    <label for="value">Valor</label>
-                    <input formControlName="value" id="Item2" type="number" step="any" >
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <br><p >Item 3</p>
-                </div>
-                <div class="col-6">                    
-                    <label for="label">Descripcion</label>
-                    <input formControlName="label" id="Item1" type="text" >
-                </div>
-                <div class="col-3">
-                    <label for="value">Valor</label>
-                    <input formControlName="value" id="Item1" type="number" step="any" >
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <br><p >Item 4</p>
-                </div>
-                <div class="col-6">                    
-                    <label for="label">Descripcion</label>
-                    <input formControlName="label" id="Item1" type="text" >
-                </div>
-                <div class="col-3">
-                    <label for="value">Valor</label>
-                    <input formControlName="value" id="Item1" type="number" step="any" >
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <br><p >Item 5</p>
-                </div>
-                <div class="col-6">                    
-                    <label for="label">Descripcion</label>
-                    <input formControlName="label" id="Item1" type="text" >
-                </div>
-                <div class="col-3">
-                    <label for="value">Valor</label>
-                    <input formControlName="value" id="Item1" type="number" step="any" >
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <br><p >Item 6</p>
-                </div>
-                <div class="col-6">                    
-                    <label for="label">Descripcion</label>
-                    <input formControlName="label" id="Item1" type="text" >
-                </div>
-                <div class="col-3">
-                    <label for="value">Valor</label>
-                    <input formControlName="value" id="Item1" type="number" step="any" >
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <br><p >Item 7</p>
-                </div>
-                <div class="col-6">                    
-                    <label for="label">Descripcion</label>
-                    <input formControlName="label" id="Item1" type="text" >
-                </div>
-                <div class="col-3">
-                    <label for="value">Valor</label>
-                    <input formControlName="value" id="Item1" type="number" step="any">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <br><p >Item 8</p>
-                </div>
-                <div class="col-6">                    
-                    <label for="label">Descripcion</label>
-                    <input formControlName="label" id="Item1" type="text" >
-                </div>
-                <div class="col-3">
-                    <label for="value">Valor</label>
-                    <input formControlName="value" id="Item1" type="number" step="any" >
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <br><p >Item 9</p>
-                </div>
-                <div class="col-6">                    
-                    <label for="label">Descripcion</label>
-                    <input formControlName="label" id="Item1" type="text" >
-                </div>
-                <div class="col-3">
-                    <label for="value">Valor</label>
-                    <input formControlName="value" id="Item1" type="number" step="any" >
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <br><p >Item 10</p>
-                </div>
-                <div class="col-6">                    
-                    <label for="label">Descripcion</label>
-                    <input formControlName="label" id="Item1" type="text" >
-                </div>
-                <div class="col-3">
-                    <label for="value">Valor</label>
-                    <input formControlName="value" id="Item1" type="number" step="any" >
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <br><p >Item 11</p>
-                </div>
-                <div class="col-6">                    
-                    <label for="label">Descripcion</label>
-                    <input formControlName="label" id="Item1" type="text" >
-                </div>
-                <div class="col-3">
-                    <label for="value">Valor</label>
-                    <input formControlName="value" id="Item1" type="number" step="any" >
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">
-                    <br><p >Item 12</p>
-                </div>
-                <div class="col-6">                    
-                    <label for="label">Descripcion</label>
-                    <input formControlName="label" id="Item1" type="text" >
-                </div>
-                <div class="col-3">
-                    <label for="value">Valor</label>
-                    <input formControlName="value" id="Item1" type="number" step="any" >
-                </div>
-            </div>
-            
-            
-            <button type="submit" class="btn btn-success">Success</button>
-        </form>
     
-<div class="modal fade" id="resultadoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Cotizaciones por IdSiigo</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ <div class="pre-carga"  *ngIf="isLoading">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
         </div>
-        <div class="modal-body">
-          <ul class="list-group">
-            
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
     </div>
-  </div>
+      
+      
+    
+
   
 </body>
 
