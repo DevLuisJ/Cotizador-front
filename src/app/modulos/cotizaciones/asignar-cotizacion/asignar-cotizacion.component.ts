@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit, Injectable, HostListener } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators  } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModeloCotizacion } from 'src/app/modelos/cotizacion.modelo';
@@ -7,7 +7,6 @@ import { HttpClient } from '@angular/common/http';
 import { ModeloEquipo } from 'src/app/modelos/equipo.modelo';
 import { EquipoService } from 'src/app/servicios/equipo.service';
 import { SeguridadService } from 'src/app/servicios/seguridad.service';
-//import { DatePipe } from '@angular/common';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 
@@ -68,7 +67,18 @@ export class AsignarCotizacionComponent implements OnInit{
   OtrosGastos:number=0;
   TotalGastosAdicionales:number=0;
   TotalGastosNacionalizacion:number=0;
-  ListaPuestaMarcha: { label: string, value: number }[] = [];
+  ListaPuestaMarcha: { concepto1: string; VlrUnd1: number; cantidad1: number; total1: number;
+                      concepto2: string; VlrUnd2: number; cantidad2: number; total2: number;
+                      concepto3: string; VlrUnd3: number; cantidad3: number; total3: number;
+                      concepto4: string; VlrUnd4: number; cantidad4: number; total4: number;
+                      concepto5: string; VlrUnd5: number; cantidad5: number; total5: number;
+                      concepto6: string; VlrUnd6: number; cantidad6: number; total6: number;
+                      concepto7: string; VlrUnd7: number; cantidad7: number; total7: number;
+                      concepto8: string; VlrUnd8: number; cantidad8: number; total8: number;
+                      concepto9: string; VlrUnd9: number; cantidad9: number; total9: number;
+                      concepto10: string; VlrUnd10: number; cantidad10: number; total10: number;
+  
+                  }[] = [];
   ComisionBancaria:number=0;
   Financiamiento:number=0;
 
@@ -111,7 +121,18 @@ fgValidador: FormGroup = this.fb.group({
   'AccesoriosLocales': ['',[Validators.required]],
   'FormaPago': ['',[Validators.required]],
   'PuestaMarcha': ['',[Validators.required]],
-  'Observaciones':['']
+  'Observaciones':[''],
+  'concepto1':['Horas Ingenieria'],  'VlrUnd1':[''],  'cantidad1':[''],'total1':[''],
+  'concepto2':['Instalacion'],  'VlrUnd2':[''],  'cantidad2':[''],'total2':[''],
+  'concepto3':['Soporte Sitio'],  'VlrUnd3':[''],  'cantidad3':[''],'total3':[''],
+  'concepto4':['Soporte Remoto'],  'VlrUnd4':[''],  'cantidad4':[''],'total4':[''],
+  'concepto5':['Mtto Prev. Primer Año'],  'VlrUnd5':[''],  'cantidad5':[''],'total5':[''],
+  'concepto6':['Tiquetes'],  'VlrUnd6':[''],  'cantidad6':[''],'total6':[''],
+  'concepto7':['Hotel y Alimentacion'],  'VlrUnd7':[''],  'cantidad7':[''],'total7':[''],
+  'concepto8':['Transportes'],  'VlrUnd8':[''],  'cantidad8':[''],'total8':[''],
+  'concepto9':['Varios'],  'VlrUnd9':[''],  'cantidad9':[''],'total9':[''],
+  'concepto10':['Otros'],  'VlrUnd10':[''],  'cantidad10':[''],'total10':[''],
+
 })
 
 constructor(
@@ -128,7 +149,7 @@ constructor(
   ngOnInit( ): void {
     this.ObtenerListadoEquipos();     
     this.TasadeCambio();
-    
+    this.CalculoPuestaMarcha();
     
   }
 
@@ -242,7 +263,31 @@ GuardarCotizacion(){
   this.PrecioCant4=this.Precio4/Cantidad;
   this.PrecioCant5=this.Precio5/Cantidad;
   this.PrecioCant6=this.Precio6/Cantidad; 
-
+  //puesta en marcha
+  const nuevoElemento = {
+    concepto1: this.fgValidador.controls["concepto1"].value, VlrUnd1: this.fgValidador.controls["VlrUnd1"].value,
+          cantidad1: this.fgValidador.controls["cantidad1"].value, total1: this.fgValidador.controls["total1"].value,
+    concepto2: this.fgValidador.controls["concepto2"].value, VlrUnd2: this.fgValidador.controls["VlrUnd2"].value,
+          cantidad2: this.fgValidador.controls["cantidad2"].value, total2: this.fgValidador.controls["total2"].value,
+    concepto3: this.fgValidador.controls["concepto3"].value, VlrUnd3: this.fgValidador.controls["VlrUnd3"].value,
+          cantidad3: this.fgValidador.controls["cantidad3"].value, total3: this.fgValidador.controls["total3"].value,
+    concepto4: this.fgValidador.controls["concepto4"].value, VlrUnd4: this.fgValidador.controls["VlrUnd4"].value,
+          cantidad4: this.fgValidador.controls["cantidad4"].value, total4: this.fgValidador.controls["total4"].value, 
+    concepto5: this.fgValidador.controls["concepto5"].value, VlrUnd5: this.fgValidador.controls["VlrUnd5"].value,
+          cantidad5: this.fgValidador.controls["cantidad5"].value, total5: this.fgValidador.controls["total5"].value,
+    concepto6: this.fgValidador.controls["concepto6"].value, VlrUnd6: this.fgValidador.controls["VlrUnd6"].value,
+          cantidad6: this.fgValidador.controls["cantidad6"].value, total6: this.fgValidador.controls["total6"].value,
+    concepto7: this.fgValidador.controls["concepto7"].value, VlrUnd7: this.fgValidador.controls["VlrUnd7"].value,
+          cantidad7: this.fgValidador.controls["cantidad7"].value, total7: this.fgValidador.controls["total7"].value,
+    concepto8: this.fgValidador.controls["concepto8"].value, VlrUnd8: this.fgValidador.controls["VlrUnd8"].value,
+          cantidad8: this.fgValidador.controls["cantidad8"].value, total8: this.fgValidador.controls["total8"].value,
+    concepto9: this.fgValidador.controls["concepto9"].value, VlrUnd9: this.fgValidador.controls["VlrUnd9"].value,
+          cantidad9: this.fgValidador.controls["cantidad9"].value, total9: this.fgValidador.controls["total9"].value,
+    concepto10: this.fgValidador.controls["concepto10"].value, VlrUnd10: this.fgValidador.controls["VlrUnd10"].value,
+          cantidad10: this.fgValidador.controls["cantidad10"].value, total10: this.fgValidador.controls["total10"].value,            
+     };
+  
+  this.ListaPuestaMarcha.push(nuevoElemento);
 
 //Prueba de variables en consola:
     console.log("El valor de dolares es:", this.vlrDolares); 
@@ -267,6 +312,7 @@ GuardarCotizacion(){
     console.log("El valor de TotalGastosNacionalizacion es:", this.TotalGastosNacionalizacion);
     console.log("El valor de ComisionBancaria es:", this.ComisionBancaria);
     console.log("El valor de Financiamiento es:", this.Financiamiento);
+    console.log("El valor de PUESTA-MARCHA es:", this.ListaPuestaMarcha);
     
     
 
@@ -305,7 +351,9 @@ GuardarCotizacion(){
   c.PrecioCant4=this.PrecioCant4;
   c.PrecioCant5=this.PrecioCant5;
   c.PrecioCant6=this.PrecioCant6;
-  
+  c.ListaPuestaMarcha= this.ListaPuestaMarcha;
+
+
   this.isLoading = true;
   this.servicioCotizacion.CrearCotizacion(c).subscribe((datos:ModeloCotizacion) =>{    
     this.ObtenerListadoCotizacion(); 
@@ -349,8 +397,65 @@ TasadeCambio(){
     console.log("la tasa de cambio COP es:" + this.TasaCambio); 
   });
 }
+
+CalculoPuestaMarcha() {
   
-  
+  const vlrUnd1 = this.fgValidador.controls["VlrUnd1"].value;
+  const cantidad1 = this.fgValidador.controls["cantidad1"].value;
+  const total1 = vlrUnd1 * cantidad1;   
+  this.fgValidador.controls["total1"].setValue(total1);
+
+  const vlrUnd2 = this.fgValidador.controls["VlrUnd2"].value;
+  const cantidad2 = this.fgValidador.controls["cantidad2"].value;
+  const total2 = vlrUnd2 * cantidad2;   
+  this.fgValidador.controls["total2"].setValue(total2);
+
+  const vlrUnd3 = this.fgValidador.controls["VlrUnd3"].value;
+  const cantidad3 = this.fgValidador.controls["cantidad3"].value;
+  const total3 = vlrUnd3 * cantidad3;   
+  this.fgValidador.controls["total3"].setValue(total3);
+
+  const vlrUnd4 = this.fgValidador.controls["VlrUnd4"].value;
+  const cantidad4 = this.fgValidador.controls["cantidad4"].value;
+  const total4 = vlrUnd4 * cantidad4;   
+  this.fgValidador.controls["total4"].setValue(total4);
+
+  const vlrUnd5 = this.fgValidador.controls["VlrUnd5"].value;
+  const cantidad5 = this.fgValidador.controls["cantidad5"].value;
+  const total5 = vlrUnd5 * cantidad5;   
+  this.fgValidador.controls["total5"].setValue(total5);
+
+  const vlrUnd6 = this.fgValidador.controls["VlrUnd6"].value;
+  const cantidad6 = this.fgValidador.controls["cantidad6"].value;
+  const total6 = vlrUnd6 * cantidad6;   
+  this.fgValidador.controls["total6"].setValue(total6);
+
+  const vlrUnd7 = this.fgValidador.controls["VlrUnd7"].value;
+  const cantidad7 = this.fgValidador.controls["cantidad7"].value;
+  const total7 = vlrUnd7 * cantidad7;   
+  this.fgValidador.controls["total7"].setValue(total7);
+
+  const vlrUnd8 = this.fgValidador.controls["VlrUnd8"].value;
+  const cantidad8 = this.fgValidador.controls["cantidad8"].value;
+  const total8 = vlrUnd8 * cantidad8;   
+  this.fgValidador.controls["total8"].setValue(total8);
+
+  const vlrUnd9 = this.fgValidador.controls["VlrUnd9"].value;
+  const cantidad9 = this.fgValidador.controls["cantidad9"].value;
+  const total9 = vlrUnd9 * cantidad9;   
+  this.fgValidador.controls["total9"].setValue(total9);
+
+  const vlrUnd10 = this.fgValidador.controls["VlrUnd10"].value;
+  const cantidad10 = this.fgValidador.controls["cantidad10"].value;
+  const total10 = vlrUnd10 * cantidad10;   
+  this.fgValidador.controls["total10"].setValue(total10);
+   
+  const suma= total1 + total2+ total3+ total4+total5+total6+total7+total8+total9+total10
+  const sumaTotal=(suma*0.02)+ suma
+  this.fgValidador.controls["PuestaMarcha"].setValue(sumaTotal);
+}
+
+
 ObtenerListadoEquipos(){
   this.isLoading = true;
   this.equipoServicio.ObtenerRegistros().subscribe({

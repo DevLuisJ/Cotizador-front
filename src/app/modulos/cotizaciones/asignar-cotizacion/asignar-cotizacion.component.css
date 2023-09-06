@@ -46,3 +46,9 @@
   margin-right: 10px; 
 
 }
+
+.puestaMarcha{
+  border: solid 1px white;
+  padding: 20px;
+  border-radius: 4px;
+}

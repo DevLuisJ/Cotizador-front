@@ -18,6 +18,8 @@ import { MatInputModule } from '@angular/material/input';
 
 
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +27,7 @@ import { MatInputModule } from '@angular/material/input';
     FootherComponent,
     InicioComponent,
     ErrorComponent,
+    
     
   ],
   imports: [

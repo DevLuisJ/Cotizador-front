@@ -11,10 +11,12 @@ import { BuscarCotizacionComponent } from './buscar-cotizacion/buscar-cotizacion
 
 
 
+
+
 @NgModule({
   declarations: [
     AsignarCotizacionComponent,
-    BuscarCotizacionComponent,
+    BuscarCotizacionComponent, 
     ],
   imports: [
     CommonModule,
@@ -24,8 +26,6 @@ import { BuscarCotizacionComponent } from './buscar-cotizacion/buscar-cotizacion
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [
-    DatePipe, 
-  ],
+ 
 })
 export class CotizacionesModule { }

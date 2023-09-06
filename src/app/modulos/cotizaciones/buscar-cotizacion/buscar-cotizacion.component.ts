@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModeloCotizacion } from 'src/app/modelos/cotizacion.modelo';
 import { CotizacionService } from 'src/app/servicios/cotizacion.service';
-import { DatePipe } from '@angular/common';
 import { SeguridadService } from 'src/app/servicios/seguridad.service';
 
 
@@ -21,7 +20,7 @@ export class BuscarCotizacionComponent implements OnInit{
   constructor(
     private cotizacionServicio: CotizacionService,
     private seguridadServicio: SeguridadService,
-    private datePipe: DatePipe
+    
     ){
       
   }

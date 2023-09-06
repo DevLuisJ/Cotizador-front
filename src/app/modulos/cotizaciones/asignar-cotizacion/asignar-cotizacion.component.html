@@ -53,29 +53,28 @@
                               </select>                            
                         </div> 
                             <div class="col"> 
-                                <label for="FleteOrigenDestino">Flete Origen-Destino</label>     
+                                <label for="FleteOrigenDestino">Flete Origen-Destino (COP)</label>     
                                 <input formControlName="FleteOrigenDestino" class="form-control" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any">                                                     
                             </div>
                             <div class="col">   
-                                <label for="CargoCombustible">Cargos de Combustible %</label>
+                                <label for="CargoCombustible">Cargos de Combustible (%)</label>
                                 <input formControlName="CargoCombustible" class="form-control" name="CargoCombustible" id="CargoCombustible" type="number" step="any"/>                                                        
                             </div>
 
 
                     </div><br>
-                    <div class="row" *ngIf="!mostrarDetalle">
-                        
+                    <div class="row" *ngIf="!mostrarDetalle">        
                         
                         <div class="col">
-                            <label for="AlistamientoProveedor">Alistamiento Proveedor</label>   
+                            <label for="AlistamientoProveedor">Alistamiento Proveedor (COP)</label>   
                             <input formControlName="AlistamientoProveedor" class="form-control" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any"/>                                                        
                         </div>
                         <div class="col">
-                            <label for="FleteLocal">Flete Local</label>
+                            <label for="FleteLocal">Flete Local (COP)</label>
                             <input formControlName="FleteLocal" class="form-control" name="FleteLocal" id="FleteLocal" type="number" step="any"/>                             
                         </div>
                         <div class="col">
-                            <label for="AccesoriosLocales">Accesorios Locales</label> 
+                            <label for="AccesoriosLocales">Accesorios Locales (COP)</label> 
                             <input formControlName="AccesoriosLocales" class="form-control" name="AccesoriosLocales" id="AccesoriosLocales" type="number" step="any"/>                            
                         </div>
                         <div class="col">
@@ -89,12 +88,195 @@
                                    
                        </div>
                     </div><br>
-                   
+                    
+                    <div class="puestaMarcha mb-3" *ngIf="!mostrarDetalle">
+                        <legend>Costos puesta en marcha (COP)</legend>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="concepto1">Concepto</label>
+                                <input formControlName="concepto1" class="form-control" type="text">
+                            </div>
+                            <div class="col-3">
+                                <label for="VlrUnd1">Valor Und</label>
+                                <input formControlName="VlrUnd1" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>
+                            <div class="col-2">
+                                <label for="cantidad1">Cantidad</label>
+                                <input formControlName="cantidad1" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>                            
+                            <div class="col-3">
+                                <label for="total1">Total</label>
+                                <input formControlName="total1" class="form-control" type="number" readonly >
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="Concepto2">Concepto</label>
+                                <input formControlName="concepto2" class="form-control" type="text">
+                            </div>
+                            <div class="col-3">
+                                <label for="VlrUnd2">Valor Und</label>
+                                <input formControlName="VlrUnd2" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>
+                            <div class="col-2">
+                                <label for="cantidad2">Cantidad</label>
+                                <input formControlName="cantidad2" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>                            
+                            <div class="col-3">
+                                <label for="total2">Total</label>
+                                <input formControlName="total2" class="form-control" type="number" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="Concepto3">Concepto</label>
+                                <input formControlName="concepto3" class="form-control" type="text">
+                            </div>
+                            <div class="col-3">
+                                <label for="VlrUnd3">Valor Und</label>
+                                <input formControlName="VlrUnd3" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>
+                            <div class="col-2">
+                                <label for="cantidad3">Cantidad</label>
+                                <input formControlName="cantidad3" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>                            
+                            <div class="col-3">
+                                <label for="total3">Total</label>
+                                <input formControlName="total3" class="form-control" type="number" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="Concepto2">Concepto</label>
+                                <input formControlName="concepto2" class="form-control" type="text">
+                            </div>
+                            <div class="col-3">
+                                <label for="VlrUnd4">Valor Und</label>
+                                <input formControlName="VlrUnd4" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>
+                            <div class="col-2">
+                                <label for="cantidad4">Cantidad</label>
+                                <input formControlName="cantidad4" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>                            
+                            <div class="col-3">
+                                <label for="total4">Total</label>
+                                <input formControlName="total4" class="form-control" type="number" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="Concepto5">Concepto</label>
+                                <input formControlName="concepto5" class="form-control" type="text">
+                            </div>
+                            <div class="col-3">
+                                <label for="VlrUnd5">Valor Und</label>
+                                <input formControlName="VlrUnd5" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>
+                            <div class="col-2">
+                                <label for="cantidad5">Cantidad</label>
+                                <input formControlName="cantidad5" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>                            
+                            <div class="col-3">
+                                <label for="total5">Total</label>
+                                <input formControlName="total5" class="form-control" type="number" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="Concepto6">Concepto</label>
+                                <input formControlName="concepto6" class="form-control" type="text">
+                            </div>
+                            <div class="col-3">
+                                <label for="VlrUnd6">Valor Und</label>
+                                <input formControlName="VlrUnd6" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>
+                            <div class="col-2">
+                                <label for="cantidad6">Cantidad</label>
+                                <input formControlName="cantidad6" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>                            
+                            <div class="col-3">
+                                <label for="total6">Total</label>
+                                <input formControlName="total6" class="form-control" type="number" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="Concepto7">Concepto</label>
+                                <input formControlName="concepto7" class="form-control" type="text">
+                            </div>
+                            <div class="col-3">
+                                <label for="VlrUnd7">Valor Und</label>
+                                <input formControlName="VlrUnd7" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>
+                            <div class="col-2">
+                                <label for="cantidad7">Cantidad</label>
+                                <input formControlName="cantidad7" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>                            
+                            <div class="col-3">
+                                <label for="total7">Total</label>
+                                <input formControlName="total7" class="form-control" type="number" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="Concepto8">Concepto</label>
+                                <input formControlName="concepto8" class="form-control" type="text">
+                            </div>
+                            <div class="col-3">
+                                <label for="VlrUnd8">Valor Und</label>
+                                <input formControlName="VlrUnd8" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>
+                            <div class="col-2">
+                                <label for="cantidad8">Cantidad</label>
+                                <input formControlName="cantidad8" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>                            
+                            <div class="col-3">
+                                <label for="total8">Total</label>
+                                <input formControlName="total8" class="form-control" type="number" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="Concepto9">Concepto</label>
+                                <input formControlName="concepto9" class="form-control" type="text">
+                            </div>
+                            <div class="col-3">
+                                <label for="VlrUnd9">Valor Und</label>
+                                <input formControlName="VlrUnd9" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>
+                            <div class="col-2">
+                                <label for="cantidad9">Cantidad</label>
+                                <input formControlName="cantidad9" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>                            
+                            <div class="col-3">
+                                <label for="total9">Total</label>
+                                <input formControlName="total9" class="form-control" type="number" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="Concepto10">Concepto</label>
+                                <input formControlName="concepto10" class="form-control" type="text">
+                            </div>
+                            <div class="col-3">
+                                <label for="VlrUnd10">Valor Und</label>
+                                <input formControlName="VlrUnd10" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>
+                            <div class="col-2">
+                                <label for="cantidad10">Cantidad</label>
+                                <input formControlName="cantidad10" class="form-control" type="number" (blur)="CalculoPuestaMarcha()">
+                            </div>                            
+                            <div class="col-3">
+                                <label for="total10">Total</label>
+                                <input formControlName="total10" class="form-control" type="number" readonly>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row" *ngIf="!mostrarDetalle">             
                         
                         <div class="col-3">
-                            <label for="PuestaMarcha">Puesta en Marcha</label>
-                            <input formControlName="PuestaMarcha" class="form-control" name="PuestaMarcha" id="PuestaMarcha" type="number" step="any"/>                          
+                            <label for="PuestaMarcha"> Total Puesta en Marcha</label>
+                            <input formControlName="PuestaMarcha" class="form-control" name="PuestaMarcha" id="PuestaMarcha" type="number" step="any" readonly/>                          
                             
                         </div>
                          <div class="col mb-3">
