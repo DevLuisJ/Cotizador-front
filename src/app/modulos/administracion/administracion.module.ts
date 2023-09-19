@@ -14,6 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { AppComponent } from 'src/app/app.component';
 
 
 
@@ -36,10 +37,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatProgressSpinnerModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    
-    
-  ]
+    MatSelectModule,    
+  ], 
+ 
 })
 export class AdministracionModule { }

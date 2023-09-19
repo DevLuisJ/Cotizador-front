@@ -11,8 +11,12 @@ export class CotizacionService {
 
   url='https://cotizadorbk.onrender.com'
   token: string= '';
-  private apiKey = 'f0321b1e530d41f6a85ffad812b5a188';
-  private apiUrl = 'https://openexchangerates.org/api/latest.json';
+
+  private apiKey = '1c177e5e35026df68ebf9595e3de2d7f';
+  private apiUrl = 'http://data.fixer.io/api/latest';
+
+  //private apiKey = 'f0321b1e530d41f6a85ffad812b5a188';
+  //private apiUrl = 'https://openexchangerates.org/api/latest.json';
 
   constructor(
     private http: HttpClient,
@@ -61,7 +65,7 @@ export class CotizacionService {
     })
   }
   getExchangeRate(): Observable<any> {
-    const urlExchange = `${this.apiUrl}?app_id=${this.apiKey}`;
+    const urlExchange = `${this.apiUrl}?access_key=${this.apiKey}&base=USD&symbols=COP`;
     return this.http.get(urlExchange);
   }
 

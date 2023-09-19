@@ -29,7 +29,13 @@ isLoading:boolean=false;
     'esApilable': ['',[Validators.required]],
     'Arancel': ['',[Validators.required]]
   })
-  constructor(private fb: FormBuilder, private servicioEquipo: EquipoService, private router: Router, private route: ActivatedRoute){}
+  constructor(
+    private fb: FormBuilder,
+    private servicioEquipo: EquipoService,
+     private router: Router,
+      private route: ActivatedRoute
+      ){}
+      
   ngOnInit(): void {
     this.id= this.route.snapshot.params["id"];
     this.BuscarEquipo();

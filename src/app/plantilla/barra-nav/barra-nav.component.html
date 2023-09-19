@@ -20,17 +20,17 @@
         <li class="nav-item">
           <a class="nav-link" *ngIf="seInicioSesion" href="/cotizaciones/buscar-cotizacion" >Consulta</a>
         </li>
-        <!--li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Cotizaciones
+        <li class="nav-item dropdown"*ngIf="seInicioSesion">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" *ngIf="RolAdmin">
+            Administracion
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="/cotizaciones/asignar-cotizacion">Cotizar</a></li>
-            <li><a class="dropdown-item" href="/cotizaciones/buscar-cotizacion">Consultar</a></li>
+            <li><a class="dropdown-item" href="/administracion/buscar-usuario">Ver usuarios</a></li>
+            <li><a class="dropdown-item" href="/administracion/crear-usuario">Crear Usuario</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/cotizaciones/buscar-cotizacion">Something else here</a></li>
           </ul>
-        </li-->
+        </li>
       </ul>
       <div role="navigation">
         <a class="nav-link" *ngIf="!seInicioSesion" href="/seguridad/identificacion" >Iniciar Sesion</a>

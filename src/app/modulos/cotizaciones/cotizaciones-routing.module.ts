@@ -4,8 +4,6 @@ import { CotizacionesModule } from './cotizaciones.module';
 import { AsignarCotizacionComponent } from './asignar-cotizacion/asignar-cotizacion.component';
 import { BuscarCotizacionComponent } from './buscar-cotizacion/buscar-cotizacion.component';
 
-
-
 const routes: Routes = [
   {
     path: 'asignar-cotizacion',
@@ -14,7 +12,8 @@ const routes: Routes = [
   {
     path: 'buscar-cotizacion',
     component: BuscarCotizacionComponent
-  }
+  },
+
 ];
 
 @NgModule({

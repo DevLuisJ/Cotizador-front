@@ -15,8 +15,8 @@ import { ReactiveFormsModule, FormsModule, FormGroup } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-
-
+import { AdministracionRoutingModule } from './modulos/administracion/administracion-routing.module';
+import { CotizacionesRoutingModule } from './modulos/cotizaciones/cotizaciones-routing.module';
 
 
 
@@ -33,7 +33,7 @@ import { MatInputModule } from '@angular/material/input';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
+    HttpClientModule,  
     NoopAnimationsModule,
     MatToolbarModule,
     MatMenuModule,
@@ -42,8 +42,7 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule,
-    
+    MatInputModule,   
   ],
   providers: [],
   bootstrap: [AppComponent]

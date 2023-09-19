@@ -1,1 +1,51 @@
-<p>eliminar-usuario works!</p>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Eliminar Usuario</title> 
+
+</head>
+<body>
+    <div *ngIf="isLoading" class="pre-carga">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>         
+    </div>
+<form (ngSubmit)="Eliminar()" class="form-register">
+
+    <p>Esta usted seguro de eliminar el siguiente usuario? :</p>
+    <br />
+    <div class="row">
+        <div class="col">
+            <label for="nombre">Nombres</label>
+            <p>{{usuario.nombre}}</p>
+        </div>
+        <div class="col">
+            <label for="apellidos">Apellidos</label>
+             <p>{{usuario.apellidos}}</p>
+        </div>
+        <div class="col">
+            <label for="cargo">Cargo</label>
+             <p>{{usuario.cargo}}</p>
+        </div>
+    </div>
+    <div class="row">    
+    
+    <br />
+    <div class="row" style="margin-left: 90px;">
+        <div class="col">
+            <button (click)= "Eliminar()" class="btn btn-success">si</button>
+        </div>
+        <div class="col">
+          <button routerLink="../../buscar-usuario" class="btn btn-danger">no</button>  
+        </div>
+    
+    
+    </div>
+</div>
+</form>
+</body>
+</html>

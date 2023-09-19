@@ -1,0 +1,33 @@
+.form-register{
+    width: 600px;
+    background: rgb(52, 87, 105) ;
+    padding: 30px;
+    margin: auto;
+    margin-top: 40px;
+    border-radius: 4px;
+    font-family: 'verdana';
+    box-shadow: 7px 13px 37px #000;
+}
+  .form-register p{
+    color: white;   
+    font-size: 16px;
+  }
+  .form-register input{
+    color: white;    
+    font-size: 16px;
+  }
+  
+ 
+  .pre-carga{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;  
+  }
+  

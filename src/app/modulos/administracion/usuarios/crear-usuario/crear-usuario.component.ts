@@ -10,6 +10,7 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
   styleUrls: ['./crear-usuario.component.css']
 })
 export class CrearUsuarioComponent {
+  mostrarModal = false;
   fgValidador: FormGroup = this.fb.group({
     'cedula':['', [Validators.required]],
     'nombre':['', [Validators.required]],
@@ -38,6 +39,7 @@ export class CrearUsuarioComponent {
 
       this.servicioUsuario.crearUsuario(u).subscribe((datos:ModeloDatos)=>{
         alert("Usuario almacenado correctamente");
+        this.mostrarModal = true;
         this.router.navigate(["./"]);
       },(error: any)=>{
         alert

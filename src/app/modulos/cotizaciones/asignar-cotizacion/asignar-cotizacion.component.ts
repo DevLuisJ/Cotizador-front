@@ -150,7 +150,7 @@ constructor(
     this.ObtenerListadoEquipos();     
     this.TasadeCambio();
     this.CalculoPuestaMarcha();
-    
+   
   }
 
   
@@ -167,10 +167,10 @@ GuardarCotizacion(){
     let PrecioCompra = parseFloat(this.fgValidador.controls["PrecioCompra"].value);
     switch (Moneda) {
         case "EUR":                        
-             this.vlrDolares = PrecioCompra*this.trmEUR;                 
+             this.vlrDolares = PrecioCompra*(this.trmEUR+0.04);                 
           break;
         case "SEK":         
-          this.vlrDolares = PrecioCompra*this.trmSEK;         
+          this.vlrDolares = PrecioCompra*(this.trmSEK+0.005);         
           break;
         case "USD":
           this.vlrDolares= PrecioCompra;
@@ -200,7 +200,7 @@ GuardarCotizacion(){
     this.Seguro= this.vlrDolares*1/100;
     let AlistamientoProveedor = parseFloat( this.fgValidador.controls["AlistamientoProveedor"].value);
     this.VlrTotalMcia= AlistamientoProveedor + this.Seguro + this.TotalFleteInt + this.vlrDolares;
-    this.ImprevistosTRM= this.TasaCambio+150;
+    this.ImprevistosTRM= this.trmCOP+150;
     let FleteLocal = parseFloat( this.fgValidador.controls["FleteLocal"].value);
     let AccesoriosLocales = parseFloat( this.fgValidador.controls["AccesoriosLocales"].value);
     let FormaPago = parseFloat(this.fgValidador.controls["FormaPago"].value);
@@ -387,14 +387,16 @@ GuardarCotizacion(){
 
 TasadeCambio(){
   this.servicioCotizacion.getExchangeRate().subscribe(data => {
-    const TasaEUR = data.rates.EUR;  //Tasa de cambio del euro a dolar
-    this.trmEUR = 1/ TasaEUR; //TRM de euro a dolar 
+    
 
-    const TasaSEK = data.rates.SEK;
-    this.trmSEK= 1/ TasaSEK;
-
+    //this.trmSEK = data.rates.SEK;
+    //console.log("TRM SEK es:" + this.trmSEK); 
+console.log("TRM USD es:" + this.TasaCambio); 
     this.TasaCambio= data.rates.COP;
-    console.log("la tasa de cambio COP es:" + this.TasaCambio); 
+    
+
+    //this.trmEUR = data.rates.EUR;  //Tasa de cambio del euro a dolar  
+    //console.log("TRM EURO es:" + this.trmEUR); 
   });
 }
 

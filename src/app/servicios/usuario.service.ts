@@ -20,6 +20,27 @@ export class UsuarioService {
         })
       })
     }
+    ObtenerRegistros(): Observable<ModeloDatos[]>{
+      return this.http.get<ModeloDatos[]>(`${this.url}/usuarios`);
+      
+    }
 
+    ObtenerRegistrosPorId(id:String): Observable<ModeloDatos>{
+      return this.http.get<ModeloDatos>(`${this.url}/usuarios/${id}`);      
+    }
 
+    ActualizarUsuario(usuario: ModeloDatos): Observable<ModeloDatos>{
+      return this.http.put<ModeloDatos>(`${this.url}/usuarios/${usuario.id}`, usuario,{
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${this.token}`
+        })
+      })
+    }
+    EliminarUsuario(id: string): Observable<any>{
+      return this.http.delete<ModeloDatos>(`${this.url}/usuarios/${id}`,{
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${this.token}`
+        })
+      })
+    }
 }

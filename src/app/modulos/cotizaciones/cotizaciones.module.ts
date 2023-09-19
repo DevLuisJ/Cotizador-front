@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
 import { CotizacionesRoutingModule } from './cotizaciones-routing.module';
 import { AsignarCotizacionComponent } from './asignar-cotizacion/asignar-cotizacion.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AdministracionRoutingModule } from '../administracion/administracion-routing.module';
-import { BuscarEquipoComponent } from '../administracion/equipos/buscar-equipo/buscar-equipo.component';
 import { BuscarCotizacionComponent } from './buscar-cotizacion/buscar-cotizacion.component';
+import { AppComponent } from 'src/app/app.component';
+
+
 
 
 
@@ -16,16 +16,18 @@ import { BuscarCotizacionComponent } from './buscar-cotizacion/buscar-cotizacion
 @NgModule({
   declarations: [
     AsignarCotizacionComponent,
-    BuscarCotizacionComponent, 
+    BuscarCotizacionComponent,     
     ],
   imports: [
     CommonModule,
-    AdministracionRoutingModule,
     CotizacionesRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    ReactiveFormsModule,
     HttpClientModule
+    
   ],
- 
+  
+  bootstrap: [AppComponent]
 })
 export class CotizacionesModule { }

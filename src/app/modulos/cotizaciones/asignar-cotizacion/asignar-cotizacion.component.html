@@ -10,8 +10,20 @@
 </head>
 <body>                    
             <form class="form-register" [formGroup]= "fgValidador" (ngSubmit)="GuardarCotizacion()">
-                <label class="dolar-label" >Precio del dolar hoy:  </label>
-                <output> {{ TasaCambio | number }}</output>
+                <div class="row" style="color: black;">
+                    <div class="col">
+                        <label class="dolar-label" >TRM COP: </label>
+                        <output> {{ TasaCambio | number }}</output>
+                    </div>
+                    <div class="col">
+                        <label class="dolar-label" >TRM EUR: </label>
+                        <output> {{ trmEUR | number }}</output>
+                    </div>
+                    <div class="col">
+                        <label class="dolar-label" >TRM SEK: </label>
+                        <output> {{ trmSEK | number }}</output>
+                    </div>
+                </div><br>
              <legend class="text-center" style="color: aliceblue;">Cotizacion de Equipo</legend>  
              <div class="row" *ngIf="!mostrarDetalle">     
                 <div class="col-4">
@@ -53,7 +65,7 @@
                               </select>                            
                         </div> 
                             <div class="col"> 
-                                <label for="FleteOrigenDestino">Flete Origen-Destino (COP)</label>     
+                                <label for="FleteOrigenDestino">Flete Origen-Destino (USD)</label>     
                                 <input formControlName="FleteOrigenDestino" class="form-control" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any">                                                     
                             </div>
                             <div class="col">   
@@ -66,8 +78,8 @@
                     <div class="row" *ngIf="!mostrarDetalle">        
                         
                         <div class="col">
-                            <label for="AlistamientoProveedor">Alistamiento Proveedor (COP)</label>   
-                            <input formControlName="AlistamientoProveedor" class="form-control" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any"/>                                                        
+                            <label for="AlistamientoProveedor">Alistamiento Proveedor</label>   
+                            <input formControlName="AlistamientoProveedor" class="form-control" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any" placeholder="Moneda de compra"/>                                                        
                         </div>
                         <div class="col">
                             <label for="FleteLocal">Flete Local (COP)</label>

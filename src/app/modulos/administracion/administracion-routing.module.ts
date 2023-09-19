@@ -13,23 +13,23 @@ import { ValidadorSesionGuard } from 'src/app/guardianes/validador-sesion.guard'
 const routes: Routes = [
   {
     path: 'crear-usuario',
-    component: CrearUsuarioComponent
-    
+    component: CrearUsuarioComponent,
+    canActivate: [ValidadorSesionGuard]
   },
   {
     path: 'buscar-usuario',
     component: BuscarUsuarioComponent,
-    
+    canActivate: [ValidadorSesionGuard]
   },
   {
     path: 'editar-usuario',
     component: EditarUsuarioComponent,
-    
+    canActivate: [ValidadorSesionGuard]
   },
   {
     path: 'eliminar-usuario',
     component: EliminarUsuarioComponent,
-    
+    canActivate: [ValidadorSesionGuard]
   },
   {
     path: 'listar-equipos',
@@ -54,6 +54,16 @@ const routes: Routes = [
   {
     path: 'eliminar-equipo/:id',
     component: EliminarEquipoComponent,
+    canActivate: [ValidadorSesionGuard]
+  },
+  {
+    path: 'editar-usuario/:id',
+    component: EditarUsuarioComponent,
+    canActivate: [ValidadorSesionGuard]
+  },
+  {
+    path: 'eliminar-usuario/:id',
+    component: EliminarUsuarioComponent,
     canActivate: [ValidadorSesionGuard]
   }
 ];

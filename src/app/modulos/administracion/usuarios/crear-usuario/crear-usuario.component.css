@@ -1,0 +1,22 @@
+.form-register{
+    width: 80%;
+    background-color: #17a2b8 ; /* Color de fondo para el formulario */
+    color: white;
+    padding: 20px;
+    margin: auto;  
+    border-radius: 4px;
+    font-family: 'verdana';  
+  }
+
+  .pre-carga{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;  
+  }

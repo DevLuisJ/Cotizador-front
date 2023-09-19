@@ -31,9 +31,12 @@ export class BuscarCotizacionComponent implements OnInit{
   }
 ObtenerListadoCotizacion(){
   this.isLoading=true;
+  if(this.seguridadServicio.datosUsuarioEnSesion.value.datos?.cargo=="Administrador"){
+    this.filtroUsuario="";
+  }else{
   this.filtroUsuario=this.seguridadServicio.datosUsuarioEnSesion.value.datos?.nombre + ' ' +
     this.seguridadServicio.datosUsuarioEnSesion.value.datos?.apellidos;
-    
+  } 
   this.cotizacionServicio.ObtenerRegistros().subscribe({
     next:(datos: ModeloCotizacion[])=>{
       this.ListadoCotizacion=datos;
