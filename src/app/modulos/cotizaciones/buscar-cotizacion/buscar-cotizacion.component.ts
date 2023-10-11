@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'; // Importa el Router
 import { ModeloCotizacion } from 'src/app/modelos/cotizacion.modelo';
 import { CotizacionService } from 'src/app/servicios/cotizacion.service';
 import { SeguridadService } from 'src/app/servicios/seguridad.service';
@@ -15,11 +16,12 @@ export class BuscarCotizacionComponent implements OnInit{
   filtroUsuario: string = "";
   cotizacionBuscada: string= "";
   cotizacionEncontrada: ModeloCotizacion | undefined;
-
+  
 
   constructor(
     private cotizacionServicio: CotizacionService,
     private seguridadServicio: SeguridadService,
+    private router: Router
     
     ){
       
@@ -48,6 +50,12 @@ ObtenerListadoCotizacion(){
       this.isLoading=false
     }
   })
+}
+
+seleccionarCotizacion(cotizacion: any) {
+  this.cotizacionServicio.selectedCotizacion = { ...cotizacion};
+  console.log("cotizacion selected:" + cotizacion.Cliente)
+  this.router.navigate(['cotizaciones/asignar-cotizacion']);
 }
 
 }

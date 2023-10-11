@@ -1,27 +1,25 @@
-import { Component, OnInit, Injectable, HostListener } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators  } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from 'express';
 import { ModeloCotizacion } from 'src/app/modelos/cotizacion.modelo';
-import { CotizacionService } from 'src/app/servicios/cotizacion.service';
-import { HttpClient } from '@angular/common/http';
 import { ModeloEquipo } from 'src/app/modelos/equipo.modelo';
+import { CotizacionService } from 'src/app/servicios/cotizacion.service';
 import { EquipoService } from 'src/app/servicios/equipo.service';
 import { SeguridadService } from 'src/app/servicios/seguridad.service';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
-
 
 @Component({
-  selector: 'app-asignar-cotizacion',
-  templateUrl: './asignar-cotizacion.component.html',
-  styleUrls: ['./asignar-cotizacion.component.css']
+  selector: 'app-editar-cotizacion',
+  templateUrl: './editar-cotizacion.component.html',
+  styleUrls: ['./editar-cotizacion.component.css']
 })
-export class AsignarCotizacionComponent implements OnInit{ 
+export class EditarCotizacionComponent {
   id:string="";
+isLoading:boolean=false;
+/*
   listadoRegistros: ModeloEquipo[] = [];
   ListadoCotizacion: ModeloCotizacion[]=[]; 
   vlrDolares: number =0;//variable para pasar a dolares el precio de compra
-  isLoading: boolean = false;// variable para el mensaje de carga
   equipoBuscado: string = "";
   equipoEncontrado: ModeloEquipo | undefined;  
   trmSEK: number =0;
@@ -30,7 +28,6 @@ export class AsignarCotizacionComponent implements OnInit{
   TasaCambio:number=0;
   IdSiigo:string="";
   mostrarDetalle:boolean=false;
-  cotizacionSeleccionada:any; //variable para copiar cotizacion del listado
 
   //liquidacion de importacion v6.0
   CargoCombustible: number = 0;
@@ -104,10 +101,8 @@ export class AsignarCotizacionComponent implements OnInit{
   Descuento4:number=0.7;
   Descuento5:number=0.75;
   Descuento6:number=0.8;
-  
 
-fgValidador: FormGroup = this.fb.group({ 
-  //'id': ['',[Validators.required]],
+fgValidador: FormGroup = this.fb.group({
   'Cliente': ['',[Validators.required]],
   'Fecha': [new Date(),[Validators.required]],
   'IdSiigo': ['',[Validators.required]],
@@ -133,32 +128,47 @@ fgValidador: FormGroup = this.fb.group({
   'concepto8':['Transportes'],  'VlrUnd8':[''],  'cantidad8':[''],'total8':[''],
   'concepto9':['Varios'],  'VlrUnd9':[''],  'cantidad9':[''],'total9':[''],
   'concepto10':['Otros'],  'VlrUnd10':[''],  'cantidad10':[''],'total10':[''],
-
 })
 
-constructor(
-  private fb: FormBuilder,
-  private servicioCotizacion: CotizacionService,
-  private http: HttpClient,
-  private equipoServicio: EquipoService,
-  private seguridadServicio: SeguridadService,
-  private router: Router,
-  private route: ActivatedRoute
-  
-  ){     }
+  constructor(
+    private fb: FormBuilder,
+   private servicioCotizacion : CotizacionService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private equipoServicio: EquipoService,
+    private seguridadServicio: SeguridadService
+  ){}
 
-
-  ngOnInit( ): void {
+  ngOnInit(): void {
+    this.id= this.route.snapshot.params["id"];
+    this.BuscarEquipo();
     this.ObtenerListadoEquipos();     
     this.TasadeCambio();
     this.CalculoPuestaMarcha();
-    //this.id= this.route.snapshot.params["id"];
-    //this.cotizacionSeleccionada = this.servicioCotizacion.seleccionarCotizacion; 
-    //this.SetCotizacion();
+  }
+  BuscarEquipo(){
+    this.isLoading=true;
+    this.servicioCotizacion.ObtenerRegistrosPorId(this.id).subscribe((datos:ModeloCotizacion)=>{
+      this.isLoading=false;
+      this.fgValidador.controls["id"].setValue(this.id);
+      this.fgValidador.controls["Fecha"].setValue(datos.Fecha);
+      this.fgValidador.controls["IdSiigo"].setValue(datos.IdSiigo);
+      this.fgValidador.controls["equipoBuscado"].setValue(datos.idEquipo);
+      this.fgValidador.controls["Cantidad"].setValue(datos.Cantidad);
+      this.fgValidador.controls["Moneda"].setValue(datos.Moneda);
+      this.fgValidador.controls["PrecioCompra"].setValue(datos.PrecioCompra);
+      this.fgValidador.controls["FleteOrigenDestino"].setValue(datos.FleteOrigenDestino);
+      this.fgValidador.controls["CargoCombustible"].setValue(datos.CargoCombustible);
+      this.fgValidador.controls["AlistamientoProveedor"].setValue(datos.AlistamientoProveedor);
+      this.fgValidador.controls["FleteLocal"].setValue(datos.FleteLocal);
+      this.fgValidador.controls["AccesoriosLocales"].setValue(datos.AccesoriosLocales);    
+      this.fgValidador.controls["FormaPago"].setValue(datos.FormaPago);
+      this.fgValidador.controls["PuestaMarcha"].setValue(datos.PuestaMarcha);
+    }
+    )
   }
 
-  
-GuardarCotizacion(){  
+  GuardarCotizacion(){  
     
     let Cliente = this.fgValidador.controls["Cliente"].value; 
     let Fecha = this.fgValidador.controls["Fecha"].value;
@@ -171,10 +181,10 @@ GuardarCotizacion(){
     let PrecioCompra = parseFloat(this.fgValidador.controls["PrecioCompra"].value);
     switch (Moneda) {
         case "EUR":                        
-             this.vlrDolares = PrecioCompra/(this.trmEUR-0.04);                 
+             this.vlrDolares = PrecioCompra*(this.trmEUR+0.04);                 
           break;
         case "SEK":         
-          this.vlrDolares = PrecioCompra/(this.trmSEK-0.005);         
+          this.vlrDolares = PrecioCompra*(this.trmSEK+0.005);         
           break;
         case "USD":
           this.vlrDolares= PrecioCompra;
@@ -204,7 +214,7 @@ GuardarCotizacion(){
     this.Seguro= this.vlrDolares*1/100;
     let AlistamientoProveedor = parseFloat( this.fgValidador.controls["AlistamientoProveedor"].value);
     this.VlrTotalMcia= AlistamientoProveedor + this.Seguro + this.TotalFleteInt + this.vlrDolares;
-    this.ImprevistosTRM= this.TasaCambio+150;
+    this.ImprevistosTRM= this.trmCOP+150;
     let FleteLocal = parseFloat( this.fgValidador.controls["FleteLocal"].value);
     let AccesoriosLocales = parseFloat( this.fgValidador.controls["AccesoriosLocales"].value);
     let FormaPago = parseFloat(this.fgValidador.controls["FormaPago"].value);
@@ -391,12 +401,16 @@ GuardarCotizacion(){
 
 TasadeCambio(){
   this.servicioCotizacion.getExchangeRate().subscribe(data => {
-    this.trmEUR = data.rates.EUR;  //Tasa de cambio del euro a dolar  
+    
+
+    //this.trmSEK = data.rates.SEK;
+    //console.log("TRM SEK es:" + this.trmSEK); 
+console.log("TRM USD es:" + this.TasaCambio); 
     this.TasaCambio= data.rates.COP;
-    this.trmSEK = data.rates.SEK;
-    console.log("TRM SEK es:" + this.trmSEK); 
-    console.log("TRM USD es:" + this.TasaCambio);     
-    console.log("TRM EURO es:" + this.trmEUR); 
+    
+
+    //this.trmEUR = data.rates.EUR;  //Tasa de cambio del euro a dolar  
+    //console.log("TRM EURO es:" + this.trmEUR); 
   });
 }
 
@@ -457,27 +471,6 @@ CalculoPuestaMarcha() {
   this.fgValidador.controls["PuestaMarcha"].setValue(sumaTotal);
 }
 
-SetCotizacion(){
-  this.isLoading=true;
-  console.log("Cotizacion:"+ this.cotizacionSeleccionada )
-   /* this.isLoading=false;
-    this.fgValidador.controls["id"].setValue(this.cotizacionSeleccionada);
-    this.fgValidador.controls["Fecha"].setValue(datos.Fecha);
-    this.fgValidador.controls["IdSiigo"].setValue(datos.IdSiigo);
-    this.fgValidador.controls["equipoBuscado"].setValue(datos.idEquipo);
-    this.fgValidador.controls["Cantidad"].setValue(datos.Cantidad);
-    this.fgValidador.controls["Moneda"].setValue(datos.Moneda);
-    this.fgValidador.controls["PrecioCompra"].setValue(datos.PrecioCompra);
-    this.fgValidador.controls["FleteOrigenDestino"].setValue(datos.FleteOrigenDestino);
-    this.fgValidador.controls["CargoCombustible"].setValue(datos.CargoCombustible);
-    this.fgValidador.controls["AlistamientoProveedor"].setValue(datos.AlistamientoProveedor);
-    this.fgValidador.controls["FleteLocal"].setValue(datos.FleteLocal);
-    this.fgValidador.controls["AccesoriosLocales"].setValue(datos.AccesoriosLocales);    
-    this.fgValidador.controls["FormaPago"].setValue(datos.FormaPago);
-    this.fgValidador.controls["PuestaMarcha"].setValue(datos.PuestaMarcha);*/
-  
-  
-}
 
 ObtenerListadoEquipos(){
   this.isLoading = true;
@@ -505,20 +498,6 @@ ObtenerListadoCotizacion(){
       this.isLoading=false
     }
   })
-}
-
-NuevaCotizacion(){
-  this.mostrarDetalle=false;
-  location.reload();
-}
-
-
-/*formatearNumero(event: any) {
-  const input = event.target;
-  const valor = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Eliminar caracteres no numéricos excepto punto y guión
-  input.value = valor.toLocaleString('en-US');
 }*/
 
-}   
-
- 
+}

@@ -38,8 +38,18 @@
             <input formControlName="Marca"  class="form-control" type="text" id="Marca" >                                  
           </div>
           <div class="col">
-            <label for="PaisEquipo" class="form-label">Pais de origen</label>  
-            <input formControlName="PaisEquipo"  class="form-control" type="text" name="PaisEquipo" id="PaisEquipo" >                                  
+
+            <label for="PaisEquipo" class="form-label">Zona de origen</label> 
+            <select formControlName="PaisEquipo" class="form-select">
+                <option value="LatAm_1">LatAm_1</option>
+                <option value="Miami">Miami</option>
+                <option value="EEUU">EEUU</option>
+                <option value="LatAm_2">LatAm_2</option>
+                <option value="Europa_Occidental">Europa_Occidental</option>
+                <option value="Oriente">Oriente</option> 
+                <option value="Resto">Resto</option> 
+            </select> 
+
           </div>
           <div class="col">
             <label for="Proveedor" class="form-label">Proveedor</label> 
@@ -55,7 +65,7 @@
                 <option value="10">10</option>
                 <option value="15">15</option>
                 <option value="20">20</option>
-                <option value="Courrier">Courrier</option> 
+                <option value="Courrier">10</option> 
             </select>             
           </div>         
             <div class="col">

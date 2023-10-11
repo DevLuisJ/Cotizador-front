@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CotizacionesModule } from './cotizaciones.module';
 import { AsignarCotizacionComponent } from './asignar-cotizacion/asignar-cotizacion.component';
 import { BuscarCotizacionComponent } from './buscar-cotizacion/buscar-cotizacion.component';
+import { EditarCotizacionComponent } from './editar-cotizacion/editar-cotizacion.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
     path: 'buscar-cotizacion',
     component: BuscarCotizacionComponent
   },
+  {
+    path: 'editar-cotizacion',
+    component: EditarCotizacionComponent
+  }
 
 ];
 
