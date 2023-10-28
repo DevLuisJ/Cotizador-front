@@ -209,7 +209,7 @@ GuardarCotizacion(){
     let AccesoriosLocales = parseFloat( this.fgValidador.controls["AccesoriosLocales"].value);
     let FormaPago = parseFloat(this.fgValidador.controls["FormaPago"].value);
     this.TotalCIF= this.VlrTotalMcia*this.ImprevistosTRM;
-    this.ArancelEquipo = this.equipoEncontrado?.Arancel!*this.TotalCIF;
+    this.ArancelEquipo = (this.equipoEncontrado?.Arancel!/100)*this.TotalCIF;
     this.BaseIVA=this.TotalCIF+this.ArancelEquipo;
     this.iva=this.BaseIVA*0.19;
     this.vlrImpuesto=this.ArancelEquipo+this.iva;
