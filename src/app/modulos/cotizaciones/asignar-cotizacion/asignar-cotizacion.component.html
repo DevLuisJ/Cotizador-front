@@ -66,7 +66,7 @@
                         </div> 
                             <div class="col"> 
                                 <label for="FleteOrigenDestino">Flete Origen-Destino (USD)</label>     
-                                <input formControlName="FleteOrigenDestino" class="form-control" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any">                                                     
+                                <input formControlName="FleteOrigenDestino" class="form-control" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any" placeholder="Valor en Dolares">                                                     
                             </div>
                             <div class="col">   
                                 <label for="CargoCombustible">Cargos de Combustible (%)</label>
@@ -78,19 +78,19 @@
                     <div class="row" *ngIf="!mostrarDetalle">        
                         
                         <div class="col">
-                            <label for="AlistamientoProveedor">Alistamiento Proveedor</label>   
-                            <input formControlName="AlistamientoProveedor" class="form-control" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any" placeholder="Moneda de compra"/>                                                        
+                            <label for="AlistamientoProveedor">Alistamiento Proveedor (USD)</label>   
+                            <input formControlName="AlistamientoProveedor" class="form-control" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any" placeholder="Valor en Dolares"/>                                                        
                         </div>
                         <div class="col">
                             <label for="FleteLocal">Flete Local (COP)</label>
-                            <input formControlName="FleteLocal" class="form-control" name="FleteLocal" id="FleteLocal" type="number" step="any"/>                             
+                            <input formControlName="FleteLocal" class="form-control" name="FleteLocal" id="FleteLocal" type="number" step="any" placeholder="Valor en COP"/>                             
                         </div>
                         <div class="col">
                             <label for="AccesoriosLocales">Accesorios Locales (COP)</label> 
-                            <input formControlName="AccesoriosLocales" class="form-control" name="AccesoriosLocales" id="AccesoriosLocales" type="number" step="any"/>                            
+                            <input formControlName="AccesoriosLocales" class="form-control" name="AccesoriosLocales" id="AccesoriosLocales" type="number" step="any" placeholder="Valor en COP"/>                            
                         </div>
                         <div class="col">
-                            <label for="FormaPago">Forma de pago</label>  
+                            <label for="FormaPago">Forma de pago (%)</label>  
                             <select formControlName="FormaPago" class="form-select" type="number" step="any">                                
                                 <option value=3>3%</option>
                                 <option value=6>6%</option>

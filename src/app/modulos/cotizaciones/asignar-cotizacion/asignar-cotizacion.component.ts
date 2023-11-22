@@ -174,7 +174,7 @@ GuardarCotizacion(){
              this.vlrDolares = PrecioCompra/(this.trmEUR-0.04);                 
           break;
         case "SEK":         
-          this.vlrDolares = PrecioCompra/(this.trmSEK-0.005);         
+          this.vlrDolares = PrecioCompra/(this.trmSEK+0.5);         
           break;
         case "USD":
           this.vlrDolares= PrecioCompra;
@@ -267,6 +267,7 @@ GuardarCotizacion(){
   this.PrecioCant4=this.Precio4/Cantidad;
   this.PrecioCant5=this.Precio5/Cantidad;
   this.PrecioCant6=this.Precio6/Cantidad; 
+   let Precio1DOLAR=this.Precio1/this.TasaCambio;
   //puesta en marcha
   const nuevoElemento = {
     concepto1: this.fgValidador.controls["concepto1"].value, VlrUnd1: this.fgValidador.controls["VlrUnd1"].value,
@@ -295,7 +296,11 @@ GuardarCotizacion(){
 
 //Prueba de variables en consola:
     console.log("El valor de dolares es:", this.vlrDolares); 
-    console.log("El Seguro es:" + this.Seguro);  
+    console.log("El Seguro es:" + this.Seguro);
+    console.log("El FleteOrigenDestino es:" + FleteOrigenDestino);
+    console.log("El Imprevistos es:" + Imprevistos);
+    console.log("El Otros Gastosfit es:" + OtrosGastosFit);
+    console.log("El CargoCombustible es:" + this.CargoCombustible);  
     console.log("El valor de TotalFleteInt es:", this.TotalFleteInt);
     console.log("El valor de VlrTotalMcia es:", this.VlrTotalMcia);
     console.log("El valor de ImprevistosTRM es:", this.ImprevistosTRM);
@@ -317,6 +322,7 @@ GuardarCotizacion(){
     console.log("El valor de ComisionBancaria es:", this.ComisionBancaria);
     console.log("El valor de Financiamiento es:", this.Financiamiento);
     console.log("El valor de PUESTA-MARCHA es:", this.ListaPuestaMarcha);
+    console.log("El valor de precio dolar es:", Precio1DOLAR);
     
     
 
