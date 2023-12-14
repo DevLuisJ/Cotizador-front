@@ -31,6 +31,7 @@ export class AsignarCotizacionComponent implements OnInit{
   IdSiigo:string="";
   mostrarDetalle:boolean=false;
   cotizacionSeleccionada:any; //variable para copiar cotizacion del listado
+  SwitchPrecio:boolean = false; //Variable para mostrar el precio en cop o usd
 
   //liquidacion de importacion v6.0
   CargoCombustible: number = 0;
@@ -261,12 +262,12 @@ GuardarCotizacion(){
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento)); 
   this.Precio6=  Math.ceil((this.TotalCIF/this.Descuento6)+((this.TotalImpuestos-this.iva)+this.TotalGastosNacionalizacion+
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento)); 
-  this.PrecioCant1=this.Precio1/Cantidad;
-  this.PrecioCant2=this.Precio2/Cantidad;
-  this.PrecioCant3=this.Precio3/Cantidad;
-  this.PrecioCant4=this.Precio4/Cantidad;
-  this.PrecioCant5=this.Precio5/Cantidad;
-  this.PrecioCant6=this.Precio6/Cantidad; 
+  this.PrecioCant1=this.Precio1/this.TasaCambio;
+  this.PrecioCant2=this.Precio2/this.TasaCambio;
+  this.PrecioCant3=this.Precio3/this.TasaCambio;
+  this.PrecioCant4=this.Precio4/this.TasaCambio;
+  this.PrecioCant5=this.Precio5/this.TasaCambio;
+  this.PrecioCant6=this.Precio6/this.TasaCambio; 
    let Precio1DOLAR=this.Precio1/this.TasaCambio;
   //puesta en marcha
   const nuevoElemento = {
@@ -513,11 +514,9 @@ ObtenerListadoCotizacion(){
   })
 }
 
-NuevaCotizacion(){
-  this.mostrarDetalle=false;
-  location.reload();
+cambiarMostrarPrecio(){
+  this.SwitchPrecio= true;
 }
-
 
 /*formatearNumero(event: any) {
   const input = event.target;

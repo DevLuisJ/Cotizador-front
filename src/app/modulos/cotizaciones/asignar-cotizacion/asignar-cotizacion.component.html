@@ -298,6 +298,12 @@
                         </div>  
                     </div>  <br>
                     <div class="Detalle" *ngIf="mostrarDetalle">
+                        <div>
+                            <label>
+                              Precio en Dolares:
+                              <input type="checkbox" [(ngModel)]="SwitchPrecio" (change)="cambiarMostrarPrecio()" />
+                            </label>
+                          </div>
                         <table class="table table-success table-bordered table-sm">
                             <thead class=" sticky-top table-hover">            
                     
@@ -320,12 +326,18 @@
                                         <td> {{c.Fecha | date: 'yyyy/MM/dd'}} </td> 
                                         <td> {{c.idEquipo}} </td>
                                         <td style="text-align: center;"> {{c.Cantidad}} </td>
-                                        <td> {{c.Precio1 | number}} </td>
-                                        <td> {{c.Precio2 | number}} </td>
-                                        <td> {{c.Precio3 | number}} </td>
-                                        <td> {{c.Precio4 | number}} </td>
-                                        <td> {{c.Precio5 | number}} </td>
-                                        <td> {{c.Precio6 | number}} </td>
+                                        <td *ngIf="!SwitchPrecio"> {{c.Precio1 | number}} </td>
+                                        <td *ngIf="SwitchPrecio"> {{c.PrecioCant1 | number}} </td>
+                                        <td *ngIf="!SwitchPrecio"> {{c.Precio2 | number}} </td>
+                                        <td *ngIf="SwitchPrecio"> {{c.PrecioCant2 | number}} </td>
+                                        <td *ngIf="!SwitchPrecio"> {{c.Precio3 | number}} </td>
+                                        <td *ngIf="SwitchPrecio"> {{c.PrecioCant3 | number}} </td>
+                                        <td *ngIf="!SwitchPrecio"> {{c.Precio4 | number}} </td>
+                                        <td *ngIf="SwitchPrecio"> {{c.PrecioCant4 | number}} </td>
+                                        <td *ngIf="!SwitchPrecio"> {{c.Precio5 | number}} </td>
+                                        <td *ngIf="SwitchPrecio"> {{c.PrecioCant5 | number}} </td>
+                                        <td *ngIf="!SwitchPrecio"> {{c.Precio6 | number}} </td>
+                                        <td *ngIf="SwitchPrecio"> {{c.PrecioCant6 | number}} </td>
                                         
                                     </ng-container>                  
                                 </tr>
@@ -337,7 +349,7 @@
                 <button [disabled]="!fgValidador.valid || mostrarDetalle" class="btn btn-primary mb-3" type="submit" >Guardar</button>  
             </div>
             <div class="col">
-                <button class="btn btn-primary mb-3" (click)="NuevaCotizacion()" >Nueva</button>  
+                <a class="btn btn-primary mb-3"  href="/cotizaciones/asignar-cotizacion" >Nueva</a>  
             </div>
             
         </div>
