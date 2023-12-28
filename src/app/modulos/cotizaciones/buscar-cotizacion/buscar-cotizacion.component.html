@@ -8,7 +8,7 @@
     <title>Consulta Cotizacion</title>
 </head>
 <body>
-  <h3>Listado de cotizaciones</h3>
+ 
     <div *ngIf="isLoading" class="pre-carga">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Cargando...</span>
@@ -18,18 +18,26 @@
         <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
         <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
     </div><br-->
-   
+    
+        <div class="col" style="margin-left: 50%">
+        <h3>Listado de cotizaciones</h3>
+        </div>        
+    
     <table class="table table-success table-bordered table-sm">
+       
         <thead class=" sticky-top table-hover">
             <!--input type="text" class= "form-control" placeholder="Filtrar por Id Siigo" [(ngModel)]="filtroIdUsiario"-->
 
             <tr class="table align-middle" style="background-color: #17a2b8;">
+                  
                 <th>Id Siigo</th>
                 <th>Fecha</th>
                 <th>Cliente</th>
                 <th>Asesor</th>
                 <th>Referencia</th>
                 <th>Cantidad</th>
+                <th style="background-color: aliceblue;"><input type="checkbox" class="btn-check" id="SwitchPrecio" [(ngModel)]="SwitchPrecio" autocomplete="off">
+                <label class="btn btn-outline-primary" for="SwitchPrecio">Cambiar Moneda</label></th>
                 <th>Precio -45%</th>
                 <th>Precio -40%</th>
                 <th>Precio -35%</th>
@@ -44,18 +52,27 @@
         <tbody>
             <tr *ngFor=" let c of ListadoCotizacion" >
                 <ng-container *ngIf="c.IdUsuario?.includes(filtroUsuario)">
+                    
                     <td> {{c.IdSiigo}} </td>
                     <td> {{c.Fecha | date: 'yyyy/MM/dd - HH:mm'}} </td>
                     <td> {{c.Cliente}} </td>
                     <td> {{c.IdUsuario}} </td>
                     <td> {{c.idEquipo}} </td>
                     <td style="text-align: center;"> {{c.Cantidad}} </td>
-                    <td> {{c.Precio1 | number}} </td>
-                    <td> {{c.Precio2 | number}} </td>
-                    <td> {{c.Precio3 | number}} </td>
-                    <td> {{c.Precio4 | number}} </td>
-                    <td> {{c.Precio5 | number}} </td>
-                    <td> {{c.Precio6 | number}} </td>
+                    <td *ngIf="SwitchPrecio">COP</td>
+                    <td *ngIf="!SwitchPrecio">USD</td>
+                    <td *ngIf="SwitchPrecio"> {{c.Precio1 | number}} </td>
+                    <td *ngIf="!SwitchPrecio"> {{c.PrecioCant1 | number}} </td>
+                    <td *ngIf="SwitchPrecio"> {{c.Precio2 | number}} </td>
+                    <td *ngIf="!SwitchPrecio"> {{c.PrecioCant2 | number}} </td>
+                    <td *ngIf="SwitchPrecio"> {{c.Precio3 | number}} </td>
+                    <td *ngIf="!SwitchPrecio"> {{c.PrecioCant3 | number}} </td>
+                    <td *ngIf="SwitchPrecio"> {{c.Precio4 | number}} </td>
+                    <td *ngIf="!SwitchPrecio"> {{c.PrecioCant4 | number}} </td>
+                    <td *ngIf="SwitchPrecio"> {{c.Precio5 | number}} </td>
+                    <td *ngIf="!SwitchPrecio"> {{c.PrecioCant5 | number}} </td>
+                    <td *ngIf="SwitchPrecio"> {{c.Precio6 | number}} </td>
+                    <td *ngIf="!SwitchPrecio"> {{c.PrecioCant6 | number}} </td>
                     <td>
                         <a role="button" class="btn btn-primary" (click)="seleccionarCotizacion(c)">Copiar</a>
                     </td>
@@ -64,8 +81,6 @@
                 </ng-container>                  
             </tr>
         </tbody>
-      </table>
-
- 
+      </table> 
 </body>
 </html>

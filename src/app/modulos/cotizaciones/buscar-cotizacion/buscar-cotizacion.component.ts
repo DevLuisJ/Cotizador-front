@@ -16,6 +16,7 @@ export class BuscarCotizacionComponent implements OnInit{
   filtroUsuario: string = "";
   cotizacionBuscada: string= "";
   cotizacionEncontrada: ModeloCotizacion | undefined;
+  SwitchPrecio:boolean = true; //Variable para mostrar el precio en cop o usd
   
 
   constructor(
@@ -57,5 +58,10 @@ seleccionarCotizacion(cotizacion: any) {
   console.log("cotizacion selected:" + cotizacion.Cliente)
   this.router.navigate(['cotizaciones/asignar-cotizacion']);
 }
+
+cambiarMostrarPrecio(){
+  this.SwitchPrecio= !this.SwitchPrecio;
+}
+
 
 }

@@ -23,15 +23,17 @@ export class AsignarCotizacionComponent implements OnInit{
   vlrDolares: number =0;//variable para pasar a dolares el precio de compra
   isLoading: boolean = false;// variable para el mensaje de carga
   equipoBuscado: string = "";
-  equipoEncontrado: ModeloEquipo | undefined;  
+  equipoEncontrado: ModeloEquipo | undefined; 
+  Imprevistos:number=0; 
+  OtrosGastosFit:number=0;
   trmSEK: number =0;
   trmEUR:number =0;
   trmCOP:number=0;
-  TasaCambio:number=0;
-  IdSiigo:string="";
+  TasaCambio:number=0;  
   mostrarDetalle:boolean=false;
   cotizacionSeleccionada:any; //variable para copiar cotizacion del listado
-  SwitchPrecio:boolean = false; //Variable para mostrar el precio en cop o usd
+  SwitchPrecio:boolean = true; //Variable para mostrar el precio en cop o usd  
+  Contabilizado:boolean=false;
 
   //liquidacion de importacion v6.0
   CargoCombustible: number = 0;
@@ -159,14 +161,46 @@ constructor(
   }
 
   
-GuardarCotizacion(){  
-    
-    let Cliente = this.fgValidador.controls["Cliente"].value; 
-    let Fecha = this.fgValidador.controls["Fecha"].value;
-    this.IdSiigo = this.fgValidador.controls["IdSiigo"].value;
-    let idEquipo = this.equipoEncontrado?.Referencia;
-    let IdUsuario = this.seguridadServicio.datosUsuarioEnSesion.value.datos?.nombre + ' ' +
-       this.seguridadServicio.datosUsuarioEnSesion.value.datos?.apellidos;;
+Contabilizar(){     
+  this.Contabilizado=false;  
+  this.Imprevistos=0;
+  this.OtrosGastosFit=0;
+  this.TotalFleteInt=0;
+  this.Seguro=0;
+  this.vlrDolares=0;
+  this.VlrTotalMcia=0;
+  this.ImprevistosTRM=0;
+  this.TotalCIF=0;
+  this.ArancelEquipo=0;
+  this.BaseIVA=0;
+  this.iva=0;
+  this.vlrImpuesto=0;
+  this.cuatrox1000=0;
+  this.Manejo=0;
+  this.TotalImpuestos=0;
+  this.mayorq2000=0;
+  this.pruebaInterm=0;
+
+  //Gastos de intermediacion si mercancia es > a US$2.000
+  this.valorCirCM=0;
+  this.elabDeclaracion=0;
+  this.preInspeccion=0;
+  this.gastosOperativos=0;
+  this.TotalTramiteNacionaliz=0;
+  this.ivaTramite=0;
+  this.GastosSIA=0;
+
+  //Gastos adicionales tramite de nacionalizacion
+  this.Bodegajes=0;
+  this.transpBodegaAlfa=0;
+  this.liberacionGuia=0;
+  this.OtrosGastos=0;
+  this.TotalGastosAdicionales=0;
+  this.TotalGastosNacionalizacion=0;
+
+  this.ComisionBancaria=0;
+  this.Financiamiento=0;
+  
     let Cantidad = parseFloat( this.fgValidador.controls["Cantidad"].value);
     let Moneda = this.fgValidador.controls["Moneda"].value;
     let PrecioCompra = parseFloat(this.fgValidador.controls["PrecioCompra"].value);
@@ -185,22 +219,22 @@ GuardarCotizacion(){
           break;
       }
       
-    let FleteOrigenDestino = parseFloat( this.fgValidador.controls["FleteOrigenDestino"].value);
-    let Imprevistos = (this.fgValidador.controls["FleteOrigenDestino"].value)/0.9; //imprevistos del flete
-    let OtrosGastosFit: number = 0;    
+    
+    this.Imprevistos = (this.fgValidador.controls["FleteOrigenDestino"].value)/0.9; //imprevistos del flete
+        
     if (this.equipoEncontrado && (this.equipoEncontrado?.Altura! >= 120 || this.equipoEncontrado?.Anchura! >= 120 || 
       this.equipoEncontrado?.Profundidad! >= 120)) {
-      OtrosGastosFit = 55;      
+      this.OtrosGastosFit = 55;      
     } 
     if (this.equipoEncontrado && ( this.equipoEncontrado?.PesoFacturado! >= 70)) {
-      OtrosGastosFit = OtrosGastosFit + 55;      
+      this.OtrosGastosFit = this.OtrosGastosFit + 55;      
     } 
     if (this.equipoEncontrado &&(this.equipoEncontrado?.esApilable! == "NO")){
       this.TotalFleteInt=250//Se adiciona al flete internacional 250 usd cargo x dimensiones
     }
 
     this.CargoCombustible= parseFloat( this.fgValidador.controls["CargoCombustible"].value);
-    this.TotalFleteInt= this.TotalFleteInt+(Imprevistos*this.CargoCombustible/100)+Imprevistos+OtrosGastosFit;// preguntar imprevistos x 2
+    this.TotalFleteInt= this.TotalFleteInt+(this.Imprevistos*this.CargoCombustible/100)+this.Imprevistos+this.OtrosGastosFit;// preguntar imprevistos x 2
     
     this.Seguro= this.vlrDolares*1/100;
     let AlistamientoProveedor = parseFloat( this.fgValidador.controls["AlistamientoProveedor"].value);
@@ -249,7 +283,7 @@ GuardarCotizacion(){
     this.Financiamiento= ((this.TotalCIF+this.TotalImpuestos+this.TotalGastosNacionalizacion+PuestaMarcha+
       FleteLocal+AccesoriosLocales+this.ComisionBancaria)*FormaPago/100)/Cantidad;
     
-  let Observaciones=  this.fgValidador.controls["Observaciones"].value 
+  
   this.Precio1=  Math.ceil((this.TotalCIF/this.Descuento1)+((this.TotalImpuestos-this.iva)+this.TotalGastosNacionalizacion+
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento));
   this.Precio2=  Math.ceil((this.TotalCIF/this.Descuento2)+((this.TotalImpuestos-this.iva)+this.TotalGastosNacionalizacion+
@@ -268,7 +302,7 @@ GuardarCotizacion(){
   this.PrecioCant4=this.Precio4/this.TasaCambio;
   this.PrecioCant5=this.Precio5/this.TasaCambio;
   this.PrecioCant6=this.Precio6/this.TasaCambio; 
-   let Precio1DOLAR=this.Precio1/this.TasaCambio;
+  
   //puesta en marcha
   const nuevoElemento = {
     concepto1: this.fgValidador.controls["concepto1"].value, VlrUnd1: this.fgValidador.controls["VlrUnd1"].value,
@@ -295,51 +329,48 @@ GuardarCotizacion(){
   
   this.ListaPuestaMarcha.push(nuevoElemento);
 
-//Prueba de variables en consola:
-    console.log("El valor de dolares es:", this.vlrDolares); 
-    console.log("El Seguro es:" + this.Seguro);
-    console.log("El FleteOrigenDestino es:" + FleteOrigenDestino);
-    console.log("El Imprevistos es:" + Imprevistos);
-    console.log("El Otros Gastosfit es:" + OtrosGastosFit);
-    console.log("El CargoCombustible es:" + this.CargoCombustible);  
-    console.log("El valor de TotalFleteInt es:", this.TotalFleteInt);
-    console.log("El valor de VlrTotalMcia es:", this.VlrTotalMcia);
-    console.log("El valor de ImprevistosTRM es:", this.ImprevistosTRM);
-    console.log("El valor de TotalCIF es:", this.TotalCIF);
-    console.log("El valor de ArancelEquipo es:", this.ArancelEquipo);
-    console.log("El valor de Base IVA es:", this.BaseIVA);
-    console.log("El valor de IVA es:", this.iva);
-    console.log("El valor de vlrImpuesto es:", this.vlrImpuesto);
-    console.log("El valor de cuatrox1000 es:", this.cuatrox1000);
-    console.log("El valor de Manejo es:", this.Manejo);
-    console.log("El valor de TotalImpuestos es:", this.TotalImpuestos);
-    console.log("El valor de mayorq2000 es:", this.mayorq2000);
-    console.log("El valor de pruebaInterm es:", this.pruebaInterm);
-    console.log("El valor de TotalTramiteNacionalizacion es:", this.TotalTramiteNacionaliz);
-    console.log("El valor de ivaTramite es:", this.ivaTramite);
-    console.log("El valor de GastosSIA es:", this.GastosSIA);
-    console.log("El valor de TotalGastosAdicionales es:", this.TotalGastosAdicionales);
-    console.log("El valor de TotalGastosNacionalizacion es:", this.TotalGastosNacionalizacion);
-    console.log("El valor de ComisionBancaria es:", this.ComisionBancaria);
-    console.log("El valor de Financiamiento es:", this.Financiamiento);
-    console.log("El valor de PUESTA-MARCHA es:", this.ListaPuestaMarcha);
-    console.log("El valor de precio dolar es:", Precio1DOLAR);
-    
-    
 
-//Envio a base de datos, doc cotizacion
+    this.isLoading = true;
+    this.Contabilizado=!this.Contabilizado;
+    alert("Cotizacion Contabilizada")
+    this.isLoading = false
+    ,(error: any) => {  
+      alert("Error almacenando la cotizacion");
+      this.isLoading = false;
+    }
+  }
+
+  liquidacion(){
+    let IdSiigo = this.fgValidador.controls["IdSiigo"].value;
+    let Cliente = this.fgValidador.controls["Cliente"].value; 
+    let Fecha = this.fgValidador.controls["Fecha"].value;
+    let idEquipo = this.equipoEncontrado?.Referencia;
+    let IdUsuario = this.seguridadServicio.datosUsuarioEnSesion.value.datos?.nombre + ' ' +
+       this.seguridadServicio.datosUsuarioEnSesion.value.datos?.apellidos;;
+    let Cantidad = parseFloat( this.fgValidador.controls["Cantidad"].value);
+    let Moneda = this.fgValidador.controls["Moneda"].value;
+    let PrecioCompra = parseFloat(this.fgValidador.controls["PrecioCompra"].value);
+    let FleteOrigenDestino = parseFloat( this.fgValidador.controls["FleteOrigenDestino"].value);
+    let AlistamientoProveedor = parseFloat( this.fgValidador.controls["AlistamientoProveedor"].value);
+    let FleteLocal = parseFloat( this.fgValidador.controls["FleteLocal"].value);
+    let AccesoriosLocales = parseFloat( this.fgValidador.controls["AccesoriosLocales"].value);
+    let FormaPago = parseFloat(this.fgValidador.controls["FormaPago"].value);
+    let PuestaMarcha= parseFloat( this.fgValidador.controls["PuestaMarcha"].value);
+    let Observaciones=  this.fgValidador.controls["Observaciones"].value 
+
+    //Envio a base de datos, doc cotizacion
   let c = new ModeloCotizacion();  
   c.Cliente= Cliente;
   c.Fecha= Fecha;
-  c.IdSiigo= this.IdSiigo;
+  c.IdSiigo= IdSiigo;
   c.idEquipo= idEquipo;
   c.IdUsuario= IdUsuario;
   c.Cantidad= Cantidad;
   c.Moneda= Moneda;
   c.PrecioCompra= PrecioCompra;
   c.FleteOrigenDestino= FleteOrigenDestino;  
-  c.Imprevistos= Imprevistos;
-  c.OtrosGastosFit= OtrosGastosFit;
+  c.Imprevistos= this.Imprevistos;
+  c.OtrosGastosFit= this.OtrosGastosFit;
   c.CargoCombustible= this.CargoCombustible;
   c.Seguro= this.Seguro;
   c.AlistamientoProveedor= AlistamientoProveedor;
@@ -367,18 +398,45 @@ GuardarCotizacion(){
 
   this.isLoading = true;
   this.servicioCotizacion.CrearCotizacion(c).subscribe((datos:ModeloCotizacion) =>{    
-    this.ObtenerListadoCotizacion(); 
-    //this.router.navigate(["/cotizaciones/buscar-cotizacion"]);  
-    this.isLoading = false;
-    this.mostrarDetalle = true;  
-    alert("Cotizacion almacenada correctamente");    
+    this.ObtenerListadoCotizacion();      
+    this.isLoading = false;     
+    alert("Cotizacion almacenada correctamente");  
+    this.router.navigate(["/cotizaciones/buscar-cotizacion"]);  
     //location.reload();    
 },(error: any) => {  
   alert("Error almacenando la cotizacion");
   this.isLoading = false;
-})    
+})
+
+//Prueba de variables en consola:
+    console.log("El valor de dolares es:", this.vlrDolares); 
+    console.log("El Seguro es:" + this.Seguro);
+    console.log("El FleteOrigenDestino es:" + FleteOrigenDestino);
+    console.log("El Imprevistos es:" + this.Imprevistos);
+    console.log("El Otros Gastosfit es:" + this.OtrosGastosFit);
+    console.log("El CargoCombustible es:" + this.CargoCombustible);  
+    console.log("El valor de TotalFleteInt es:", this.TotalFleteInt);
+    console.log("El valor de VlrTotalMcia es:", this.VlrTotalMcia);
+    console.log("El valor de ImprevistosTRM es:", this.ImprevistosTRM);
+    console.log("El valor de TotalCIF es:", this.TotalCIF);
+    console.log("El valor de ArancelEquipo es:", this.ArancelEquipo);
+    console.log("El valor de Base IVA es:", this.BaseIVA);
+    console.log("El valor de IVA es:", this.iva);
+    console.log("El valor de vlrImpuesto es:", this.vlrImpuesto);
+    console.log("El valor de cuatrox1000 es:", this.cuatrox1000);
+    console.log("El valor de Manejo es:", this.Manejo);
+    console.log("El valor de TotalImpuestos es:", this.TotalImpuestos);
+    console.log("El valor de mayorq2000 es:", this.mayorq2000);
+    console.log("El valor de pruebaInterm es:", this.pruebaInterm);
+    console.log("El valor de TotalTramiteNacionalizacion es:", this.TotalTramiteNacionaliz);
+    console.log("El valor de ivaTramite es:", this.ivaTramite);
+    console.log("El valor de GastosSIA es:", this.GastosSIA);
+    console.log("El valor de TotalGastosAdicionales es:", this.TotalGastosAdicionales);
+    console.log("El valor de TotalGastosNacionalizacion es:", this.TotalGastosNacionalizacion);
+    console.log("El valor de ComisionBancaria es:", this.ComisionBancaria);
+    console.log("El valor de Financiamiento es:", this.Financiamiento);
+    console.log("El valor de PUESTA-MARCHA es:", this.ListaPuestaMarcha);
   }
-  
   
   buscarEquipoPorReferencia() {
     this.isLoading = true
@@ -515,7 +573,7 @@ ObtenerListadoCotizacion(){
 }
 
 cambiarMostrarPrecio(){
-  this.SwitchPrecio= true;
+  this.SwitchPrecio= !this.SwitchPrecio;
 }
 
 /*formatearNumero(event: any) {
