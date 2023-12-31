@@ -12,5 +12,14 @@
     justify-content: center;
    
   }
+  form{
+    width: auto;
+    background-color: #17a2b8 ; /* Color de fondo para el formulario */
+    color: white;
+    padding: 20px;
+    margin: auto;  
+    border-radius: 4px;
+    font-family: 'verdana';  
+  }
   
   

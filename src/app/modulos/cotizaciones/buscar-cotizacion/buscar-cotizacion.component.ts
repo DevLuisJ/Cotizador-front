@@ -13,11 +13,17 @@ import { SeguridadService } from 'src/app/servicios/seguridad.service';
 export class BuscarCotizacionComponent implements OnInit{
   ListadoCotizacion: ModeloCotizacion[]=[];
   isLoading: boolean = false;
-  filtroUsuario: string = "";
-  cotizacionBuscada: string= "";
-  cotizacionEncontrada: ModeloCotizacion | undefined;
+  filtroUsuario: string = "";  
   SwitchPrecio:boolean = true; //Variable para mostrar el precio en cop o usd
-  
+  idBuscado:string="";
+  idEncontrado:ModeloCotizacion | undefined;
+  filtroIdSiigo:string="";
+  mostrarId:Boolean=false;
+  ClienteBuscado:string="";
+  ClienteEncontrado:ModeloCotizacion | undefined;
+  filtroCliente:string="";
+  mostrarCliente:Boolean=false;
+
 
   constructor(
     private cotizacionServicio: CotizacionService,
@@ -51,6 +57,38 @@ ObtenerListadoCotizacion(){
       this.isLoading=false
     }
   })
+}
+
+buscarCotizacionPorIdSiigo() {
+  console.log("IdSiigo buscado:" + this.idBuscado);
+  this.idEncontrado = this.ListadoCotizacion.find(objeto => objeto.IdSiigo === this.idBuscado);
+  if (this.idEncontrado) {
+    console.log("Objeto encontrado:");
+    console.log(this.idEncontrado);
+    this.mostrarId=!this.mostrarId;
+    this.ListadoCotizacion=this.ListadoCotizacion;
+   } else {
+    console.log("Objeto no encontrado");
+    
+    alert("Equipo no encontrado");
+  }
+  
+}
+
+buscarCotizacionPorCliente() {
+  console.log("Cliente buscado:" + this.ClienteBuscado);
+  this.ClienteEncontrado = this.ListadoCotizacion.find(objeto => objeto.Cliente === this.ClienteBuscado);
+  if (this.ClienteEncontrado) {
+    console.log("Objeto encontrado:");
+    console.log(this.ClienteEncontrado);
+    this.mostrarCliente=!this.mostrarCliente;
+    this.ListadoCotizacion=this.ListadoCotizacion;
+   } else {
+    console.log("Objeto no encontrado");
+    
+    alert("Equipo no encontrado");
+  }
+  
 }
 
 seleccionarCotizacion(cotizacion: any) {

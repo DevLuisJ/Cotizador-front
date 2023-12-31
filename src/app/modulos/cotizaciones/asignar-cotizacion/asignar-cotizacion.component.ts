@@ -85,6 +85,7 @@ export class AsignarCotizacionComponent implements OnInit{
                   }[] = [];
   ComisionBancaria:number=0;
   Financiamiento:number=0;
+  TotalPuestaMarcha:number=0;
 
   //Liquidacion de precios
   Precio1:number=0;
@@ -110,7 +111,7 @@ export class AsignarCotizacionComponent implements OnInit{
   
 
 fgValidador: FormGroup = this.fb.group({ 
-  //'id': ['',[Validators.required]],
+  //'id': ['',[Validators]],
   'Cliente': ['',[Validators.required]],
   'Fecha': [new Date(),[Validators.required]],
   'IdSiigo': ['',[Validators.required]],
@@ -155,7 +156,9 @@ constructor(
     this.ObtenerListadoEquipos();     
     this.TasadeCambio();
     this.CalculoPuestaMarcha();
-    //this.id= this.route.snapshot.params["id"];
+    this.id= this.route.snapshot.params["id"];
+    console.log("id:"+this.id);
+    this.SetCotizacion();    
     //this.cotizacionSeleccionada = this.servicioCotizacion.seleccionarCotizacion; 
     //this.SetCotizacion();
   }
@@ -200,7 +203,8 @@ Contabilizar(){
 
   this.ComisionBancaria=0;
   this.Financiamiento=0;
-  
+
+    this.buscarEquipoPorReferencia();
     let Cantidad = parseFloat( this.fgValidador.controls["Cantidad"].value);
     let Moneda = this.fgValidador.controls["Moneda"].value;
     let PrecioCompra = parseFloat(this.fgValidador.controls["PrecioCompra"].value);
@@ -296,12 +300,12 @@ Contabilizar(){
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento)); 
   this.Precio6=  Math.ceil((this.TotalCIF/this.Descuento6)+((this.TotalImpuestos-this.iva)+this.TotalGastosNacionalizacion+
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento)); 
-  this.PrecioCant1=this.Precio1/this.TasaCambio;
-  this.PrecioCant2=this.Precio2/this.TasaCambio;
-  this.PrecioCant3=this.Precio3/this.TasaCambio;
-  this.PrecioCant4=this.Precio4/this.TasaCambio;
-  this.PrecioCant5=this.Precio5/this.TasaCambio;
-  this.PrecioCant6=this.Precio6/this.TasaCambio; 
+  this.PrecioCant1=Math.ceil(this.Precio1/this.TasaCambio);
+  this.PrecioCant2=Math.ceil(this.Precio2/this.TasaCambio);
+  this.PrecioCant3=Math.ceil(this.Precio3/this.TasaCambio);
+  this.PrecioCant4=Math.ceil(this.Precio4/this.TasaCambio);
+  this.PrecioCant5=Math.ceil(this.Precio5/this.TasaCambio);
+  this.PrecioCant6=Math.ceil(this.Precio6/this.TasaCambio); 
   
   //puesta en marcha
   const nuevoElemento = {
@@ -518,18 +522,21 @@ CalculoPuestaMarcha() {
   this.fgValidador.controls["total10"].setValue(total10);
    
   const suma= total1 + total2+ total3+ total4+total5+total6+total7+total8+total9+total10
-  const sumaTotal=(suma*0.02)+ suma
-  this.fgValidador.controls["PuestaMarcha"].setValue(sumaTotal);
+  this.TotalPuestaMarcha=(suma*0.02)+ suma
+  this.fgValidador.controls["PuestaMarcha"].setValue(Math.ceil(this.TotalPuestaMarcha));
 }
 
 SetCotizacion(){
   this.isLoading=true;
-  console.log("Cotizacion:"+ this.cotizacionSeleccionada )
-   /* this.isLoading=false;
-    this.fgValidador.controls["id"].setValue(this.cotizacionSeleccionada);
-    this.fgValidador.controls["Fecha"].setValue(datos.Fecha);
-    this.fgValidador.controls["IdSiigo"].setValue(datos.IdSiigo);
+  //console.log("Cotizacion:"+ this.cotizacionSeleccionada )
+  this.servicioCotizacion.ObtenerRegistrosPorId(this.id).subscribe((datos:ModeloCotizacion)=>{
+    this.isLoading=false; 
+    
+    
+    
     this.fgValidador.controls["equipoBuscado"].setValue(datos.idEquipo);
+    this.buscarEquipoPorReferencia();
+    this.fgValidador.controls["Cliente"].setValue(datos.Cliente);
     this.fgValidador.controls["Cantidad"].setValue(datos.Cantidad);
     this.fgValidador.controls["Moneda"].setValue(datos.Moneda);
     this.fgValidador.controls["PrecioCompra"].setValue(datos.PrecioCompra);
@@ -539,9 +546,197 @@ SetCotizacion(){
     this.fgValidador.controls["FleteLocal"].setValue(datos.FleteLocal);
     this.fgValidador.controls["AccesoriosLocales"].setValue(datos.AccesoriosLocales);    
     this.fgValidador.controls["FormaPago"].setValue(datos.FormaPago);
-    this.fgValidador.controls["PuestaMarcha"].setValue(datos.PuestaMarcha);*/
-  
-  
+    this.fgValidador.controls["Observaciones"].setValue(datos.Observaciones);
+    
+    const vlrPrecio1 = datos.Precio1;
+    const campoPrecio1 = document.getElementById('Precio1') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecio1) {
+      if (vlrPrecio1 !== undefined) {
+        this.Precio1 = vlrPrecio1; // Establecer el valor de Precio1 en el campo HTML
+      } else {
+        console.log('El valor de Precio1 es undefined');
+      }
+    } else {
+      console.log('Campo Precio1 no encontrado');
+    }
+
+    const vlrPrecio2 = datos.Precio2;
+    const campoPrecio2 = document.getElementById('Precio1') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecio2) {
+      if (vlrPrecio2 !== undefined) {
+        this.Precio2 = vlrPrecio2; // Establecer el valor de Precio1 en el campo HTML
+      } else {
+        console.log('El valor de Precio2 es undefined');
+      }
+    } else {
+      console.log('Campo Precio2 no encontrado');
+    }
+
+    const vlrPrecio3 = datos.Precio3;
+    const campoPrecio3 = document.getElementById('Precio3') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecio3) {
+      if (vlrPrecio3 !== undefined) {
+        this.Precio3 = vlrPrecio3; // Establecer el valor de Precio3 en el campo HTML
+      } else {
+        console.log('El valor de Precio3 es undefined');
+      }
+    } else {
+      console.log('Campo Precio3 no encontrado');
+    }
+
+    const vlrPrecio4 = datos.Precio4;
+    const campoPrecio4 = document.getElementById('Precio4') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecio4) {
+      if (vlrPrecio4 !== undefined) {
+        this.Precio4 = vlrPrecio4; // Establecer el valor de Precio4 en el campo HTML
+      } else {
+        console.log('El valor de Precio4 es undefined');
+      }
+    } else {
+      console.log('Campo Precio4 no encontrado');
+    }
+
+    const vlrPrecio5 = datos.Precio5;
+    const campoPrecio5 = document.getElementById('Precio5') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecio5) {
+      if (vlrPrecio5 !== undefined) {
+        this.Precio5 = vlrPrecio5; // Establecer el valor de Precio5 en el campo HTML
+      } else {
+        console.log('El valor de Precio5 es undefined');
+      }
+    } else {
+      console.log('Campo Precio5 no encontrado');
+    }
+    
+    const vlrPrecio6 = datos.Precio6;
+    const campoPrecio6 = document.getElementById('Precio6') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecio6) {
+      if (vlrPrecio6 !== undefined) {
+        this.Precio6 = vlrPrecio6; // Establecer el valor de Precio6 en el campo HTML
+      } else {
+        console.log('El valor de Precio6 es undefined');
+      }
+    } else {
+      console.log('Campo Precio6 no encontrado');
+    }
+
+    const vlrPrecioCant1 = datos.PrecioCant1;
+    const campoPrecioCant1 = document.getElementById('PrecioCant1') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecioCant1) {
+      if (vlrPrecioCant1 !== undefined) {
+        this.PrecioCant1 = vlrPrecioCant1; // Establecer el valor de PrecioCant1 en el campo HTML
+      } else {
+        console.log('El valor de PrecioCant1 es undefined');
+      }
+    } else {
+      console.log('Campo PrecioCant1 no encontrado');
+    }
+
+    const vlrPrecioCant2 = datos.PrecioCant2;
+    const campoPrecioCant2 = document.getElementById('PrecioCant2') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecioCant2) {
+      if (vlrPrecioCant2 !== undefined) {
+        this.PrecioCant2 = vlrPrecioCant2; // Establecer el valor de PrecioCant2 en el campo HTML
+      } else {
+        console.log('El valor de PrecioCant2 es undefined');
+      }
+    } else {
+      console.log('Campo PrecioCant2 no encontrado');
+    }
+
+    const vlrPrecioCant3 = datos.PrecioCant3;
+    const campoPrecioCant3 = document.getElementById('PrecioCant3') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecioCant3) {
+      if (vlrPrecioCant3 !== undefined) {
+        this.PrecioCant3 = vlrPrecioCant3; // Establecer el valor de PrecioCant3 en el campo HTML
+      } else {
+        console.log('El valor de PrecioCant3 es undefined');
+      }
+    } else {
+      console.log('Campo PrecioCant3 no encontrado');
+    }
+
+    const vlrPrecioCant4 = datos.PrecioCant4;
+    const campoPrecioCant4 = document.getElementById('PrecioCant4') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecioCant4) {
+      if (vlrPrecioCant4 !== undefined) {
+        this.PrecioCant4 = vlrPrecioCant4; // Establecer el valor de PrecioCant4 en el campo HTML
+      } else {
+        console.log('El valor de PrecioCant4 es undefined');
+      }
+    } else {
+      console.log('Campo PrecioCant4 no encontrado');
+    }
+
+    const vlrPrecioCant5 = datos.PrecioCant5;
+    const campoPrecioCant5 = document.getElementById('PrecioCant5') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecioCant5) {
+      if (vlrPrecioCant5 !== undefined) {
+        this.PrecioCant5 = vlrPrecioCant5; // Establecer el valor de PrecioCant5 en el campo HTML
+      } else {
+        console.log('El valor de PrecioCant5 es undefined');
+      }
+    } else {
+      console.log('Campo PrecioCant5 no encontrado');
+    }
+
+    const vlrPrecioCant6 = datos.PrecioCant6;
+    const campoPrecioCant6 = document.getElementById('PrecioCant6') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecioCant6) {
+      if (vlrPrecioCant6 !== undefined) {
+        this.PrecioCant6 = vlrPrecioCant6; // Establecer el valor de PrecioCant6 en el campo HTML
+      } else {
+        console.log('El valor de PrecioCant6 es undefined');
+      }
+    } else {
+      console.log('Campo PrecioCant6 no encontrado');
+    }
+
+
+//Set de los datos de puesta en marcha
+if (datos.ListaPuestaMarcha !== undefined) {
+  const ListaPuestaMarcha = datos.ListaPuestaMarcha;
+
+  ListaPuestaMarcha.forEach((elemento, index) => {
+
+    this.fgValidador.controls["concepto1"].setValue(elemento.concepto1);
+    this.fgValidador.controls["concepto2"].setValue(elemento.concepto2);
+    this.fgValidador.controls["concepto3"].setValue(elemento.concepto3);
+    this.fgValidador.controls["concepto4"].setValue(elemento.concepto4);
+    this.fgValidador.controls["concepto5"].setValue(elemento.concepto5);
+    this.fgValidador.controls["concepto6"].setValue(elemento.concepto6);
+    this.fgValidador.controls["concepto7"].setValue(elemento.concepto7);
+    this.fgValidador.controls["concepto8"].setValue(elemento.concepto8);
+    this.fgValidador.controls["concepto9"].setValue(elemento.concepto9);
+    this.fgValidador.controls["concepto10"].setValue(elemento.concepto10);
+
+    this.fgValidador.controls["VlrUnd1"].setValue(elemento.VlrUnd1);
+    this.fgValidador.controls["VlrUnd2"].setValue(elemento.VlrUnd2);
+    this.fgValidador.controls["VlrUnd3"].setValue(elemento.VlrUnd3);
+    this.fgValidador.controls["VlrUnd4"].setValue(elemento.VlrUnd4);
+    this.fgValidador.controls["VlrUnd5"].setValue(elemento.VlrUnd5);
+    this.fgValidador.controls["VlrUnd6"].setValue(elemento.VlrUnd6);
+    this.fgValidador.controls["VlrUnd7"].setValue(elemento.VlrUnd7);
+    this.fgValidador.controls["VlrUnd8"].setValue(elemento.VlrUnd8);
+    this.fgValidador.controls["VlrUnd9"].setValue(elemento.VlrUnd9);
+    this.fgValidador.controls["VlrUnd10"].setValue(elemento.VlrUnd10); 
+    
+    this.fgValidador.controls["cantidad1"].setValue(elemento.cantidad1);
+    this.fgValidador.controls["cantidad2"].setValue(elemento.cantidad2);
+    this.fgValidador.controls["cantidad3"].setValue(elemento.cantidad3);
+    this.fgValidador.controls["cantidad4"].setValue(elemento.cantidad4);
+    this.fgValidador.controls["cantidad5"].setValue(elemento.cantidad5);
+    this.fgValidador.controls["cantidad6"].setValue(elemento.cantidad6);
+    this.fgValidador.controls["cantidad7"].setValue(elemento.cantidad7);
+    this.fgValidador.controls["cantidad8"].setValue(elemento.cantidad8);
+    this.fgValidador.controls["cantidad9"].setValue(elemento.cantidad9);
+    this.fgValidador.controls["cantidad10"].setValue(elemento.cantidad10);   
+  });
+} else {
+  console.log('ListaPuestaMarcha es undefined');
+}
+this.CalculoPuestaMarcha();
+})
 }
 
 ObtenerListadoEquipos(){
@@ -572,9 +767,7 @@ ObtenerListadoCotizacion(){
   })
 }
 
-cambiarMostrarPrecio(){
-  this.SwitchPrecio= !this.SwitchPrecio;
-}
+
 
 /*formatearNumero(event: any) {
   const input = event.target;

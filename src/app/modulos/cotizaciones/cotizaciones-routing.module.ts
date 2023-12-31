@@ -4,10 +4,15 @@ import { CotizacionesModule } from './cotizaciones.module';
 import { AsignarCotizacionComponent } from './asignar-cotizacion/asignar-cotizacion.component';
 import { BuscarCotizacionComponent } from './buscar-cotizacion/buscar-cotizacion.component';
 import { EditarCotizacionComponent } from './editar-cotizacion/editar-cotizacion.component';
+import { ValidadorSesionGuard } from 'src/app/guardianes/validador-sesion.guard';
 
 const routes: Routes = [
   {
     path: 'asignar-cotizacion',
+    component: AsignarCotizacionComponent
+  } ,
+  {
+    path: 'asignar-cotizacion/:id',
     component: AsignarCotizacionComponent
   } ,
   {
@@ -17,6 +22,16 @@ const routes: Routes = [
   {
     path: 'editar-cotizacion',
     component: EditarCotizacionComponent
+  },
+  {
+    path: 'editar-cotizacion/:id',
+    component: EditarCotizacionComponent,
+    canActivate:[ValidadorSesionGuard]
+  },
+  {
+    path: 'eliminar-cotizacion/:id',
+    component: EditarCotizacionComponent,
+    canActivate:[ValidadorSesionGuard]
   }
 
 ];

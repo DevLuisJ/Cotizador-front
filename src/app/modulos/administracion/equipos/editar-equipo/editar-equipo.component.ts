@@ -42,6 +42,7 @@ isLoading:boolean=false;
     
   }
 BuscarEquipo(){
+
   this.isLoading=true;
   this.servicioEquipo.ObtenerRegistrosPorId(this.id).subscribe((datos:ModeloEquipo)=>{
     this.isLoading=false;

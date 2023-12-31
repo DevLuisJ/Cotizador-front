@@ -1,5 +1,4 @@
-<p>Editar cotizacion ok</p>
-<!--DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,10 +9,10 @@
     <title>Cotizar</title>
 </head>
 <body>                    
-            <form class="form-register" [formGroup]= "fgValidador" (ngSubmit)="BuscarCotizacion()">
+            <form class="form-register" [formGroup]= "fgValidador">
                 <div class="row" style="color: black;">
                     <div class="col">
-                        <label class="dolar-label" >TRM COP: </label>
+                        <label class="dolar-label" >TRM USD: </label>
                         <output> {{ TasaCambio | number }}</output>
                     </div>
                     <div class="col">
@@ -67,7 +66,7 @@
                         </div> 
                             <div class="col"> 
                                 <label for="FleteOrigenDestino">Flete Origen-Destino (USD)</label>     
-                                <input formControlName="FleteOrigenDestino" class="form-control" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any">                                                     
+                                <input formControlName="FleteOrigenDestino" class="form-control" type="number" name="FleteOrigenDestino" id="FleteOrigenDestino" step="any" placeholder="Valor en Dolares">                                                     
                             </div>
                             <div class="col">   
                                 <label for="CargoCombustible">Cargos de Combustible (%)</label>
@@ -79,19 +78,19 @@
                     <div class="row" *ngIf="!mostrarDetalle">        
                         
                         <div class="col">
-                            <label for="AlistamientoProveedor">Alistamiento Proveedor</label>   
-                            <input formControlName="AlistamientoProveedor" class="form-control" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any" placeholder="Moneda de compra"/>                                                        
+                            <label for="AlistamientoProveedor">Alistamiento Proveedor (USD)</label>   
+                            <input formControlName="AlistamientoProveedor" class="form-control" name="AlistamientoProveedor" id="AlistamientoProveedor" type="number" step="any" placeholder="Valor en Dolares"/>                                                        
                         </div>
                         <div class="col">
                             <label for="FleteLocal">Flete Local (COP)</label>
-                            <input formControlName="FleteLocal" class="form-control" name="FleteLocal" id="FleteLocal" type="number" step="any"/>                             
+                            <input formControlName="FleteLocal" class="form-control" name="FleteLocal" id="FleteLocal" type="number" step="any" placeholder="Valor en COP"/>                             
                         </div>
                         <div class="col">
                             <label for="AccesoriosLocales">Accesorios Locales (COP)</label> 
-                            <input formControlName="AccesoriosLocales" class="form-control" name="AccesoriosLocales" id="AccesoriosLocales" type="number" step="any"/>                            
+                            <input formControlName="AccesoriosLocales" class="form-control" name="AccesoriosLocales" id="AccesoriosLocales" type="number" step="any" placeholder="Valor en COP"/>                            
                         </div>
                         <div class="col">
-                            <label for="FormaPago">Forma de pago</label>  
+                            <label for="FormaPago">Forma de pago (%)</label>  
                             <select formControlName="FormaPago" class="form-select" type="number" step="any">                                
                                 <option value=3>3%</option>
                                 <option value=6>6%</option>
@@ -102,11 +101,11 @@
                        </div>
                     </div><br>
                     
-                    <div class="puestaMarcha mb-3" *ngIf="!mostrarDetalle">
+                    <div class="puestaMarcha mb-3 ">
                         <legend>Costos puesta en marcha (COP)</legend>
-                        <div class="row mb-3">
+                        <div class="row mb-3 ">
                             <div class="col-4">
-                                <label for="concepto1">Concepto</label>
+                                <label for="concepto1">Concepto</label><br>
                                 <input formControlName="concepto1" class="form-control" type="text">
                             </div>
                             <div class="col-3">
@@ -119,7 +118,7 @@
                             </div>                            
                             <div class="col-3">
                                 <label for="total1">Total</label>
-                                <input formControlName="total1" class="form-control" type="number" readonly >
+                                <input formControlName="total1" class="form-control text-end" type="number" readonly >
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -137,7 +136,7 @@
                             </div>                            
                             <div class="col-3">
                                 <label for="total2">Total</label>
-                                <input formControlName="total2" class="form-control" type="number" readonly>
+                                <input formControlName="total2" class="form-control text-end" type="number" readonly>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -155,7 +154,7 @@
                             </div>                            
                             <div class="col-3">
                                 <label for="total3">Total</label>
-                                <input formControlName="total3" class="form-control" type="number" readonly>
+                                <input formControlName="total3" class="form-control text-end" type="number" readonly>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -173,7 +172,7 @@
                             </div>                            
                             <div class="col-3">
                                 <label for="total4">Total</label>
-                                <input formControlName="total4" class="form-control" type="number" readonly>
+                                <input formControlName="total4" class="form-control text-end" type="number" readonly>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -191,7 +190,7 @@
                             </div>                            
                             <div class="col-3">
                                 <label for="total5">Total</label>
-                                <input formControlName="total5" class="form-control" type="number" readonly>
+                                <input formControlName="total5" class="form-control text-end" type="number" readonly>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -209,7 +208,7 @@
                             </div>                            
                             <div class="col-3">
                                 <label for="total6">Total</label>
-                                <input formControlName="total6" class="form-control" type="number" readonly>
+                                <input formControlName="total6" class="form-control text-end" type="number" readonly>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -227,7 +226,7 @@
                             </div>                            
                             <div class="col-3">
                                 <label for="total7">Total</label>
-                                <input formControlName="total7" class="form-control" type="number" readonly>
+                                <input formControlName="total7" class="form-control text-end" type="number" readonly>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -245,7 +244,7 @@
                             </div>                            
                             <div class="col-3">
                                 <label for="total8">Total</label>
-                                <input formControlName="total8" class="form-control" type="number" readonly>
+                                <input formControlName="total8" class="form-control text-end" type="number" readonly>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -263,7 +262,7 @@
                             </div>                            
                             <div class="col-3">
                                 <label for="total9">Total</label>
-                                <input formControlName="total9" class="form-control" type="number" readonly>
+                                <input formControlName="total9" class="form-control text-end" type="number" readonly>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -281,66 +280,89 @@
                             </div>                            
                             <div class="col-3">
                                 <label for="total10">Total</label>
-                                <input formControlName="total10" class="form-control" type="number" readonly>
+                                <input formControlName="total10" class="form-control text-end" type="number" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9"></div>
+                            <div class="col-3">
+                                <label for="PuestaMarcha"> Total Puesta en Marcha</label>
+                                <input formControlName="PuestaMarcha" class="form-control text-end" name="PuestaMarcha" id="PuestaMarcha" type="number" step="any" readonly/>                          
+                                
                             </div>
                         </div>
                     </div>
-                    <div class="row" *ngIf="!mostrarDetalle">             
+                    <div class="row">             
                         
-                        <div class="col-3">
-                            <label for="PuestaMarcha"> Total Puesta en Marcha</label>
-                            <input formControlName="PuestaMarcha" class="form-control" name="PuestaMarcha" id="PuestaMarcha" type="number" step="any" readonly/>                          
-                            
-                        </div>
+                        
                          <div class="col mb-3">
                             <label for="Observaciones">Observaciones</label>
                             <input formControlName="Observaciones" class="form-control" name="Observaciones" id="Observaciones" type="text" />
                                 
                         </div>  
                     </div>  <br>
-                    <div class="Detalle" *ngIf="mostrarDetalle">
-                        <table class="table table-success table-bordered table-sm">
-                            <thead class=" sticky-top table-hover">            
-                    
-                                <tr class="table align-middle" style="background-color: #17a2b8;">                                   
-                                    <th>Fecha</th>                    
-                                    <th>Referencia</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio -45%</th>
-                                    <th>Precio -40%</th>
-                                    <th>Precio -35%</th>
-                                    <th>Precio -30%</th>
-                                    <th>Precio -25%</th>
-                                    <th>Precio -20%</th>
-                                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor=" let c of ListadoCotizacion">
-                                    <ng-container *ngIf="c.IdSiigo?.includes(IdSiigo)">                                                                  
-                                        <td> {{c.Fecha | date: 'yyyy/MM/dd'}} </td> 
-                                        <td> {{c.idEquipo}} </td>
-                                        <td style="text-align: center;"> {{c.Cantidad}} </td>
-                                        <td> {{c.Precio1 | number}} </td>
-                                        <td> {{c.Precio2 | number}} </td>
-                                        <td> {{c.Precio3 | number}} </td>
-                                        <td> {{c.Precio4 | number}} </td>
-                                        <td> {{c.Precio5 | number}} </td>
-                                        <td> {{c.Precio6 | number}} </td>
-                                        
-                                    </ng-container>                  
-                                </tr>
-                            </tbody>
-                          </table>
+                    <h3>Precios de venta COP:</h3>
+                    <div class="puestaMarcha mb-3">
+                        <div class="row">
+                            <div class="col" id="Precio1">
+                                Precio1 (0,55) = {{Precio1| number}}
+                            </div>
+                            <div class="col" id="Precio2">
+                                Precio2 (0,6) = {{Precio2| number}}
+                            </div>
+                            <div class="col" id="Precio3">
+                                Precio3 (0,65) = {{Precio3| number}}
+                            </div>
+                            <div class="col" id="Precio4">
+                                Precio4 (0,7) = {{Precio4| number}}
+                            </div>
+                            <div class="col" id="Precio5">
+                                Precio5 (0,75) = {{Precio5| number}}
+                            </div>
+                            <div class="col" id="Precio6">
+                                Precio6 (0,8) = {{Precio6| number}}
+                            </div>
+                        </div>
+                    </div><br>
+                    <h3>Precios de venta USD:</h3>
+                    <div class="puestaMarcha mb-3">
+                        <div class="row">
+                            <div class="col" id="PrecioCant1">
+                                Precio1 (0,55) = {{PrecioCant1| number}}
+                            </div>
+                            <div class="col" id="PrecioCant2">
+                                Precio2 (0,6) = {{PrecioCant2| number}}
+                            </div>
+                            <div class="col" id="PrecioCant3">
+                                Precio3 (0,65) = {{PrecioCant3| number}}
+                            </div>
+                            <div class="col" id="PrecioCant4">
+                                Precio4 (0,7) = {{PrecioCant4| number}}
+                            </div>
+                            <div class="col" id="PrecioCant5">
+                                Precio5 (0,75) = {{PrecioCant5| number}}
+                            </div>
+                            <div class="col" id="PrecioCant6">
+                                Precio6 (0,8) = {{PrecioCant6| number}}
+                            </div>
+                        </div>
                     </div>
+                    
         <div class="row">
-            <div class="col">
-                <button [disabled]="!fgValidador.valid || mostrarDetalle" class="btn btn-primary mb-3" type="submit" >Guardar</button>  
+            <!--div class="col">
+                <button [disabled]="!fgValidador.valid || mostrarDetalle" class="btn btn-primary mb-3" (click)="Contabilizar()" >Contabilizar</button>  
             </div>
             <div class="col">
-                <button class="btn btn-primary mb-3" (click)="NuevaCotizacion()" >Nueva</button>  
+                <button [disabled]="!Contabilizado" (click)="liquidacion()" class="btn btn-primary mb-3" >Liquidar</button>                 
             </div>
-            
+            <div class="col">
+                <a class="btn btn-primary mb-3"  href="/cotizaciones/asignar-cotizacion" >Nueva</a>  
+            </div-->
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <button type="button" class="btn btn-warning" [disabled]="!fgValidador.valid" (click)="Contabilizar()">Contabilizar</button>
+                <button type="button" class="btn btn-danger" [disabled]="!Contabilizado" (click)="liquidacion()">Liquidar</button>
+                <button type="button" class="btn btn-primary"  href="/cotizaciones/asignar-cotizacion">Nueva</button>
+              </div>
         </div>
                      
         </form>  
@@ -357,6 +379,4 @@
   
 </body>
 
-</html-->
-          
-   
+</html>
