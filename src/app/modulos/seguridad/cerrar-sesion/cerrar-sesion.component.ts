@@ -10,6 +10,7 @@ import { SeguridadService } from 'src/app/servicios/seguridad.service';
 })
 export class CerrarSesionComponent {
     constructor(private serviciosSeguridad: SeguridadService, private router: Router){}
+    
 
     ngOnInit(): void {
       this.serviciosSeguridad.EliminarInformacionSesion();
