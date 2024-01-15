@@ -153,14 +153,13 @@ constructor(
 
 
   ngOnInit( ): void {
-    this.ObtenerListadoEquipos();     
-    this.TasadeCambio();
-    this.CalculoPuestaMarcha();
+      
+    this.TasadeCambio();    
     this.id= this.route.snapshot.params["id"];
     console.log("id:"+this.id);
     this.SetCotizacion();    
-    //this.cotizacionSeleccionada = this.servicioCotizacion.seleccionarCotizacion; 
-    //this.SetCotizacion();
+    this.ObtenerListadoEquipos(); 
+    this.CalculoPuestaMarcha();
   }
 
   
@@ -361,6 +360,7 @@ Contabilizar(){
     let FormaPago = parseFloat(this.fgValidador.controls["FormaPago"].value);
     let PuestaMarcha= parseFloat( this.fgValidador.controls["PuestaMarcha"].value);
     let Observaciones=  this.fgValidador.controls["Observaciones"].value 
+    
 
     //Envio a base de datos, doc cotizacion
   let c = new ModeloCotizacion();  
@@ -385,6 +385,7 @@ Contabilizar(){
   c.GastosSIA=this.GastosSIA; 
   c.PuestaMarcha=PuestaMarcha;  
   c.Observaciones=Observaciones; 
+  c.Estado="Pendiente";
   c.Precio1=this.Precio1;
   c.Precio2=this.Precio2;
   c.Precio3=this.Precio3;
@@ -527,12 +528,9 @@ CalculoPuestaMarcha() {
 }
 
 SetCotizacion(){
-  this.isLoading=true;
-  //console.log("Cotizacion:"+ this.cotizacionSeleccionada )
+  this.isLoading=true;  
   this.servicioCotizacion.ObtenerRegistrosPorId(this.id).subscribe((datos:ModeloCotizacion)=>{
-    this.isLoading=false; 
-    
-    
+    this.isLoading=false;  
     
     this.fgValidador.controls["equipoBuscado"].setValue(datos.idEquipo);
     this.buscarEquipoPorReferencia();

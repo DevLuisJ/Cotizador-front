@@ -60,7 +60,10 @@
                 <th>Precio4 (0,7)</th>
                 <th>Precio5 (0,75)</th>
                 <th>Precio6 (0,8)</th>
+                <th>Observaciones</th>
+                <th>Estado</th>
                 <th>Ver</th>
+                <th *ngIf="btnEstado">Revision</th>
                 
                                 
             </tr>
@@ -90,8 +93,13 @@
                     <td *ngIf="!SwitchPrecio" style="text-align: center;"> {{c.PrecioCant5 | number}} </td>
                     <td *ngIf="SwitchPrecio" style="text-align: center;"> {{c.Precio6 | number}} </td>
                     <td *ngIf="!SwitchPrecio" style="text-align: center;"> {{c.PrecioCant6 | number}} </td>
+                    <td>{{c.Observaciones}} </td>
+                    <td>{{c.Estado}} </td>
                     <td>
                         <a routerLink="/cotizaciones/asignar-cotizacion/{{c.id}}" class="btn btn-success">Ver</a>
+                    </td>
+                    <td *ngIf="btnEstado">                      
+                        <button type="button" class="btn btn-primary" (click)="autorizarCotizacion(c.id)">Revisar</button>
                     </td>
                     
                       

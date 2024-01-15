@@ -23,8 +23,9 @@ export class BuscarCotizacionComponent implements OnInit{
   ClienteEncontrado:ModeloCotizacion | undefined;
   filtroCliente:string="";
   mostrarCliente:Boolean=false;
-
-
+  btnEstado:Boolean=false;
+ 
+  
   constructor(
     private cotizacionServicio: CotizacionService,
     private seguridadServicio: SeguridadService,
@@ -42,6 +43,7 @@ ObtenerListadoCotizacion(){
   this.isLoading=true;
   if(this.seguridadServicio.datosUsuarioEnSesion.value.datos?.cargo=="Administrador"){
     this.filtroUsuario="";
+    this.btnEstado=true;
   }else{
   this.filtroUsuario=this.seguridadServicio.datosUsuarioEnSesion.value.datos?.nombre + ' ' +
     this.seguridadServicio.datosUsuarioEnSesion.value.datos?.apellidos;
@@ -91,15 +93,25 @@ buscarCotizacionPorCliente() {
   
 }
 
-seleccionarCotizacion(cotizacion: any) {
-  this.cotizacionServicio.selectedCotizacion = { ...cotizacion};
-  console.log("cotizacion selected:" + cotizacion.Cliente)
-  this.router.navigate(['cotizaciones/asignar-cotizacion']);
-}
-
 cambiarMostrarPrecio(){
   this.SwitchPrecio= !this.SwitchPrecio;
 }
 
+autorizarCotizacion(id:any){
+  this.isLoading=true;  
+  this.cotizacionServicio.ObtenerRegistrosPorId(id).subscribe((datos:ModeloCotizacion)=>{
+    this.isLoading=false;     
+    
+    datos.Estado= "Revisado";
 
+  this.cotizacionServicio.ActualizarCotizacion(datos).subscribe((datos:ModeloCotizacion) =>{
+    alert("Cotizacion Autorizada correctamente");
+    this.isLoading = false;
+    location.reload();
+  },(error: any) => {
+    alert("Error en la autorizacion");
+    this.isLoading = false;
+  })
+}) 
+}
 }

@@ -11,7 +11,7 @@ export class CotizacionService {
 
   url='https://cotizadorbk.onrender.com'
   token: string= '';
-  selectedCotizacion: any;
+  
 
   //private apiKey = '1c177e5e35026df68ebf9595e3de2d7f';
   //private apiUrl = 'http://data.fixer.io/api/latest';
@@ -69,9 +69,6 @@ export class CotizacionService {
     const urlExchange = `${this.apiUrl}?app_id=${this.apiKey}`;
     return this.http.get(urlExchange);
   }
-  seleccionarCotizacion(cotizacion: any) {
-    this.selectedCotizacion = { ...cotizacion };
-  console.log("cotizacion en servicio" + this.selectedCotizacion.Cliente)
-  }
+
 
 }

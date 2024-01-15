@@ -20,6 +20,7 @@ export class ModeloCotizacion{
     Moneda? : String;
     PrecioCompra? : number;
     Seguro? : number;
+    Estado? : string;
     PuestaMarcha?:number;
     Precio1?:number;
     Precio2?:number;
