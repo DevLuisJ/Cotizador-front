@@ -48,7 +48,7 @@
                 <th>Id Siigo</th>
                 <th>Fecha</th>
                 <th>Cliente</th>
-                <th>Asesor</th>
+                <th *ngIf="btnEstado">Asesor</th>
                 <th>Referencia</th>
                 <th>Cantidad</th>
                 <th style="background-color: aliceblue;"><input type="checkbox" class="btn-check" id="SwitchPrecio" 
@@ -76,7 +76,7 @@
                     <td style="text-align: center;"> {{c.IdSiigo}} </td>
                     <td> {{c.Fecha | date: 'yyyy/MM/dd - HH:mm'}} </td>
                     <td> {{c.Cliente}} </td>
-                    <td> {{c.IdUsuario}} </td>
+                    <td *ngIf="btnEstado"> {{c.IdUsuario}} </td>
                     <td> {{c.idEquipo}} </td>
                     <td style="text-align: center;"> {{c.Cantidad}} </td>
                     <td *ngIf="SwitchPrecio" style="text-align: center;">COP</td>

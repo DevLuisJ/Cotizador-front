@@ -533,7 +533,7 @@ SetCotizacion(){
     this.isLoading=false;  
     
     this.fgValidador.controls["equipoBuscado"].setValue(datos.idEquipo);
-    this.buscarEquipoPorReferencia();
+    //this.buscarEquipoPorReferencia();
     this.fgValidador.controls["Cliente"].setValue(datos.Cliente);
     this.fgValidador.controls["Cantidad"].setValue(datos.Cantidad);
     this.fgValidador.controls["Moneda"].setValue(datos.Moneda);
