@@ -24,6 +24,7 @@ export class BuscarCotizacionComponent implements OnInit{
   filtroCliente:string="";
   mostrarCliente:Boolean=false;
   btnEstado:Boolean=false;
+  
  
   
   constructor(
@@ -114,4 +115,6 @@ autorizarCotizacion(id:any){
   })
 }) 
 }
+
+
 }

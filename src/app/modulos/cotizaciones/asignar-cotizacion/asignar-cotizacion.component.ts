@@ -28,12 +28,12 @@ export class AsignarCotizacionComponent implements OnInit{
   OtrosGastosFit:number=0;
   trmSEK: number =0;
   trmEUR:number =0;
-  trmCOP:number=0;
   TasaCambio:number=0;  
   mostrarDetalle:boolean=false;
-  cotizacionSeleccionada:any; //variable para copiar cotizacion del listado
-  SwitchPrecio:boolean = true; //Variable para mostrar el precio en cop o usd  
   Contabilizado:boolean=false;
+  tasa:number=0; //tasa a la cual fue liquidada la cotizacion
+ 
+  
 
   //liquidacion de importacion v6.0
   CargoCombustible: number = 0;
@@ -154,10 +154,15 @@ constructor(
 
   ngOnInit( ): void {
       
-    this.TasadeCambio();    
-    this.id= this.route.snapshot.params["id"];
-    console.log("id:"+this.id);
-    this.SetCotizacion();    
+    this.TasadeCambio();  
+
+    if(this.route.snapshot.params["id"]){
+      this.id= this.route.snapshot.params["id"];
+      console.log("id:"+this.id);
+      this.SetCotizacion();
+      
+    }  
+        
     this.ObtenerListadoEquipos(); 
     this.CalculoPuestaMarcha();
   }
@@ -182,6 +187,7 @@ Contabilizar(){
   this.TotalImpuestos=0;
   this.mayorq2000=0;
   this.pruebaInterm=0;
+  this.tasa=0;
 
   //Gastos de intermediacion si mercancia es > a US$2.000
   this.valorCirCM=0;
@@ -212,7 +218,7 @@ Contabilizar(){
              this.vlrDolares = PrecioCompra/(this.trmEUR-0.04);                 
           break;
         case "SEK":         
-          this.vlrDolares = PrecioCompra/(this.trmSEK+0.5);         
+          this.vlrDolares = PrecioCompra/(this.trmSEK-0.5);         
           break;
         case "USD":
           this.vlrDolares= PrecioCompra;
@@ -398,8 +404,22 @@ Contabilizar(){
   c.PrecioCant4=this.PrecioCant4;
   c.PrecioCant5=this.PrecioCant5;
   c.PrecioCant6=this.PrecioCant6;
-  c.ListaPuestaMarcha= this.ListaPuestaMarcha;
-
+  c.ListaPuestaMarcha= this.ListaPuestaMarcha;  
+  
+switch (Moneda) {
+        case "EUR":                        
+              c.tasa= this.trmEUR;               
+          break;
+        case "SEK":         
+               c.tasa= this.trmSEK;  
+          break;
+        case "USD":
+            c.tasa= this.TasaCambio;
+          break;
+        default:
+          console.log("La variable tiene un valor distinto de 'EUR', 'SEK' o 'USD'");
+          break;
+      }
 
   this.isLoading = true;
   this.servicioCotizacion.CrearCotizacion(c).subscribe((datos:ModeloCotizacion) =>{    
@@ -528,6 +548,7 @@ CalculoPuestaMarcha() {
 }
 
 SetCotizacion(){
+  
   this.isLoading=true;  
   this.servicioCotizacion.ObtenerRegistrosPorId(this.id).subscribe((datos:ModeloCotizacion)=>{
     this.isLoading=false;  
@@ -545,7 +566,21 @@ SetCotizacion(){
     this.fgValidador.controls["AccesoriosLocales"].setValue(datos.AccesoriosLocales);    
     this.fgValidador.controls["FormaPago"].setValue(datos.FormaPago);
     this.fgValidador.controls["Observaciones"].setValue(datos.Observaciones);
-    
+
+    const vlrTasa = datos.tasa;
+    const campoTasa = document.getElementById('tasa') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoTasa) {
+      if (vlrTasa !== undefined) {
+        this.tasa = vlrTasa; // Establecer el valor de Tasa en el campo HTML
+      } else {
+        console.log('El valor de Tasa es undefined');
+      }
+    } else {
+      console.log('Campo Tasa no encontrado');
+    }
+
+    console.log("tasa: "+ this.tasa);
+
     const vlrPrecio1 = datos.Precio1;
     const campoPrecio1 = document.getElementById('Precio1') as HTMLInputElement; // Obtener el campo HTML por su ID    
     if (campoPrecio1) {
@@ -764,6 +799,8 @@ ObtenerListadoCotizacion(){
     }
   })
 }
+
+
 
 
 

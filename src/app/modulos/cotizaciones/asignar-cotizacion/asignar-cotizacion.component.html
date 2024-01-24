@@ -23,6 +23,10 @@
                         <label class="dolar-label" >TRM SEK: </label>
                         <output> {{ trmSEK | number }}</output>
                     </div>
+                    <div class="col">
+                        <label class="dolar-label" id="tasa" >Tasa cotizada: </label>
+                        <output> {{ tasa | number }} </output>
+                    </div>
                 </div><br>
              <legend class="text-center" style="color: aliceblue;">Cotizacion de Equipo</legend>  
              <div class="row" *ngIf="!mostrarDetalle">     

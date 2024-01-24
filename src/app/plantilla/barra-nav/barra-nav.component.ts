@@ -41,7 +41,7 @@ export class BarraNavComponent implements OnInit, OnDestroy {
   }
 
   iniciarTemporizadorInactividad(): void {
-    const tiempoMaximoInactivo = 5 * 60 * 1000; // 5 minutos en milisegundos
+    const tiempoMaximoInactivo = 60 * 60 * 1000; // 1 hora en milisegundos
 
     const resetTimer = (): void => {
       this.inactividadSubscription.unsubscribe();
@@ -67,6 +67,6 @@ export class BarraNavComponent implements OnInit, OnDestroy {
   logoutUser(): void {
     this.seguridadServicio.EliminarInformacionSesion();
     this.router.navigate(['./']);
-    console.log("Usuario inactivo durante 5 minutos. Cerrando sesión...");
+    console.log("Usuario inactivo durante 1 hora. Cerrando sesión...");
   }
 }
