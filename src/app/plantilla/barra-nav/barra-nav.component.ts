@@ -41,7 +41,7 @@ export class BarraNavComponent implements OnInit, OnDestroy {
   }
 
   iniciarTemporizadorInactividad(): void {
-    const tiempoMaximoInactivo = 60 * 60 * 1000; // 1 hora en milisegundos
+    const tiempoMaximoInactivo = 60 * 60 * 8000; // 1 hora en milisegundos
 
     const resetTimer = (): void => {
       this.inactividadSubscription.unsubscribe();
@@ -54,11 +54,11 @@ export class BarraNavComponent implements OnInit, OnDestroy {
     const keyPress$ = fromEvent(document, 'keypress');
 
     this.inactividadSubscription = mouseMove$.pipe(
-      debounceTime(1000) // Cambia este valor según tus necesidades (milisegundos)
+      debounceTime(8000) // Cambia este valor según tus necesidades (milisegundos)
     ).subscribe(() => resetTimer());
 
     keyPress$.pipe(
-      debounceTime(1000) // Cambia este valor según tus necesidades (milisegundos)
+      debounceTime(8000) // Cambia este valor según tus necesidades (milisegundos)
     ).subscribe(() => resetTimer());
 
     resetTimer();
@@ -67,6 +67,6 @@ export class BarraNavComponent implements OnInit, OnDestroy {
   logoutUser(): void {
     this.seguridadServicio.EliminarInformacionSesion();
     this.router.navigate(['./']);
-    console.log("Usuario inactivo durante 1 hora. Cerrando sesión...");
+    console.log("Usuario inactivo durante 8 horas. Cerrando sesión...");
   }
 }

@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BuscarCotizacionComponent } from './buscar-cotizacion/buscar-cotizacion.component';
 import { AppComponent } from 'src/app/app.component';
 import { EditarCotizacionComponent } from './editar-cotizacion/editar-cotizacion.component';
+import { EliminarCotizacionComponent } from './eliminar-cotizacion/eliminar-cotizacion.component';
 
 
 
@@ -18,7 +19,8 @@ import { EditarCotizacionComponent } from './editar-cotizacion/editar-cotizacion
   declarations: [
     AsignarCotizacionComponent,
     BuscarCotizacionComponent,
-    EditarCotizacionComponent,     
+    EditarCotizacionComponent,
+    EliminarCotizacionComponent,     
     ],
   imports: [
     CommonModule,

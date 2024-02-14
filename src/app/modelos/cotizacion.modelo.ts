@@ -16,7 +16,8 @@ export class ModeloCotizacion{
     AccesoriosLocales? : number;
     GastosSIA?: number;
     FormaPago? : number;
-    Observaciones? : number;
+    Observaciones? : string;
+    Observaciones2?: string;
     Moneda? : String;
     PrecioCompra? : number;
     Seguro? : number;

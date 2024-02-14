@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModeloEquipo } from 'src/app/modelos/equipo.modelo';
 import { EquipoService } from 'src/app/servicios/equipo.service';
+import { SeguridadService } from 'src/app/servicios/seguridad.service';
 
 @Component({
   selector: 'app-buscar-equipo',
@@ -15,14 +16,23 @@ export class BuscarEquipoComponent implements OnInit{
   mostrarEquipo: boolean=false;//bandera para mostrar/ocultar el equipo encontrado
   listaEquipos:boolean=false; //bandera para mostrar/ocultar listado de equipos
   filtroEquipo: string = "";
+  btnBandera:boolean=false;
 
-  constructor(private equipoServicio: EquipoService){}
+  constructor(private equipoServicio: EquipoService,
+    private seguridadServicio: SeguridadService
+            
+    ){}
   ngOnInit(): void {
     this.ObtenerListadoEquipos();
   }   
 
   ObtenerListadoEquipos(){
     this.isLoading = true;
+    if(this.seguridadServicio.datosUsuarioEnSesion.value.datos?.cargo=="Administrador"){
+      
+      this.btnBandera=true;
+    }
+
     this.equipoServicio.ObtenerRegistros().subscribe({
       next: (datos: ModeloEquipo[])=>{
         this.listadoRegistros=datos;  

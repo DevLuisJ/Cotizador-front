@@ -38,7 +38,7 @@
         <h3 style="margin:auto">Listado de cotizaciones</h3><br>
              
     
-    <table class="table table-success table-bordered table-sm">
+    <table class="table table-success table-striped table-bordered table-sm ">
        
         <thead class=" sticky-top table-hover">
             <!--input type="text" class= "form-control" placeholder="Filtrar por Id Siigo" [(ngModel)]="filtroIdUsiario"-->
@@ -62,8 +62,10 @@
                 <th>Precio6 (0,8)</th>
                 <th>Observaciones</th>
                 <th>Estado</th>
-                <th>Ver</th>
-                <th *ngIf="btnEstado">Revision</th>
+                <th>Copiar Cotizacion</th>
+                <!--th *ngIf="btnEstado">Revision</th-->
+                <th *ngIf="btnEstado">Editar</th>
+                <th *ngIf="btnEstado">Eliminar</th>
                 
                                 
             </tr>
@@ -96,11 +98,18 @@
                     <td>{{c.Observaciones}} </td>
                     <td>{{c.Estado}} </td>
                     <td>
-                        <a routerLink="/cotizaciones/asignar-cotizacion/{{c.id}}" class="btn btn-success">Ver</a>
+                        <a routerLink="/cotizaciones/asignar-cotizacion/{{c.id}}" class="btn btn-success">Copiar</a>
                     </td>
-                    <td *ngIf="btnEstado">                      
+                <!--td *ngIf="btnEstado">                      
                         <button type="button" class="btn btn-primary" (click)="autorizarCotizacion(c.id)">Revisar</button>
+                    </td-->
+                    <td *ngIf="btnEstado">
+                        <a routerLink="/cotizaciones/editar-cotizacion/{{c.id}}" class="btn btn-info">Editar</a>
                     </td>
+                    <td *ngIf="btnEstado">
+                        <a routerLink="/cotizaciones/eliminar-cotizacion/{{c.id}}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                    
                     
                       
                 </ng-container>                  

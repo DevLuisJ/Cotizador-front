@@ -16,7 +16,7 @@ export class EliminarUsuarioComponent implements OnInit{
   constructor(
     private usuarioServicio: UsuarioService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router 
 
   ){  }
 

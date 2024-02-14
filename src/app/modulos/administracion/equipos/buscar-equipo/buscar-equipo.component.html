@@ -30,7 +30,7 @@
         </form>         
     <legend style="text-align: center;">Listado de Equipos</legend> 
    
-    <table class="table table-success table-bordered table-sm ">       
+    <table class="table table-success table-striped table-bordered table-sm ">       
         <thead class="sticky-top table-hover">   
                  
                 <tr class="table align-middle" style="background-color: #17a2b8; text-align: center;">                          
@@ -48,8 +48,8 @@
                     <th>Posicion Arancelaria</th>
                     <th>Proveedor</th>
                     <th>Apilable</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>                    
+                    <th *ngIf="btnBandera">Editar</th>
+                    <th *ngIf="btnBandera">Eliminar</th>                    
                 </tr>            
         </thead>
     
@@ -70,10 +70,10 @@
                 <td>{{e.PosArancelaria}}</td>
                 <td>{{e.Proveedor}}</td>
                 <td style="text-align: center;">{{e.esApilable}}</td>
-                <td>
+                <td *ngIf="btnBandera" >
                     <a routerLink="/administracion/editar-equipo/{{e.id}}" class="btn btn-success">Editar</a>
                 </td>
-                <td>
+                <td *ngIf="btnBandera">
                     <a routerLink="/administracion/eliminar-equipo/{{e.id}}" class="btn btn-danger">Eliminar</a>
                     
                 </td>

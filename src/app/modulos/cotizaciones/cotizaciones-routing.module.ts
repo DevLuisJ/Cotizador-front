@@ -5,6 +5,7 @@ import { AsignarCotizacionComponent } from './asignar-cotizacion/asignar-cotizac
 import { BuscarCotizacionComponent } from './buscar-cotizacion/buscar-cotizacion.component';
 import { EditarCotizacionComponent } from './editar-cotizacion/editar-cotizacion.component';
 import { ValidadorSesionGuard } from 'src/app/guardianes/validador-sesion.guard';
+import { EliminarCotizacionComponent } from './eliminar-cotizacion/eliminar-cotizacion.component';
 
 const routes: Routes = [
   {
@@ -30,7 +31,12 @@ const routes: Routes = [
   },
   {
     path: 'eliminar-cotizacion/:id',
-    component: EditarCotizacionComponent,
+    component: EliminarCotizacionComponent,
+    canActivate:[ValidadorSesionGuard]
+  },
+  {
+    path: 'eliminar-cotizacion',
+    component: EliminarCotizacionComponent,
     canActivate:[ValidadorSesionGuard]
   }
 
