@@ -63,7 +63,7 @@
                 <th>Observaciones</th>
                 <th>Estado</th>
                 <th>Copiar Cotizacion</th>
-                <!--th *ngIf="btnEstado">Revision</th-->
+                <th *ngIf="btnEstado">Revision</th>
                 <th *ngIf="btnEstado">Editar</th>
                 <th *ngIf="btnEstado">Eliminar</th>
                 
@@ -100,9 +100,9 @@
                     <td>
                         <a routerLink="/cotizaciones/asignar-cotizacion/{{c.id}}" class="btn btn-success">Copiar</a>
                     </td>
-                <!--td *ngIf="btnEstado">                      
+                <td *ngIf="btnEstado">                      
                         <button type="button" class="btn btn-primary" (click)="autorizarCotizacion(c.id)">Revisar</button>
-                    </td-->
+                    </td>
                     <td *ngIf="btnEstado">
                         <a routerLink="/cotizaciones/editar-cotizacion/{{c.id}}" class="btn btn-info">Editar</a>
                     </td>
