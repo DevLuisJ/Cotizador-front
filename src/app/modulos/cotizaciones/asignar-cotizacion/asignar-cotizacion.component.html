@@ -23,9 +23,12 @@
                         <label class="dolar-label" >TRM SEK: </label>
                         <output> {{ trmSEK | number }}</output>
                     </div>
-                    <div class="col">
-                        <label class="dolar-label" id="tasa" >Tasa cotizada: </label>
-                        <output> {{ tasa | number }} </output>
+                    <div class="col historialTasas">
+                        <label class="dolar-label" id="tasa" >Factor cotizado: </label>
+                        <output> {{ tasa | number }} </output> 
+
+                        <label class="dolar-label" id="trmCotizada"> TRM USD Cotizada:  </label>
+                        <output>  {{ trmCotizada | number }}</output>
                     </div>
                 </div><br>
              <legend class="text-center" style="color: aliceblue;">Cotizacion de Equipo</legend>  
@@ -305,64 +308,97 @@
                                 
                         </div>  
                     </div>  <br>
-                    <h3>Precios de venta COP:</h3>
-                    <div class="puestaMarcha mb-3">
+
+                    <h4>Precio Unitario de venta COP:</h4>
+                    <div class="mb-3">
                         <div class="row">
-                            <div class="col" id="Precio1">
-                                Precio1 (0,55)  {{Precio1| number}}
+                            <div class="col recuadro" id="Precio1Und">
+                               <strong>Precio1 (0,55)</strong> <br>
+                                {{Precio1Und| number}}
                             </div>
-                            <div class="col" id="Precio2">
-                                Precio2 (0,6)  {{Precio2| number}}
+                            <div class="col recuadro" id="Precio2Und">
+                               <strong>Precio2 (0,6)</strong>  <br>
+                                 {{Precio2Und| number}}
                             </div>
-                            <div class="col" id="Precio3">
-                                Precio3 (0,65)  {{Precio3| number}}
+                            <div class="col recuadro" id="Precio3Und">
+                               <strong>Precio3 (0,65)</strong>  <br>
+                                 {{Precio3Und| number}}
                             </div>
-                            <div class="col" id="Precio4">
-                                Precio4 (0,7)  {{Precio4| number}}
+                            <div class="col recuadro" id="Precio4Und">
+                               <strong>Precio4 (0,7)</strong>  <br>
+                                 {{Precio4Und| number}}
                             </div>
-                            <div class="col" id="Precio5">
-                                Precio5 (0,75)  {{Precio5| number}}
+                            <div class="col recuadro" id="Precio5Und">
+                                <strong>Precio5 (0,75)</strong> <br>
+                                 {{Precio5Und| number}}
                             </div>
-                            <div class="col" id="Precio6">
-                                Precio6 (0,8)  {{Precio6| number}}
+                            <div class="col recuadro" id="Precio6Und">
+                                <strong>Precio6 (0,8)</strong> <br>
+                                {{Precio6Und| number}}
                             </div>
                         </div>
                     </div><br>
-                    <h3>Precios de venta USD:</h3>
-                    <div class="puestaMarcha mb-3">
+                    <h4>Precio Total de venta COP:</h4>
+                    <div class=" mb-3">
                         <div class="row">
-                            <div class="col" id="PrecioCant1">
-                                Precio1 (0,55)  {{PrecioCant1| number}}
+                            <div class="col recuadro" id="Precio1">
+                                <strong>Precio1 (0,55)</strong> <br>
+                                 {{Precio1| number}}
                             </div>
-                            <div class="col" id="PrecioCant2">
-                                Precio2 (0,6)  {{PrecioCant2| number}}
+                            <div class="col recuadro" id="Precio2">
+                                <strong>Precio2 (0,6)</strong> <br>
+                                 {{Precio2| number}}
                             </div>
-                            <div class="col" id="PrecioCant3">
-                                Precio3 (0,65)  {{PrecioCant3| number}}
+                            <div class="col recuadro" id="Precio3">
+                                <strong>Precio3 (0,65)</strong> <br>
+                                 {{Precio3| number}}
                             </div>
-                            <div class="col" id="PrecioCant4">
-                                Precio4 (0,7)  {{PrecioCant4| number}}
+                            <div class="col recuadro" id="Precio4">
+                                <strong>Precio4 (0,7)</strong> <br>
+                                 {{Precio4| number}}
                             </div>
-                            <div class="col" id="PrecioCant5">
-                                Precio5 (0,75)  {{PrecioCant5| number}}
+                            <div class="col recuadro" id="Precio5">
+                                <strong>Precio5 (0,75)</strong> <br>
+                                 {{Precio5| number}}
                             </div>
-                            <div class="col" id="PrecioCant6">
-                                Precio6 (0,8)  {{PrecioCant6| number}}
+                            <div class="col recuadro" id="Precio6">
+                                <strong>Precio6 (0,8)</strong> <br>
+                                 {{Precio6| number}}
+                            </div>
+                        </div>
+                    </div><br>
+                    <h4>Precio Total de venta USD:</h4>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col recuadro" id="PrecioCant1">
+                                <strong>Precio1 (0,55)</strong> <br>
+                                 {{PrecioCant1| number}}
+                            </div>
+                            <div class="col recuadro" id="PrecioCant2">
+                                <strong>Precio2 (0,6) </strong> <br>
+                                {{PrecioCant2| number}}
+                            </div>
+                            <div class="col recuadro" id="PrecioCant3">
+                                <strong>Precio3 (0,65)</strong> <br> 
+                                {{PrecioCant3| number}}
+                            </div>
+                            <div class="col recuadro" id="PrecioCant4">
+                                <strong>Precio4 (0,7) </strong><br>
+                                 {{PrecioCant4| number}}
+                            </div>
+                            <div class="col recuadro" id="PrecioCant5">
+                                <strong>Precio5 (0,75) </strong><br>
+                                 {{PrecioCant5| number}}
+                            </div>
+                            <div class="col recuadro" id="PrecioCant6">
+                                <strong>Precio6 (0,8)</strong> <br>
+                                 {{PrecioCant6| number}}
                             </div>
                         </div>
                     </div>
-                    
+          <br>          
         <div class="row">
-            <!--div class="col">
-                <button [disabled]="!fgValidador.valid || mostrarDetalle" class="btn btn-primary mb-3" (click)="Contabilizar()" >Contabilizar</button>  
-            </div>
-            <div class="col">
-                <button [disabled]="!Contabilizado" (click)="liquidacion()" class="btn btn-primary mb-3" >Liquidar</button>                 
-            </div>
-            <div class="col">
-                <a class="btn btn-primary mb-3"  href="/cotizaciones/asignar-cotizacion" >Nueva</a>  
-            </div-->
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+              <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                 <button type="button" class="btn btn-warning" [disabled]="!fgValidador.valid" (click)="Contabilizar()">Contabilizar</button>
                 <button type="button" class="btn btn-danger" [disabled]="!Contabilizado" (click)="liquidacion()">Liquidar</button>
                 <button type="button" class="btn btn-primary"  href="/cotizaciones/asignar-cotizacion">Nueva</button>

@@ -52,3 +52,14 @@
   padding: 20px;
   border-radius: 4px;
 }
+
+.recuadro{
+  border: solid 1px white;
+  padding: 20px;
+}
+
+.historialTasas{
+  color : white ;
+  border: solid 1px white;
+  padding: 5px;
+}

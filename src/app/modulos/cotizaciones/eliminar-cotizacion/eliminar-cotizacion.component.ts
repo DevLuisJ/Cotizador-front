@@ -22,6 +22,7 @@ export class EliminarCotizacionComponent implements OnInit {
   ){  }
   ngOnInit(): void {
     this.id= this.route.snapshot.params["id"];
+    this.BuscarCotizacion();
   }
 
   BuscarCotizacion(){
@@ -34,8 +35,8 @@ export class EliminarCotizacionComponent implements OnInit {
   EliminarCotizacion(){
     this.isLoading = true;
     this.cotizacionServicio.EliminarCotizacion(this.id).subscribe((datos:ModeloCotizacion)=>{
-      alert("cotizacion Eliminada correctamente");
-      this.router.navigate(["/administracion/buscar-cotizacion"])
+      alert("Cotizacion Eliminada correctamente");
+      this.router.navigate(["/cotizaciones/buscar-cotizacion"])
       this.isLoading = false;
     },(error: any) => {
       alert("Error Eliminando la cotizacion");

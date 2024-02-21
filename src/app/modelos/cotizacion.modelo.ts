@@ -36,7 +36,8 @@ export class ModeloCotizacion{
     PrecioCant5?:number;
     PrecioCant6?:number;
 
-    tasa?:number;    
+    tasa?:number;   
+    trmCotizada?:number; 
     
     ListaPuestaMarcha?: { concepto1: string, VlrUnd1: number, cantidad1: number, total1: number,
       concepto2: string, VlrUnd2: number, cantidad2: number, total2: number,

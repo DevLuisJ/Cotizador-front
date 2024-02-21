@@ -1,1 +1,67 @@
-<p>eliminar-cotizacion works!</p>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Eliminar Cotizacion</title>
+  
+  <link rel="stylesheet" type="text/css" href="./eliminar-cotizacion.component.css">
+  
+
+</head>
+<body>
+    <div class="pre-carga"  *ngIf="isLoading">
+        <div class="preloader-wrapper big active">
+          <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+       </div>
+<form (ngSubmit)="EliminarCotizacion()" class="form-register">
+<div class="container">
+    <p>Esta usted seguro de eliminar la siguiente Cotizacion? :</p>
+    <br />
+    <div class="row">
+        <div class="col">
+            <label for="IdSiigo">ID SIIGO: </label>
+            <output>{{cotizacion.IdSiigo }}</output>
+        </div>
+        <div class="col">
+            <label for="Cliente">Cliente: </label>
+            <output for="Cliente">{{cotizacion.Cliente }}</output>
+        </div>
+        <div class="col">
+            <label for="Equipo">Equipo: </label>
+            <output for="Equipo">{{cotizacion.idEquipo }}</output>
+        </div>
+    </div>
+    <div class="row">
+        
+        <div class="col">
+            
+        </div>
+    </div>
+    
+    <br />
+    <div class="row" style="margin-left: 90px;">
+        <div class="col">
+            <button (click)= "EliminarCotizacion()" class="btn btn-primary ">CONFIRMAR</button>
+        </div>
+        <div class="col">
+          <button routerLink="../../buscar-cotizacion" class="btn btn-danger ">CANCELAR</button>  
+        </div>
+    
+    
+    </div>
+</div>
+</form>
+</body>
+</html>

@@ -32,6 +32,7 @@ export class AsignarCotizacionComponent implements OnInit{
   mostrarDetalle:boolean=false;
   Contabilizado:boolean=false;
   tasa:number=0; //tasa a la cual fue liquidada la cotizacion
+  trmCotizada: number=0; //TRM de dolar cotizada en el momento de liquidar
  
   
 
@@ -100,6 +101,12 @@ export class AsignarCotizacionComponent implements OnInit{
   PrecioCant4:number=0;
   PrecioCant5:number=0;
   PrecioCant6:number=0;
+  Precio1Und: number =0;
+  Precio2Und: number =0;
+  Precio3Und: number =0;
+  Precio4Und: number =0;
+  Precio5Und: number =0;
+  Precio6Und: number =0;
 
   //Variables de administracion de tarifas
   Descuento1:number=0.55;
@@ -305,12 +312,20 @@ Contabilizar(){
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento)); 
   this.Precio6=  Math.ceil((this.TotalCIF/this.Descuento6)+((this.TotalImpuestos-this.iva)+this.TotalGastosNacionalizacion+
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento)); 
+
   this.PrecioCant1=Math.ceil(this.Precio1/this.TasaCambio);
   this.PrecioCant2=Math.ceil(this.Precio2/this.TasaCambio);
   this.PrecioCant3=Math.ceil(this.Precio3/this.TasaCambio);
   this.PrecioCant4=Math.ceil(this.Precio4/this.TasaCambio);
   this.PrecioCant5=Math.ceil(this.Precio5/this.TasaCambio);
   this.PrecioCant6=Math.ceil(this.Precio6/this.TasaCambio); 
+
+  this.Precio1Und = Math.ceil(this.Precio1/Cantidad);
+  this.Precio2Und = Math.ceil(this.Precio2/Cantidad);
+  this.Precio3Und = Math.ceil(this.Precio3/Cantidad);
+  this.Precio4Und = Math.ceil(this.Precio4/Cantidad);
+  this.Precio5Und = Math.ceil(this.Precio5/Cantidad);
+  this.Precio6Und = Math.ceil(this.Precio6/Cantidad);
   
   //puesta en marcha
   const nuevoElemento = {
@@ -350,6 +365,8 @@ Contabilizar(){
   }
 
   liquidacion(){
+    const fechaActual = new Date();
+    this.fgValidador.controls['Fecha'].setValue(fechaActual);
     let IdSiigo = this.fgValidador.controls["IdSiigo"].value;
     let Cliente = this.fgValidador.controls["Cliente"].value; 
     let Fecha = this.fgValidador.controls["Fecha"].value;
@@ -405,6 +422,7 @@ Contabilizar(){
   c.PrecioCant5=this.PrecioCant5;
   c.PrecioCant6=this.PrecioCant6;
   c.ListaPuestaMarcha= this.ListaPuestaMarcha;  
+  c.trmCotizada= this.TasaCambio;
   
 switch (Moneda) {
         case "EUR":                        
@@ -566,6 +584,19 @@ SetCotizacion(){
     this.fgValidador.controls["AccesoriosLocales"].setValue(datos.AccesoriosLocales);    
     this.fgValidador.controls["FormaPago"].setValue(datos.FormaPago);
     this.fgValidador.controls["Observaciones"].setValue(datos.Observaciones);
+
+    const vlrtrmCotizada = datos.trmCotizada;
+    const campotrmCotizada = document.getElementById('trmCotizada') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campotrmCotizada) {
+      if (vlrtrmCotizada !== undefined) {
+        this.trmCotizada = vlrtrmCotizada; // Establecer el valor de Tasa en el campo HTML
+      } else {
+        console.log('El valor de trmCotizada es undefined');
+      }
+    } else {
+      console.log('Campo trmCotizada no encontrado');
+    }
+    console.log("trmcotizada: "+ this.trmCotizada);
 
     const vlrTasa = datos.tasa;
     const campoTasa = document.getElementById('tasa') as HTMLInputElement; // Obtener el campo HTML por su ID    
