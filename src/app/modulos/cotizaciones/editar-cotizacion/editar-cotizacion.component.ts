@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Injectable, HostListener } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators  } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModeloCotizacion } from 'src/app/modelos/cotizacion.modelo';
-import { ModeloEquipo } from 'src/app/modelos/equipo.modelo';
 import { CotizacionService } from 'src/app/servicios/cotizacion.service';
+import { HttpClient } from '@angular/common/http';
+import { ModeloEquipo } from 'src/app/modelos/equipo.modelo';
 import { EquipoService } from 'src/app/servicios/equipo.service';
 import { SeguridadService } from 'src/app/servicios/seguridad.service';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+
 
 @Component({
   selector: 'app-editar-cotizacion',
@@ -24,12 +28,13 @@ export class EditarCotizacionComponent implements OnInit {
   OtrosGastosFit:number=0;
   trmSEK: number =0;
   trmEUR:number =0;
-  trmCOP:number=0;
   TasaCambio:number=0;  
   mostrarDetalle:boolean=false;
-  cotizacionSeleccionada:any; //variable para copiar cotizacion del listado
-  SwitchPrecio:boolean = true; //Variable para mostrar el precio en cop o usd  
   Contabilizado:boolean=false;
+  tasa:number=0; //tasa a la cual fue liquidada la cotizacion
+  trmCotizada: number=0; //TRM de dolar cotizada en el momento de liquidar
+ 
+  
 
   //liquidacion de importacion v6.0
   CargoCombustible: number = 0;
@@ -81,6 +86,9 @@ export class EditarCotizacionComponent implements OnInit {
                   }[] = [];
   ComisionBancaria:number=0;
   Financiamiento:number=0;
+  TotalPuestaMarcha:number=0;
+  IdUsuario : String = "";
+  Observaciones2:string="";
 
   //Liquidacion de precios
   Precio1:number=0;
@@ -95,6 +103,12 @@ export class EditarCotizacionComponent implements OnInit {
   PrecioCant4:number=0;
   PrecioCant5:number=0;
   PrecioCant6:number=0;
+  Precio1Und: number =0;
+  Precio2Und: number =0;
+  Precio3Und: number =0;
+  Precio4Und: number =0;
+  Precio5Und: number =0;
+  Precio6Und: number =0;
 
   //Variables de administracion de tarifas
   Descuento1:number=0.55;
@@ -106,9 +120,9 @@ export class EditarCotizacionComponent implements OnInit {
   
 
 fgValidador: FormGroup = this.fb.group({ 
-  //'id': ['',[Validators.required]],
+  'id': [''],
   'Cliente': ['',[Validators.required]],
-  'Fecha': [new Date(),[Validators.required]],
+  //'Fecha': [new Date(),[Validators.required]],
   'IdSiigo': ['',[Validators.required]],
   'equipoBuscado': ['',[Validators.required]],
   'Cantidad': ['',[Validators.required]],
@@ -122,6 +136,7 @@ fgValidador: FormGroup = this.fb.group({
   'FormaPago': ['',[Validators.required]],
   'PuestaMarcha': ['',[Validators.required]],
   'Observaciones':[''],
+  'Observaciones2':[''],
   'concepto1':['Horas Ingenieria'],  'VlrUnd1':[''],  'cantidad1':[''],'total1':[''],
   'concepto2':['Instalacion'],  'VlrUnd2':[''],  'cantidad2':[''],'total2':[''],
   'concepto3':['Soporte Sitio'],  'VlrUnd3':[''],  'cantidad3':[''],'total3':[''],
@@ -132,99 +147,32 @@ fgValidador: FormGroup = this.fb.group({
   'concepto8':['Transportes'],  'VlrUnd8':[''],  'cantidad8':[''],'total8':[''],
   'concepto9':['Varios'],  'VlrUnd9':[''],  'cantidad9':[''],'total9':[''],
   'concepto10':['Otros'],  'VlrUnd10':[''],  'cantidad10':[''],'total10':[''],
+
 })
-  constructor(
-    private servicioCotizacion: CotizacionService,
-    private route: ActivatedRoute,
-    private fb:FormBuilder,
-    private seguridadServicio: SeguridadService,
-    private router: Router
-  ){ }
 
-  ngOnInit(): void {
-    this.id= this.route.snapshot.params["id"];
-    this.BuscarCotizacion();
-  }
- BuscarCotizacion(){
-  //this.servicioCotizacion.ObtenerRegistrosPorId(this.id).subscribe((datos:ModeloCotizacion)=>{
-    //this.isLoading=false;
-    //this.fgValidador.controls["id"].setValue(this.id);
-    console.log("Id:"+this.id)
-  //})
-}
-buscarEquipoPorReferencia() {
-  this.isLoading = true
-  this.equipoBuscado = this.fgValidador.controls["equipoBuscado"].value;
-  console.log("Equipo buscado:" + this.equipoBuscado);
-  this.equipoEncontrado = this.listadoRegistros.find(objeto => objeto.Referencia === this.equipoBuscado);
-  if (this.equipoEncontrado) {      
-    this.isLoading = false;
-    console.log("Objeto encontrado:");
-    console.log(this.equipoEncontrado);
-  } else {      
-    this.isLoading = false;
-    console.log("Equipo no encontrado o no existe");    
-    alert("Equipo no encontrado o no existe");
-  }
-}
-
-CalculoPuestaMarcha() {
+constructor(
+  private fb: FormBuilder,
+  private servicioCotizacion: CotizacionService,
+  private http: HttpClient,
+  private equipoServicio: EquipoService,
+  private router: Router,
+  private route: ActivatedRoute
   
-  const vlrUnd1 = this.fgValidador.controls["VlrUnd1"].value;
-  const cantidad1 = this.fgValidador.controls["cantidad1"].value;
-  const total1 = vlrUnd1 * cantidad1;   
-  this.fgValidador.controls["total1"].setValue(total1);
+  ){     }
 
-  const vlrUnd2 = this.fgValidador.controls["VlrUnd2"].value;
-  const cantidad2 = this.fgValidador.controls["cantidad2"].value;
-  const total2 = vlrUnd2 * cantidad2;   
-  this.fgValidador.controls["total2"].setValue(total2);
 
-  const vlrUnd3 = this.fgValidador.controls["VlrUnd3"].value;
-  const cantidad3 = this.fgValidador.controls["cantidad3"].value;
-  const total3 = vlrUnd3 * cantidad3;   
-  this.fgValidador.controls["total3"].setValue(total3);
+  ngOnInit( ): void {
+      
+    this.TasadeCambio();
 
-  const vlrUnd4 = this.fgValidador.controls["VlrUnd4"].value;
-  const cantidad4 = this.fgValidador.controls["cantidad4"].value;
-  const total4 = vlrUnd4 * cantidad4;   
-  this.fgValidador.controls["total4"].setValue(total4);
+    this.id= this.route.snapshot.params["id"];
+    console.log("id:"+this.id);
+    this.SetCotizacion();       
+    this.ObtenerListadoEquipos(); 
+    this.CalculoPuestaMarcha();
+  }
 
-  const vlrUnd5 = this.fgValidador.controls["VlrUnd5"].value;
-  const cantidad5 = this.fgValidador.controls["cantidad5"].value;
-  const total5 = vlrUnd5 * cantidad5;   
-  this.fgValidador.controls["total5"].setValue(total5);
-
-  const vlrUnd6 = this.fgValidador.controls["VlrUnd6"].value;
-  const cantidad6 = this.fgValidador.controls["cantidad6"].value;
-  const total6 = vlrUnd6 * cantidad6;   
-  this.fgValidador.controls["total6"].setValue(total6);
-
-  const vlrUnd7 = this.fgValidador.controls["VlrUnd7"].value;
-  const cantidad7 = this.fgValidador.controls["cantidad7"].value;
-  const total7 = vlrUnd7 * cantidad7;   
-  this.fgValidador.controls["total7"].setValue(total7);
-
-  const vlrUnd8 = this.fgValidador.controls["VlrUnd8"].value;
-  const cantidad8 = this.fgValidador.controls["cantidad8"].value;
-  const total8 = vlrUnd8 * cantidad8;   
-  this.fgValidador.controls["total8"].setValue(total8);
-
-  const vlrUnd9 = this.fgValidador.controls["VlrUnd9"].value;
-  const cantidad9 = this.fgValidador.controls["cantidad9"].value;
-  const total9 = vlrUnd9 * cantidad9;   
-  this.fgValidador.controls["total9"].setValue(total9);
-
-  const vlrUnd10 = this.fgValidador.controls["VlrUnd10"].value;
-  const cantidad10 = this.fgValidador.controls["cantidad10"].value;
-  const total10 = vlrUnd10 * cantidad10;   
-  this.fgValidador.controls["total10"].setValue(total10);
-   
-  const suma= total1 + total2+ total3+ total4+total5+total6+total7+total8+total9+total10
-  const sumaTotal=(suma*0.02)+ suma
-  this.fgValidador.controls["PuestaMarcha"].setValue(sumaTotal);
-}
-
+  
 Contabilizar(){     
   this.Contabilizado=false;  
   this.Imprevistos=0;
@@ -244,6 +192,7 @@ Contabilizar(){
   this.TotalImpuestos=0;
   this.mayorq2000=0;
   this.pruebaInterm=0;
+  this.tasa=0;
 
   //Gastos de intermediacion si mercancia es > a US$2.000
   this.valorCirCM=0;
@@ -264,7 +213,8 @@ Contabilizar(){
 
   this.ComisionBancaria=0;
   this.Financiamiento=0;
-  
+
+    this.buscarEquipoPorReferencia();
     let Cantidad = parseFloat( this.fgValidador.controls["Cantidad"].value);
     let Moneda = this.fgValidador.controls["Moneda"].value;
     let PrecioCompra = parseFloat(this.fgValidador.controls["PrecioCompra"].value);
@@ -273,7 +223,7 @@ Contabilizar(){
              this.vlrDolares = PrecioCompra/(this.trmEUR-0.04);                 
           break;
         case "SEK":         
-          this.vlrDolares = PrecioCompra/(this.trmSEK+0.5);         
+          this.vlrDolares = PrecioCompra/(this.trmSEK-0.5);         
           break;
         case "USD":
           this.vlrDolares= PrecioCompra;
@@ -360,12 +310,20 @@ Contabilizar(){
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento)); 
   this.Precio6=  Math.ceil((this.TotalCIF/this.Descuento6)+((this.TotalImpuestos-this.iva)+this.TotalGastosNacionalizacion+
       PuestaMarcha+FleteLocal+AccesoriosLocales+this.ComisionBancaria+this.Financiamiento)); 
-  this.PrecioCant1=this.Precio1/this.TasaCambio;
-  this.PrecioCant2=this.Precio2/this.TasaCambio;
-  this.PrecioCant3=this.Precio3/this.TasaCambio;
-  this.PrecioCant4=this.Precio4/this.TasaCambio;
-  this.PrecioCant5=this.Precio5/this.TasaCambio;
-  this.PrecioCant6=this.Precio6/this.TasaCambio; 
+
+  this.PrecioCant1=Math.ceil(this.Precio1/this.TasaCambio);
+  this.PrecioCant2=Math.ceil(this.Precio2/this.TasaCambio);
+  this.PrecioCant3=Math.ceil(this.Precio3/this.TasaCambio);
+  this.PrecioCant4=Math.ceil(this.Precio4/this.TasaCambio);
+  this.PrecioCant5=Math.ceil(this.Precio5/this.TasaCambio);
+  this.PrecioCant6=Math.ceil(this.Precio6/this.TasaCambio); 
+
+  this.Precio1Und = Math.ceil(this.Precio1/Cantidad);
+  this.Precio2Und = Math.ceil(this.Precio2/Cantidad);
+  this.Precio3Und = Math.ceil(this.Precio3/Cantidad);
+  this.Precio4Und = Math.ceil(this.Precio4/Cantidad);
+  this.Precio5Und = Math.ceil(this.Precio5/Cantidad);
+  this.Precio6Und = Math.ceil(this.Precio6/Cantidad);
   
   //puesta en marcha
   const nuevoElemento = {
@@ -405,12 +363,12 @@ Contabilizar(){
   }
 
   liquidacion(){
+    //const fechaActual = new Date();
+    //this.fgValidador.controls['Fecha'].setValue(fechaActual);
     let IdSiigo = this.fgValidador.controls["IdSiigo"].value;
     let Cliente = this.fgValidador.controls["Cliente"].value; 
-    let Fecha = this.fgValidador.controls["Fecha"].value;
+    //let Fecha = this.fgValidador.controls["Fecha"].value;
     let idEquipo = this.equipoEncontrado?.Referencia;
-    let IdUsuario = this.seguridadServicio.datosUsuarioEnSesion.value.datos?.nombre + ' ' +
-       this.seguridadServicio.datosUsuarioEnSesion.value.datos?.apellidos;;
     let Cantidad = parseFloat( this.fgValidador.controls["Cantidad"].value);
     let Moneda = this.fgValidador.controls["Moneda"].value;
     let PrecioCompra = parseFloat(this.fgValidador.controls["PrecioCompra"].value);
@@ -421,14 +379,17 @@ Contabilizar(){
     let FormaPago = parseFloat(this.fgValidador.controls["FormaPago"].value);
     let PuestaMarcha= parseFloat( this.fgValidador.controls["PuestaMarcha"].value);
     let Observaciones=  this.fgValidador.controls["Observaciones"].value 
+    let Observaciones2=  this.fgValidador.controls["Observaciones2"].value
+    
 
     //Envio a base de datos, doc cotizacion
   let c = new ModeloCotizacion();  
+  c.id= this.id;
   c.Cliente= Cliente;
-  c.Fecha= Fecha;
+  //c.Fecha= Fecha;
   c.IdSiigo= IdSiigo;
   c.idEquipo= idEquipo;
-  c.IdUsuario= IdUsuario;
+  c.IdUsuario= this.IdUsuario;
   c.Cantidad= Cantidad;
   c.Moneda= Moneda;
   c.PrecioCompra= PrecioCompra;
@@ -445,6 +406,8 @@ Contabilizar(){
   c.GastosSIA=this.GastosSIA; 
   c.PuestaMarcha=PuestaMarcha;  
   c.Observaciones=Observaciones; 
+  c.Observaciones2=Observaciones2; 
+  c.Estado="Revisado";
   c.Precio1=this.Precio1;
   c.Precio2=this.Precio2;
   c.Precio3=this.Precio3;
@@ -457,18 +420,33 @@ Contabilizar(){
   c.PrecioCant4=this.PrecioCant4;
   c.PrecioCant5=this.PrecioCant5;
   c.PrecioCant6=this.PrecioCant6;
-  c.ListaPuestaMarcha= this.ListaPuestaMarcha;
-
+  c.ListaPuestaMarcha= this.ListaPuestaMarcha;  
+  c.trmCotizada= this.TasaCambio;
+  
+switch (Moneda) {
+        case "EUR":                        
+              c.tasa= this.trmEUR;               
+          break;
+        case "SEK":         
+               c.tasa= this.trmSEK;  
+          break;
+        case "USD":
+            c.tasa= this.TasaCambio;
+          break;
+        default:
+          console.log("La variable tiene un valor distinto de 'EUR', 'SEK' o 'USD'");
+          break;
+      }
 
   this.isLoading = true;
-  this.servicioCotizacion.CrearCotizacion(c).subscribe((datos:ModeloCotizacion) =>{    
-    this.ObtenerListadoCotizacion();      
+  this.servicioCotizacion.ActualizarCotizacion(c).subscribe((datos:ModeloCotizacion) =>{    
+    //this.ObtenerListadoCotizacion();      
     this.isLoading = false;     
-    alert("Cotizacion almacenada correctamente");  
+    alert("Cotizacion editada correctamente");  
     this.router.navigate(["/cotizaciones/buscar-cotizacion"]);  
     //location.reload();    
 },(error: any) => {  
-  alert("Error almacenando la cotizacion");
+  alert("Error editando la cotizacion");
   this.isLoading = false;
 })
 
@@ -501,18 +479,378 @@ Contabilizar(){
     console.log("El valor de Financiamiento es:", this.Financiamiento);
     console.log("El valor de PUESTA-MARCHA es:", this.ListaPuestaMarcha);
   }
-
-  ObtenerListadoCotizacion(){
-    this.isLoading=true;
-    this.servicioCotizacion.ObtenerRegistros().subscribe({
-      next:(datos: ModeloCotizacion[])=>{
-        this.ListadoCotizacion=datos;      
-        this.isLoading=false;
-      },
-      error:(e)=>{
-        console.log(e);
-        this.isLoading=false
-      }
-    })
+  
+  buscarEquipoPorReferencia() {
+    this.isLoading = true
+    this.equipoBuscado = this.fgValidador.controls["equipoBuscado"].value;
+    console.log("Equipo buscado:" + this.equipoBuscado);
+    this.equipoEncontrado = this.listadoRegistros.find(objeto => objeto.Referencia === this.equipoBuscado);
+    if (this.equipoEncontrado) {      
+      this.isLoading = false;
+      console.log("Objeto encontrado:");
+      console.log(this.equipoEncontrado);
+    } else {      
+      this.isLoading = false;
+      console.log("Equipo no encontrado o no existe");    
+      alert("Equipo no encontrado o no existe");
+    }
   }
+
+TasadeCambio(){
+  this.servicioCotizacion.getExchangeRate().subscribe(data => {
+    this.trmEUR = data.rates.EUR;  //Tasa de cambio del euro a dolar  
+    this.TasaCambio= data.rates.COP;
+    this.trmSEK = data.rates.SEK;
+    console.log("TRM SEK es:" + this.trmSEK); 
+    console.log("TRM USD es:" + this.TasaCambio);     
+    console.log("TRM EURO es:" + this.trmEUR); 
+  });
 }
+
+CalculoPuestaMarcha() {
+  
+  const vlrUnd1 = this.fgValidador.controls["VlrUnd1"].value;
+  const cantidad1 = this.fgValidador.controls["cantidad1"].value;
+  const total1 = vlrUnd1 * cantidad1;   
+  this.fgValidador.controls["total1"].setValue(total1);
+
+  const vlrUnd2 = this.fgValidador.controls["VlrUnd2"].value;
+  const cantidad2 = this.fgValidador.controls["cantidad2"].value;
+  const total2 = vlrUnd2 * cantidad2;   
+  this.fgValidador.controls["total2"].setValue(total2);
+
+  const vlrUnd3 = this.fgValidador.controls["VlrUnd3"].value;
+  const cantidad3 = this.fgValidador.controls["cantidad3"].value;
+  const total3 = vlrUnd3 * cantidad3;   
+  this.fgValidador.controls["total3"].setValue(total3);
+
+  const vlrUnd4 = this.fgValidador.controls["VlrUnd4"].value;
+  const cantidad4 = this.fgValidador.controls["cantidad4"].value;
+  const total4 = vlrUnd4 * cantidad4;   
+  this.fgValidador.controls["total4"].setValue(total4);
+
+  const vlrUnd5 = this.fgValidador.controls["VlrUnd5"].value;
+  const cantidad5 = this.fgValidador.controls["cantidad5"].value;
+  const total5 = vlrUnd5 * cantidad5;   
+  this.fgValidador.controls["total5"].setValue(total5);
+
+  const vlrUnd6 = this.fgValidador.controls["VlrUnd6"].value;
+  const cantidad6 = this.fgValidador.controls["cantidad6"].value;
+  const total6 = vlrUnd6 * cantidad6;   
+  this.fgValidador.controls["total6"].setValue(total6);
+
+  const vlrUnd7 = this.fgValidador.controls["VlrUnd7"].value;
+  const cantidad7 = this.fgValidador.controls["cantidad7"].value;
+  const total7 = vlrUnd7 * cantidad7;   
+  this.fgValidador.controls["total7"].setValue(total7);
+
+  const vlrUnd8 = this.fgValidador.controls["VlrUnd8"].value;
+  const cantidad8 = this.fgValidador.controls["cantidad8"].value;
+  const total8 = vlrUnd8 * cantidad8;   
+  this.fgValidador.controls["total8"].setValue(total8);
+
+  const vlrUnd9 = this.fgValidador.controls["VlrUnd9"].value;
+  const cantidad9 = this.fgValidador.controls["cantidad9"].value;
+  const total9 = vlrUnd9 * cantidad9;   
+  this.fgValidador.controls["total9"].setValue(total9);
+
+  const vlrUnd10 = this.fgValidador.controls["VlrUnd10"].value;
+  const cantidad10 = this.fgValidador.controls["cantidad10"].value;
+  const total10 = vlrUnd10 * cantidad10;   
+  this.fgValidador.controls["total10"].setValue(total10);
+   
+  const suma= total1 + total2+ total3+ total4+total5+total6+total7+total8+total9+total10
+  this.TotalPuestaMarcha=(suma*0.02)+ suma
+  this.fgValidador.controls["PuestaMarcha"].setValue(Math.ceil(this.TotalPuestaMarcha));
+}
+
+SetCotizacion(){
+  
+  this.isLoading=true;  
+  this.servicioCotizacion.ObtenerRegistrosPorId(this.id).subscribe((datos:ModeloCotizacion)=>{
+    this.isLoading=false;  
+    this.IdUsuario = datos.IdUsuario !== undefined ? datos.IdUsuario : '';  
+    this.fgValidador.controls["equipoBuscado"].setValue(datos.idEquipo);
+    this.fgValidador.controls["IdSiigo"].setValue(datos.IdSiigo);
+    //this.buscarEquipoPorReferencia();
+    this.fgValidador.controls["Cliente"].setValue(datos.Cliente);
+    this.fgValidador.controls["Cantidad"].setValue(datos.Cantidad);
+    this.fgValidador.controls["Moneda"].setValue(datos.Moneda);
+    this.fgValidador.controls["PrecioCompra"].setValue(datos.PrecioCompra);
+    this.fgValidador.controls["FleteOrigenDestino"].setValue(datos.FleteOrigenDestino);
+    this.fgValidador.controls["CargoCombustible"].setValue(datos.CargoCombustible);
+    this.fgValidador.controls["AlistamientoProveedor"].setValue(datos.AlistamientoProveedor);
+    this.fgValidador.controls["FleteLocal"].setValue(datos.FleteLocal);
+    this.fgValidador.controls["AccesoriosLocales"].setValue(datos.AccesoriosLocales);    
+    this.fgValidador.controls["FormaPago"].setValue(datos.FormaPago);
+    this.fgValidador.controls["Observaciones"].setValue(datos.Observaciones);
+    this.fgValidador.controls["Observaciones2"].setValue(datos.Observaciones2);
+
+    const vlrtrmCotizada = datos.trmCotizada;
+    const campotrmCotizada = document.getElementById('trmCotizada') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campotrmCotizada) {
+      if (vlrtrmCotizada !== undefined) {
+        this.trmCotizada = vlrtrmCotizada; // Establecer el valor de Tasa en el campo HTML
+      } else {
+        console.log('El valor de trmCotizada es undefined');
+      }
+    } else {
+      console.log('Campo trmCotizada no encontrado');
+    }
+    console.log("trmcotizada: "+ this.trmCotizada);
+
+    const vlrTasa = datos.tasa;
+    const campoTasa = document.getElementById('tasa') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoTasa) {
+      if (vlrTasa !== undefined) {
+        this.tasa = vlrTasa; // Establecer el valor de Tasa en el campo HTML
+      } else {
+        console.log('El valor de Tasa es undefined');
+      }
+    } else {
+      console.log('Campo Tasa no encontrado');
+    }
+
+    console.log("tasa: "+ this.tasa);
+
+    const vlrPrecio1 = datos.Precio1;
+    const campoPrecio1 = document.getElementById('Precio1') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecio1) {
+      if (vlrPrecio1 !== undefined) {
+        this.Precio1 = vlrPrecio1; // Establecer el valor de Precio1 en el campo HTML
+      } else {
+        console.log('El valor de Precio1 es undefined');
+      }
+    } else {
+      console.log('Campo Precio1 no encontrado');
+    }
+
+    const vlrPrecio2 = datos.Precio2;
+    const campoPrecio2 = document.getElementById('Precio1') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecio2) {
+      if (vlrPrecio2 !== undefined) {
+        this.Precio2 = vlrPrecio2; // Establecer el valor de Precio1 en el campo HTML
+      } else {
+        console.log('El valor de Precio2 es undefined');
+      }
+    } else {
+      console.log('Campo Precio2 no encontrado');
+    }
+
+    const vlrPrecio3 = datos.Precio3;
+    const campoPrecio3 = document.getElementById('Precio3') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecio3) {
+      if (vlrPrecio3 !== undefined) {
+        this.Precio3 = vlrPrecio3; // Establecer el valor de Precio3 en el campo HTML
+      } else {
+        console.log('El valor de Precio3 es undefined');
+      }
+    } else {
+      console.log('Campo Precio3 no encontrado');
+    }
+
+    const vlrPrecio4 = datos.Precio4;
+    const campoPrecio4 = document.getElementById('Precio4') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecio4) {
+      if (vlrPrecio4 !== undefined) {
+        this.Precio4 = vlrPrecio4; // Establecer el valor de Precio4 en el campo HTML
+      } else {
+        console.log('El valor de Precio4 es undefined');
+      }
+    } else {
+      console.log('Campo Precio4 no encontrado');
+    }
+
+    const vlrPrecio5 = datos.Precio5;
+    const campoPrecio5 = document.getElementById('Precio5') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecio5) {
+      if (vlrPrecio5 !== undefined) {
+        this.Precio5 = vlrPrecio5; // Establecer el valor de Precio5 en el campo HTML
+      } else {
+        console.log('El valor de Precio5 es undefined');
+      }
+    } else {
+      console.log('Campo Precio5 no encontrado');
+    }
+    
+    const vlrPrecio6 = datos.Precio6;
+    const campoPrecio6 = document.getElementById('Precio6') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecio6) {
+      if (vlrPrecio6 !== undefined) {
+        this.Precio6 = vlrPrecio6; // Establecer el valor de Precio6 en el campo HTML
+      } else {
+        console.log('El valor de Precio6 es undefined');
+      }
+    } else {
+      console.log('Campo Precio6 no encontrado');
+    }
+
+    const vlrPrecioCant1 = datos.PrecioCant1;
+    const campoPrecioCant1 = document.getElementById('PrecioCant1') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecioCant1) {
+      if (vlrPrecioCant1 !== undefined) {
+        this.PrecioCant1 = vlrPrecioCant1; // Establecer el valor de PrecioCant1 en el campo HTML
+      } else {
+        console.log('El valor de PrecioCant1 es undefined');
+      }
+    } else {
+      console.log('Campo PrecioCant1 no encontrado');
+    }
+
+    const vlrPrecioCant2 = datos.PrecioCant2;
+    const campoPrecioCant2 = document.getElementById('PrecioCant2') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecioCant2) {
+      if (vlrPrecioCant2 !== undefined) {
+        this.PrecioCant2 = vlrPrecioCant2; // Establecer el valor de PrecioCant2 en el campo HTML
+      } else {
+        console.log('El valor de PrecioCant2 es undefined');
+      }
+    } else {
+      console.log('Campo PrecioCant2 no encontrado');
+    }
+
+    const vlrPrecioCant3 = datos.PrecioCant3;
+    const campoPrecioCant3 = document.getElementById('PrecioCant3') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecioCant3) {
+      if (vlrPrecioCant3 !== undefined) {
+        this.PrecioCant3 = vlrPrecioCant3; // Establecer el valor de PrecioCant3 en el campo HTML
+      } else {
+        console.log('El valor de PrecioCant3 es undefined');
+      }
+    } else {
+      console.log('Campo PrecioCant3 no encontrado');
+    }
+
+    const vlrPrecioCant4 = datos.PrecioCant4;
+    const campoPrecioCant4 = document.getElementById('PrecioCant4') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecioCant4) {
+      if (vlrPrecioCant4 !== undefined) {
+        this.PrecioCant4 = vlrPrecioCant4; // Establecer el valor de PrecioCant4 en el campo HTML
+      } else {
+        console.log('El valor de PrecioCant4 es undefined');
+      }
+    } else {
+      console.log('Campo PrecioCant4 no encontrado');
+    }
+
+    const vlrPrecioCant5 = datos.PrecioCant5;
+    const campoPrecioCant5 = document.getElementById('PrecioCant5') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecioCant5) {
+      if (vlrPrecioCant5 !== undefined) {
+        this.PrecioCant5 = vlrPrecioCant5; // Establecer el valor de PrecioCant5 en el campo HTML
+      } else {
+        console.log('El valor de PrecioCant5 es undefined');
+      }
+    } else {
+      console.log('Campo PrecioCant5 no encontrado');
+    }
+
+    const vlrPrecioCant6 = datos.PrecioCant6;
+    const campoPrecioCant6 = document.getElementById('PrecioCant6') as HTMLInputElement; // Obtener el campo HTML por su ID    
+    if (campoPrecioCant6) {
+      if (vlrPrecioCant6 !== undefined) {
+        this.PrecioCant6 = vlrPrecioCant6; // Establecer el valor de PrecioCant6 en el campo HTML
+      } else {
+        console.log('El valor de PrecioCant6 es undefined');
+      }
+    } else {
+      console.log('Campo PrecioCant6 no encontrado');
+    }
+
+
+//Set de los datos de puesta en marcha
+if (datos.ListaPuestaMarcha !== undefined) {
+  const ListaPuestaMarcha = datos.ListaPuestaMarcha;
+
+  ListaPuestaMarcha.forEach((elemento, index) => {
+
+    this.fgValidador.controls["concepto1"].setValue(elemento.concepto1);
+    this.fgValidador.controls["concepto2"].setValue(elemento.concepto2);
+    this.fgValidador.controls["concepto3"].setValue(elemento.concepto3);
+    this.fgValidador.controls["concepto4"].setValue(elemento.concepto4);
+    this.fgValidador.controls["concepto5"].setValue(elemento.concepto5);
+    this.fgValidador.controls["concepto6"].setValue(elemento.concepto6);
+    this.fgValidador.controls["concepto7"].setValue(elemento.concepto7);
+    this.fgValidador.controls["concepto8"].setValue(elemento.concepto8);
+    this.fgValidador.controls["concepto9"].setValue(elemento.concepto9);
+    this.fgValidador.controls["concepto10"].setValue(elemento.concepto10);
+
+    this.fgValidador.controls["VlrUnd1"].setValue(elemento.VlrUnd1);
+    this.fgValidador.controls["VlrUnd2"].setValue(elemento.VlrUnd2);
+    this.fgValidador.controls["VlrUnd3"].setValue(elemento.VlrUnd3);
+    this.fgValidador.controls["VlrUnd4"].setValue(elemento.VlrUnd4);
+    this.fgValidador.controls["VlrUnd5"].setValue(elemento.VlrUnd5);
+    this.fgValidador.controls["VlrUnd6"].setValue(elemento.VlrUnd6);
+    this.fgValidador.controls["VlrUnd7"].setValue(elemento.VlrUnd7);
+    this.fgValidador.controls["VlrUnd8"].setValue(elemento.VlrUnd8);
+    this.fgValidador.controls["VlrUnd9"].setValue(elemento.VlrUnd9);
+    this.fgValidador.controls["VlrUnd10"].setValue(elemento.VlrUnd10); 
+    
+    this.fgValidador.controls["cantidad1"].setValue(elemento.cantidad1);
+    this.fgValidador.controls["cantidad2"].setValue(elemento.cantidad2);
+    this.fgValidador.controls["cantidad3"].setValue(elemento.cantidad3);
+    this.fgValidador.controls["cantidad4"].setValue(elemento.cantidad4);
+    this.fgValidador.controls["cantidad5"].setValue(elemento.cantidad5);
+    this.fgValidador.controls["cantidad6"].setValue(elemento.cantidad6);
+    this.fgValidador.controls["cantidad7"].setValue(elemento.cantidad7);
+    this.fgValidador.controls["cantidad8"].setValue(elemento.cantidad8);
+    this.fgValidador.controls["cantidad9"].setValue(elemento.cantidad9);
+    this.fgValidador.controls["cantidad10"].setValue(elemento.cantidad10);   
+  });
+} else {
+  console.log('ListaPuestaMarcha es undefined');
+}
+this.CalculoPuestaMarcha();
+})
+}
+
+ObtenerListadoEquipos(){
+  this.isLoading = true;
+  this.equipoServicio.ObtenerRegistros().subscribe({
+    next: (datos: ModeloEquipo[])=>{
+      this.listadoRegistros=datos;  
+      this.isLoading = false;         
+    },
+    error:(e)=>{
+      console.log(e);
+      this.isLoading = false;     
+    }
+  });
+}
+
+ObtenerListadoCotizacion(){
+  this.isLoading=true;
+  this.servicioCotizacion.ObtenerRegistros().subscribe({
+    next:(datos: ModeloCotizacion[])=>{
+      this.ListadoCotizacion=datos;      
+      this.isLoading=false;
+    },
+    error:(e)=>{
+      console.log(e);
+      this.isLoading=false
+    }
+  })
+}
+
+autorizarCotizacion(id:any){
+  this.isLoading=true;  
+  this.servicioCotizacion.ObtenerRegistrosPorId(id).subscribe((datos:ModeloCotizacion)=>{
+    this.isLoading=false;     
+    
+    datos.Estado= "Revisado";
+
+  this.servicioCotizacion.ActualizarCotizacion(datos).subscribe((datos:ModeloCotizacion) =>{
+    alert("Cotizacion Autorizada correctamente");
+    this.isLoading = false;
+    location.reload();
+  },(error: any) => {
+    alert("Error en la autorizacion");
+    this.isLoading = false;
+  })
+}) 
+}
+
+}   
+
+ 
+  

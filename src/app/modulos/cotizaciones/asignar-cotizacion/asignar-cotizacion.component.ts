@@ -832,15 +832,6 @@ ObtenerListadoCotizacion(){
 }
 
 
-
-
-
-/*formatearNumero(event: any) {
-  const input = event.target;
-  const valor = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Eliminar caracteres no numéricos excepto punto y guión
-  input.value = valor.toLocaleString('en-US');
-}*/
-
 }   
 
  
