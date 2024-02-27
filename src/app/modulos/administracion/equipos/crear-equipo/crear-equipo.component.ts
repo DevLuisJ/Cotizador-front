@@ -51,6 +51,7 @@ export class CrearEquipoComponent implements OnInit{
     let Proveedor = this.fgValidador.controls["Proveedor"].value;
     let esApilable= this.fgValidador.controls["esApilable"].value
     let Arancel= parseFloat( this.fgValidador.controls["Arancel"].value);
+    let Estado = "Bloqueado"
     
     let e = new ModeloEquipo();
     e.Referencia= Referencia;
@@ -67,6 +68,7 @@ export class CrearEquipoComponent implements OnInit{
     e.Proveedor= Proveedor;
     e.esApilable= esApilable;
     e.Arancel= Arancel;
+    e.Estado= Estado
     
     this.isLoading = true;
 

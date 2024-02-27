@@ -27,7 +27,8 @@ isLoading:boolean=false;
     'PosArancelaria': ['',[Validators.required]],
     'Proveedor': ['',[Validators.required]],
     'esApilable': ['',[Validators.required]],
-    'Arancel': ['',[Validators.required]]
+    'Arancel': ['',[Validators.required]],
+    'Estado' : ['',[Validators.required]]
   })
   constructor(
     private fb: FormBuilder,
@@ -59,6 +60,7 @@ BuscarEquipo(){
     this.fgValidador.controls["Proveedor"].setValue(datos.Proveedor);    
     this.fgValidador.controls["esApilable"].setValue(datos.esApilable);
     this.fgValidador.controls["Arancel"].setValue(datos.Arancel);
+    this.fgValidador.controls["Estado"].setValue(datos.Estado);
   }
   )
 }
@@ -78,6 +80,7 @@ BuscarEquipo(){
     let PesoFacturado = Math.max(PesoVolumetrico,PesoReal);
     let esApilable = this.fgValidador.controls["esApilable"].value;
     let Arancel = parseFloat(this.fgValidador.controls["Arancel"].value);
+    let Estado = this.fgValidador.controls["Estado"].value;
 
 
     let e = new ModeloEquipo();
@@ -96,6 +99,7 @@ BuscarEquipo(){
     e.id= this.id;
     e.esApilable= esApilable;
     e.Arancel=Arancel;
+    e.Estado=Estado;
 
     this.servicioEquipo.ActualizarEquipo(e).subscribe((datos:ModeloEquipo) =>{
         alert("Equipo actualizado correctamente");

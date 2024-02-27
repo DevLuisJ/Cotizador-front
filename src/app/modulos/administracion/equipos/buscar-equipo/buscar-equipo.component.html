@@ -48,6 +48,7 @@
                     <th>Posicion Arancelaria</th>
                     <th>Proveedor</th>
                     <th>Apilable</th>
+                    <th>Estado</th>
                     <th *ngIf="btnBandera">Editar</th>
                     <th *ngIf="btnBandera">Eliminar</th>                    
                 </tr>            
@@ -70,6 +71,7 @@
                 <td>{{e.PosArancelaria}}</td>
                 <td>{{e.Proveedor}}</td>
                 <td style="text-align: center;">{{e.esApilable}}</td>
+                <td style="text-align: center;">{{e.Estado}} </td>
                 <td *ngIf="btnBandera" >
                     <a routerLink="/administracion/editar-equipo/{{e.id}}" class="btn btn-success">Editar</a>
                 </td>

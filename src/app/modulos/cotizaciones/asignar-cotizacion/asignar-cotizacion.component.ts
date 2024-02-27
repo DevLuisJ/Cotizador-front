@@ -156,7 +156,8 @@ constructor(
   private router: Router,
   private route: ActivatedRoute
   
-  ){     }
+  
+  ){    }
 
 
   ngOnInit( ): void {
@@ -175,7 +176,8 @@ constructor(
   }
 
   
-Contabilizar(){     
+Contabilizar(){ 
+
   this.Contabilizado=false;  
   this.Imprevistos=0;
   this.OtrosGastosFit=0;
@@ -215,8 +217,14 @@ Contabilizar(){
 
   this.ComisionBancaria=0;
   this.Financiamiento=0;
+  
 
     this.buscarEquipoPorReferencia();
+    if (this.equipoEncontrado!== undefined){
+      if (this.equipoEncontrado.Estado==="Bloqueado") {
+        alert("Equipo bloqueado, no es posible iniciar cotizacion. Por favor consulte al administrador")
+      }else{      
+    
     let Cantidad = parseFloat( this.fgValidador.controls["Cantidad"].value);
     let Moneda = this.fgValidador.controls["Moneda"].value;
     let PrecioCompra = parseFloat(this.fgValidador.controls["PrecioCompra"].value);
@@ -353,17 +361,17 @@ Contabilizar(){
   
   this.ListaPuestaMarcha.push(nuevoElemento);
 
-
     this.isLoading = true;
     this.Contabilizado=!this.Contabilizado;
     alert("Cotizacion Contabilizada")
-    this.isLoading = false
+    this.isLoading = false    
     ,(error: any) => {  
       alert("Error almacenando la cotizacion");
       this.isLoading = false;
     }
   }
-
+  }
+  }
   liquidacion(){
     const fechaActual = new Date();
     this.fgValidador.controls['Fecha'].setValue(fechaActual);
