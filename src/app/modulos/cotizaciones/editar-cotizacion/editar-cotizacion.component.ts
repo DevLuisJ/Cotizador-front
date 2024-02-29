@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators  } from '@angular/forms
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModeloCotizacion } from 'src/app/modelos/cotizacion.modelo';
 import { CotizacionService } from 'src/app/servicios/cotizacion.service';
-import { HttpClient } from '@angular/common/http';
+import { FetchBackend, HttpClient } from '@angular/common/http';
 import { ModeloEquipo } from 'src/app/modelos/equipo.modelo';
 import { EquipoService } from 'src/app/servicios/equipo.service';
 import { SeguridadService } from 'src/app/servicios/seguridad.service';
@@ -33,7 +33,8 @@ export class EditarCotizacionComponent implements OnInit {
   Contabilizado:boolean=false;
   tasa:number=0; //tasa a la cual fue liquidada la cotizacion
   trmCotizada: number=0; //TRM de dolar cotizada en el momento de liquidar
- 
+
+
   
 
   //liquidacion de importacion v6.0
@@ -122,7 +123,7 @@ export class EditarCotizacionComponent implements OnInit {
 fgValidador: FormGroup = this.fb.group({ 
   'id': [''],
   'Cliente': ['',[Validators.required]],
-  //'Fecha': [new Date(),[Validators.required]],
+  'Fecha': ['',[Validators.required]],
   'IdSiigo': ['',[Validators.required]],
   'equipoBuscado': ['',[Validators.required]],
   'Cantidad': ['',[Validators.required]],
@@ -367,7 +368,7 @@ Contabilizar(){
     //this.fgValidador.controls['Fecha'].setValue(fechaActual);
     let IdSiigo = this.fgValidador.controls["IdSiigo"].value;
     let Cliente = this.fgValidador.controls["Cliente"].value; 
-    //let Fecha = this.fgValidador.controls["Fecha"].value;
+    let Fecha = this.fgValidador.controls["Fecha"].value;
     let idEquipo = this.equipoEncontrado?.Referencia;
     let Cantidad = parseFloat( this.fgValidador.controls["Cantidad"].value);
     let Moneda = this.fgValidador.controls["Moneda"].value;
@@ -386,7 +387,7 @@ Contabilizar(){
   let c = new ModeloCotizacion();  
   c.id= this.id;
   c.Cliente= Cliente;
-  //c.Fecha= Fecha;
+  c.Fecha= Fecha;
   c.IdSiigo= IdSiigo;
   c.idEquipo= idEquipo;
   c.IdUsuario= this.IdUsuario;
@@ -568,11 +569,13 @@ SetCotizacion(){
   
   this.isLoading=true;  
   this.servicioCotizacion.ObtenerRegistrosPorId(this.id).subscribe((datos:ModeloCotizacion)=>{
-    this.isLoading=false;  
+    this.isLoading=false; 
+ 
+     // Suponiendo que datos.Fecha podría ser de tipo Date o undethis.Fecha = datos.Fecha !== undefined ? datos.Fecha : undefined;
+    this.fgValidador.controls["Fecha"].setValue(datos.Fecha);
     this.IdUsuario = datos.IdUsuario !== undefined ? datos.IdUsuario : '';  
     this.fgValidador.controls["equipoBuscado"].setValue(datos.idEquipo);
     this.fgValidador.controls["IdSiigo"].setValue(datos.IdSiigo);
-    //this.buscarEquipoPorReferencia();
     this.fgValidador.controls["Cliente"].setValue(datos.Cliente);
     this.fgValidador.controls["Cantidad"].setValue(datos.Cantidad);
     this.fgValidador.controls["Moneda"].setValue(datos.Moneda);
@@ -585,6 +588,8 @@ SetCotizacion(){
     this.fgValidador.controls["FormaPago"].setValue(datos.FormaPago);
     this.fgValidador.controls["Observaciones"].setValue(datos.Observaciones);
     this.fgValidador.controls["Observaciones2"].setValue(datos.Observaciones2);
+
+   
 
     const vlrtrmCotizada = datos.trmCotizada;
     const campotrmCotizada = document.getElementById('trmCotizada') as HTMLInputElement; // Obtener el campo HTML por su ID    
