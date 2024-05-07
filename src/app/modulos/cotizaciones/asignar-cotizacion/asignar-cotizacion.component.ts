@@ -248,13 +248,13 @@ Contabilizar(){
         
     if (this.equipoEncontrado && (this.equipoEncontrado?.Altura! >= 120 || this.equipoEncontrado?.Anchura! >= 120 || 
       this.equipoEncontrado?.Profundidad! >= 120)) {
-      this.OtrosGastosFit = 55;      
+      this.OtrosGastosFit = 35;      
     } 
     if (this.equipoEncontrado && ( this.equipoEncontrado?.PesoFacturado! >= 70)) {
       this.OtrosGastosFit = this.OtrosGastosFit + 55;      
     } 
     if (this.equipoEncontrado &&(this.equipoEncontrado?.esApilable! == "NO")){
-      this.TotalFleteInt=250//Se adiciona al flete internacional 250 usd cargo x dimensiones
+      this.TotalFleteInt=275//Se adiciona al flete internacional 275 usd cargo x dimensiones
     }
 
     this.CargoCombustible= parseFloat( this.fgValidador.controls["CargoCombustible"].value);
