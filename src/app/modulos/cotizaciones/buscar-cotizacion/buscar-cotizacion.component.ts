@@ -46,7 +46,8 @@ ObtenerListadoCotizacion(){
     this.filtroUsuario="";
     this.btnEstado=true;
   }else{
-  this.filtroUsuario=this.seguridadServicio.datosUsuarioEnSesion.value.datos?.nombre + ' ' +
+
+    this.filtroUsuario=this.seguridadServicio.datosUsuarioEnSesion.value.datos?.nombre + ' ' +
     this.seguridadServicio.datosUsuarioEnSesion.value.datos?.apellidos;
   } 
   this.cotizacionServicio.ObtenerRegistros().subscribe({
